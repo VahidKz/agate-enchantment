@@ -641,15 +641,7 @@ a {
 }
 
 .footer-brand {
-  gap: 14px;
-}
-
-.footer-brand .brand-mark {
-  width: 54px;
-}
-
-.footer-brand .brand-name {
-  font-size: 1.05rem;
+  gap: 12px;
 }
 
 .site-footer p {
