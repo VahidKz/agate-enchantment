@@ -1090,7 +1090,9 @@ body.gallery-open {
 
   .hero {
     width: 100vw;
+    height: 100vh;
     height: 100svh;
+    min-height: min(620px, 100vh);
     min-height: min(620px, 100svh);
     margin-inline: calc(50% - 50vw);
     aspect-ratio: auto;
@@ -1308,7 +1310,9 @@ body.gallery-open {
   }
 
   .hero {
+    height: 100vh;
     height: 100svh;
+    min-height: min(580px, 100vh);
     min-height: min(580px, 100svh);
     aspect-ratio: auto;
     padding-top: 0;
