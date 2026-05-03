@@ -12,6 +12,12 @@ if (year) {
   year.textContent = new Date().getFullYear();
 }
 
+const updateHeaderHeight = () => {
+  if (!header) return;
+
+  root.style.setProperty("--header-height", `${Math.ceil(header.getBoundingClientRect().height)}px`);
+};
+
 const updateHeader = () => {
   header?.classList.toggle("is-scrolled", window.scrollY > 16);
 };
@@ -40,6 +46,7 @@ const updateParallax = () => {
 
 const updateFrame = () => {
   updateHeader();
+  updateHeaderHeight();
   updateProgress();
   updateParallax();
 };
@@ -81,6 +88,11 @@ if (revealItems.length > 0 && !reduceMotion) {
 updateFrame();
 window.addEventListener("scroll", requestFrame, { passive: true });
 window.addEventListener("resize", requestFrame);
+
+if (header && "ResizeObserver" in window) {
+  const headerObserver = new ResizeObserver(requestFrame);
+  headerObserver.observe(header);
+}
 
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   link.addEventListener("click", (event) => {
