@@ -9,3 +9,6 @@ dist/
 /STONE2.png
 /STONE3.png
 /UI.png
+
+# Local Netlify folder
+.netlify
