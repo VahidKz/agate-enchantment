@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.env
+.env.*
+
+/HERO.png
+/MINE.jpg
+/STONE1.png
+/STONE2.png
+/STONE3.png
+/UI.png
