@@ -7,6 +7,7 @@
       name="description"
       content="Agate Enchantment curates rare natural stone slabs for refined interiors, private residences, hotels, galleries, and architectural spaces."
     />
+    <link rel="icon" type="image/webp" href="/assets/fav.webp" />
     <title>Agate Enchantment | Rare Natural Stone Slabs</title>
   </head>
   <body>
@@ -27,11 +28,6 @@
         <a href="#collection">Projects</a>
         <a href="#contact">Contact</a>
       </nav>
-
-      <a class="header-cta" href="#contact">
-        <span class="cta-full">Private Viewing</span>
-        <span class="cta-short">Viewing</span>
-      </a>
     </header>
 
     <main>
@@ -213,6 +209,31 @@
         </div>
       </section>
     </main>
+
+    <div class="gallery-modal" data-gallery-modal aria-hidden="true">
+      <div class="gallery-backdrop" data-gallery-close></div>
+      <div
+        class="gallery-dialog"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Stone image gallery"
+      >
+        <button class="gallery-close" type="button" data-gallery-close aria-label="Close gallery">
+          &times;
+        </button>
+        <button class="gallery-arrow gallery-arrow-prev" type="button" data-gallery-prev aria-label="Previous image">
+          &#8249;
+        </button>
+        <figure class="gallery-figure">
+          <img data-gallery-image src="/assets/STONE1.png" alt="" />
+          <figcaption data-gallery-caption></figcaption>
+        </figure>
+        <button class="gallery-arrow gallery-arrow-next" type="button" data-gallery-next aria-label="Next image">
+          &#8250;
+        </button>
+        <div class="gallery-thumbnails" data-gallery-thumbnails aria-label="Gallery thumbnails"></div>
+      </div>
+    </div>
 
     <footer class="site-footer">
       <div class="footer-about">
