@@ -87,11 +87,12 @@ a {
 .brand-text {
   display: inline-flex;
   flex-direction: column;
+  justify-content: center;
 }
 
 .brand-name {
   font-size: clamp(0.9rem, 1.25vw, 1.18rem);
-  line-height: 1;
+  line-height: 1.08;
 }
 
 .brand small {
