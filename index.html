@@ -31,29 +31,54 @@
     </header>
 
     <main>
-      <section class="hero" id="hero" aria-labelledby="hero-title">
-        <img
-          class="hero-image"
-          data-parallax="12"
-          src="/assets/HERO.png"
-          alt="A rare amber and ivory stone slab displayed in a refined architectural showroom"
-        />
-        <div class="hero-content" data-reveal>
-          <h1 id="hero-title">Rare Stones. Timeless Luxury.</h1>
+      <section class="hero" id="hero" aria-labelledby="hero-title" data-hero-scene>
+        <div
+          class="hero-media"
+          role="img"
+          aria-label="A rare amber and ivory stone slab displayed in a refined architectural showroom"
+        >
+          <img
+            class="hero-layer hero-bg"
+            src="/assets/bg0.png"
+            alt=""
+            aria-hidden="true"
+            data-hero-layer="background"
+          />
+          <img
+            class="hero-layer hero-stone"
+            src="/assets/HERO0.png"
+            alt=""
+            aria-hidden="true"
+            data-hero-layer="stone"
+          />
+        </div>
+        <div class="hero-content" data-hero-layer="copy">
+          <h1 id="hero-title">
+            <span class="hero-title-line">A more</span>
+            <span class="hero-title-line">selective</span>
+            <span class="hero-title-line">approach</span>
+            <span class="hero-title-line">to stone.</span>
+          </h1>
           <p class="hero-copy">
-            Direct from our exclusive quarries to the world's most refined
-            spaces.
+            Exceptional natural stone slabs and selected blocks for architecture,
+            interior design, hospitality, and high-level commercial projects.
           </p>
-          <div class="hero-meta" aria-label="Agate Enchantment distinctions">
-            <span>Private lots</span>
-            <span>Global delivery</span>
-          </div>
           <div class="hero-actions" aria-label="Hero calls to action">
-            <a class="button button-dark" href="#collection">Explore Collection</a>
-            <a class="button button-light" href="#contact">Request Private Viewing</a>
+            <a class="button button-dark" href="#collection">
+              <span>Explore the selection</span>
+            </a>
+            <a class="button button-light" href="#contact">
+              <span>Start a conversation</span>
+            </a>
           </div>
         </div>
-        <a class="scroll-cue" href="#story" aria-label="Scroll to brand statement">
+
+        <a
+          class="scroll-cue"
+          href="#story"
+          aria-label="Scroll to brand statement"
+          data-scroll-extra="-50"
+        >
           <span>Scroll to Discover</span>
         </a>
       </section>
@@ -70,41 +95,55 @@
 
         <div class="values" aria-label="Agate Enchantment values">
           <article data-reveal>
-            <svg class="value-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-              <path d="M10 49 29 14l25 35" />
-              <path d="m19 49 10-18 8 14 7-11 10 15" />
-              <path d="m27 20 6 7 4-12" />
-              <path d="M14 55h36" />
+            <svg class="value-icon" viewBox="0 0 72 72" aria-hidden="true" focusable="false">
+              <circle class="value-icon-halo" cx="36" cy="36" r="29" />
+              <circle class="value-icon-detail" cx="36" cy="36" r="23" />
+              <path class="value-icon-fine" d="M36 7v7M36 58v7M7 36h7M58 36h7" />
+              <path d="M18 52 36 16l18 36" />
+              <path class="value-icon-detail" d="M25 52 36 30l11 22" />
+              <path class="value-icon-accent" d="M27 43c5-4 13-4 18 0" />
+              <path class="value-icon-fine" d="M22 52h28M36 16v36" />
             </svg>
             <h3>Exclusive Sourcing</h3>
             <p>Hand-selected from the world's most exclusive quarries.</p>
           </article>
           <article data-reveal>
-            <svg class="value-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-              <path d="M16 18h32l8 13-24 25L8 31l8-13Z" />
-              <path d="M8 31h48" />
-              <path d="m16 18 8 13 8-13 8 13 8-13" />
-              <path d="M24 31 32 56l8-25" />
+            <svg class="value-icon" viewBox="0 0 72 72" aria-hidden="true" focusable="false">
+              <circle class="value-icon-halo" cx="36" cy="36" r="29" />
+              <path d="M18 24h36l8 13-26 27L10 37l8-13Z" />
+              <path class="value-icon-detail" d="M10 37h52M18 24l9 13 9-13 9 13 9-13" />
+              <path d="M27 37 36 64l9-27" />
+              <path class="value-icon-fine" d="M27 37 36 24l9 13" />
+              <path class="value-icon-accent" d="M24 48c7 3 17 3 24 0" />
+              <circle class="value-icon-fill" cx="54" cy="19" r="2.2" />
             </svg>
             <h3>One Of A Kind</h3>
             <p>No two slabs are the same. Every piece is truly unique.</p>
           </article>
           <article data-reveal>
-            <svg class="value-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-              <circle cx="32" cy="32" r="22" />
-              <path d="M10 32h44" />
-              <path d="M32 10c7 7 10 14 10 22S39 47 32 54" />
-              <path d="M32 10c-7 7-10 14-10 22s3 15 10 22" />
-              <path d="M15 22h34" />
-              <path d="M15 42h34" />
+            <svg class="value-icon" viewBox="0 0 72 72" aria-hidden="true" focusable="false">
+              <circle class="value-icon-halo" cx="36" cy="36" r="29" />
+              <circle cx="36" cy="35" r="22" />
+              <path class="value-icon-detail" d="M14 35h44M36 13c7 7 10 14 10 22s-3 15-10 22M36 13c-7 7-10 14-10 22s3 15 10 22" />
+              <path class="value-icon-fine" d="M20 25c8 4 24 4 32 0M20 45c8-4 24-4 32 0" />
+              <path class="value-icon-accent" d="M18 50c11-14 24-20 39-18" />
+              <path class="value-icon-accent" d="m52 27 6 5-7 5" />
+              <circle class="value-icon-fill" cx="18" cy="50" r="2" />
             </svg>
             <h3>Global Delivery</h3>
             <p>Secure, white-glove logistics to anywhere in the world.</p>
           </article>
           <article data-reveal>
-            <svg class="value-icon" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-              <path d="M32 8 51 16v14c0 13-8 22-19 26-11-4-19-13-19-26V16l19-8Z" />
-              <path d="M22 29 29 36 43 22" />
+            <svg class="value-icon" viewBox="0 0 72 72" aria-hidden="true" focusable="false">
+              <circle class="value-icon-halo" cx="36" cy="36" r="29" />
+              <path d="M19 59h34" />
+              <path d="M24 59V31M48 59V31" />
+              <path class="value-icon-detail" d="M31 59V31M41 59V31" />
+              <path d="M18 31h36" />
+              <path d="M36 12 57 25H15L36 12Z" />
+              <path class="value-icon-fine" d="M22 25h28M27 19h18" />
+              <path class="value-icon-accent" d="M29 45 34 50 44 39" />
+              <path class="value-icon-detail" d="M24 55h24" />
             </svg>
             <h3>Architectural Quality</h3>
             <p>Engineered to meet the highest standards of performance.</p>
@@ -197,6 +236,55 @@
             <li><span>04</span> Private presentation</li>
           </ol>
         </div>
+      </section>
+
+      <section class="material-philosophy" id="materials" aria-labelledby="materials-title">
+        <div class="material-philosophy-heading" data-reveal>
+          <p class="eyebrow">Our Materials</p>
+          <h2 id="materials-title">Two forms. One philosophy.</h2>
+        </div>
+
+        <div class="material-philosophy-stage">
+          <article class="material-form material-form-block" data-reveal>
+            <div class="material-form-copy">
+              <h3>Blocks</h3>
+              <p>Raw, monumental, and selected at the source.</p>
+            </div>
+            <figure class="material-form-figure">
+              <img
+                src="/assets/block.png"
+                alt="Raw natural stone block selected at the quarry"
+                loading="lazy"
+              />
+            </figure>
+          </article>
+
+          <div class="material-philosophy-divider" aria-hidden="true">
+            <span>II</span>
+          </div>
+
+          <article class="material-form material-form-slab" data-reveal>
+            <figure class="material-form-figure">
+              <img
+                src="/assets/slab.png"
+                alt="Refined natural stone slab for architectural spaces"
+                loading="lazy"
+              />
+            </figure>
+            <div class="material-form-copy">
+              <h3>Slabs</h3>
+              <p>Refined surfaces for extraordinary spaces.</p>
+            </div>
+          </article>
+        </div>
+
+        <a class="material-philosophy-link" href="#collection">
+          <span>View Materials</span>
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 12h12" />
+            <path d="m13 7 5 5-5 5" />
+          </svg>
+        </a>
       </section>
 
       <section class="final-cta" id="contact" aria-labelledby="cta-title" data-reveal>
