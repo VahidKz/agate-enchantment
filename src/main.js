@@ -102,10 +102,22 @@ const updateParallax = () => {
   const viewportCenter = window.innerHeight / 2;
 
   parallaxItems.forEach((item) => {
-    const rect = item.getBoundingClientRect();
+    const shouldBoundToParent = item.dataset.parallaxBounds === "parent" && item.parentElement;
+    const rect = shouldBoundToParent
+      ? item.parentElement.getBoundingClientRect()
+      : item.getBoundingClientRect();
     const speed = Number(item.dataset.parallax) || 12;
     const distance = (rect.top + rect.height / 2 - viewportCenter) / window.innerHeight;
-    const y = Math.max(-speed, Math.min(speed, distance * -speed));
+    let y = clamp(distance * -speed, -speed, speed);
+
+    if (shouldBoundToParent) {
+      const parentRect = rect;
+      const naturalRatio = item.naturalWidth > 0 ? item.naturalHeight / item.naturalWidth : 1;
+      const renderedHeight = Math.max(parentRect.height, parentRect.width * naturalRatio);
+      const maxShift = Math.max(0, (renderedHeight - parentRect.height) / 2);
+      y = clamp(y, -maxShift, maxShift);
+    }
+
     item.style.setProperty("--parallax-y", `${y.toFixed(2)}px`);
   });
 };
