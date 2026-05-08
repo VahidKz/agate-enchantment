@@ -148,6 +148,7 @@ const updateParallax = () => {
 
     if (isCompactViewport) {
       item.style.setProperty("--panel-scroll-y", "0px");
+      item.style.setProperty("--material-image-parallax-y", "0px");
       return;
     }
 
@@ -157,7 +158,9 @@ const updateParallax = () => {
     const maxShift = Math.abs(speed);
     const distance = (rect.top + rect.height / 2 - viewportCenter) / window.innerHeight;
     const y = clamp(distance * speed, -maxShift, maxShift);
+    const imageY = clamp(y * -0.62, -maxShift * 0.62, maxShift * 0.62);
     item.style.setProperty("--panel-scroll-y", `${y.toFixed(2)}px`);
+    item.style.setProperty("--material-image-parallax-y", `${imageY.toFixed(2)}px`);
   });
 };
 
@@ -334,8 +337,12 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
     const shouldFitStoryViewport = link.classList.contains("scroll-cue");
 
     if (shouldFitStoryViewport) {
+      header?.classList.add("is-scrolled");
+      updateHeaderHeight();
+
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const targetTop = target.getBoundingClientRect().top + window.scrollY - 36;
+      const headerHeight = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+      const targetTop = target.getBoundingClientRect().top + window.scrollY - headerHeight;
 
       window.scrollTo({
         behavior,

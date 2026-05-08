@@ -1145,9 +1145,10 @@ main > section,
   position: relative;
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  height: 100svh;
-  gap: clamp(22px, 2.8vw, 40px);
+  height: calc(100vh - var(--header-height));
+  height: calc(100svh - var(--header-height));
+  min-height: min(620px, calc(100svh - var(--header-height)));
+  gap: clamp(10px, 1.2vw, 18px);
   overflow: hidden;
   background:
     linear-gradient(180deg, rgba(251, 250, 247, 0.98), rgba(247, 243, 237, 0.96)),
@@ -1157,7 +1158,7 @@ main > section,
 }
 
 .statement.section-pad {
-  padding: clamp(52px, 5.8vw, 82px) clamp(22px, 6vw, 86px) clamp(48px, 5.2vw, 72px);
+  padding: clamp(18px, 2.4vw, 34px) clamp(22px, 6vw, 86px) clamp(18px, 2.4vw, 34px);
 }
 
 .statement::before {
@@ -1170,7 +1171,8 @@ main > section,
   display: grid;
   grid-template-columns: minmax(0, 0.88fr) minmax(340px, 0.72fr);
   align-items: start;
-  gap: clamp(42px, 8vw, 138px);
+  flex: 0 0 auto;
+  gap: clamp(22px, 4.8vw, 78px);
   width: min(100%, 1320px);
   margin-inline: auto;
 }
@@ -1181,13 +1183,14 @@ main > section,
 
 .statement-heading .eyebrow {
   display: inline-block;
+  margin-bottom: clamp(12px, 1.5vw, 18px);
 }
 
 .statement h2 {
   margin: 0;
   max-width: 680px;
-  font-size: clamp(2.55rem, 4.7vw, 5.35rem);
-  line-height: 1.04;
+  font-size: clamp(2.12rem, 3.6vw, 4.1rem);
+  line-height: 1.01;
   text-transform: none;
 }
 
@@ -1195,41 +1198,41 @@ main > section,
   display: block;
   width: clamp(58px, 5vw, 86px);
   height: 1px;
-  margin: clamp(24px, 3vw, 42px) 0 0;
+  margin: clamp(14px, 1.8vw, 24px) 0 0;
   background: rgba(155, 106, 58, 0.32);
   content: "";
 }
 
 .statement-kicker {
   max-width: 430px;
-  margin: clamp(22px, 2.6vw, 34px) 0 0;
+  margin: clamp(12px, 1.4vw, 20px) 0 0;
   color: rgba(24, 22, 18, 0.68);
   font-family: var(--sans);
-  font-size: clamp(0.84rem, 0.92vw, 1rem);
+  font-size: clamp(0.8rem, 0.86vw, 0.94rem);
   font-weight: 600;
   letter-spacing: 0.02em;
-  line-height: 1.65;
+  line-height: 1.48;
 }
 
 .statement-prose {
   position: relative;
   z-index: 1;
-  max-width: 590px;
-  margin: clamp(42px, 4.8vw, 72px) 0 0;
+  max-width: 540px;
+  margin: clamp(48px, 4.7vw, 66px) 0 0;
   color: var(--ink-soft);
   font-family: var(--sans);
-  font-size: clamp(0.94rem, 1vw, 1.06rem);
+  font-size: clamp(0.86rem, 0.9vw, 0.98rem);
   font-weight: 500;
-  line-height: 1.9;
+  line-height: 1.56;
 }
 
 .mine-showcase {
   position: relative;
   z-index: 1;
   display: block;
-  flex: 1;
+  flex: 1 1 0;
   min-height: 0;
-  max-height: 74svh;
+  max-height: none;
   width: min(100%, 1440px);
   margin: 0 auto;
   overflow: hidden;
@@ -1247,7 +1250,11 @@ main > section,
 
 .mine-slices {
   position: absolute;
-  inset: 0;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: min(86%, 1240px);
+  transform: translateX(-50%);
 }
 
 .mine-slices::before {
@@ -1271,6 +1278,9 @@ main > section,
 }
 
 .mine-slice {
+  --mine-slice-gap: 0px;
+  --mine-slice-x-scale: 1;
+  --mine-slice-y-scale: 0.82;
   position: absolute;
   z-index: 1;
   overflow: hidden;
@@ -1278,37 +1288,49 @@ main > section,
   background-repeat: no-repeat;
   background-color: transparent;
   will-change: transform;
+  transform-origin: center;
   border: 1px solid rgba(30, 27, 24, 0.08);
-  filter: saturate(0.94) contrast(1.02) brightness(0.96);
+  border-radius: 2px;
+  /* default filter for slices 1 & 2 — slice 3 overrides */
+  filter: saturate(0.84) contrast(1.02) brightness(0.91);
+  box-shadow:
+    0 12px 56px rgba(0, 0, 0, 0.28),
+    0 2px 8px rgba(0, 0, 0, 0.12);
   transition: transform 120ms linear;
 }
 
 /*
-  Organized state when --slice-parallax-y = 0 (section at viewport center):
-  All slices bottom-aligned, different heights — looks resolved.
-  Separation is driven purely by each slice's parallax speed.
-  Slices 1 and 3 move together; slice 2 moves opposite.
-  Inner image moves opposite to its container for depth parallax.
-  bg-pos-x math: same as before (image bands 0-22%, 22-50%, 50-100%).
+  Quarry Fragment Triptych:
+  Three panels cut from the same image at the same diagonal angle.
+  Each slice's clip-path edge is a 32px-offset fracture line.
+  Width: 12% / 25% / ~61%  —  stagger: bottom-risen / top-hung / centered.
+  Parallax: fast / counter-medium / slow  =  3 layers of depth.
+  Filter: desaturated/far  →  medium  →  vivid/near.
 */
+
+/* Slice 1 — narrow accent, bottom-risen, most receded */
 .mine-slice--1 {
   left: 0;
-  width: 22%;
-  top: 3%;
-  bottom: 3%;
-  background-size: 455% auto;
+  width: 12%;
+  top: 16%;
+  bottom: 0%;
+  background-size: 834% auto;
   background-position: 0% calc(44% - var(--slice-parallax-y, 0px) * 0.18);
-  transform: translate3d(0, var(--slice-parallax-y, 0px), 0);
+  clip-path: polygon(0 0, 100% 0, calc(100% - 32px) 100%, 0 100%);
+  filter: saturate(0.60) contrast(1.00) brightness(0.84);
+  transform: translate3d(0, var(--slice-parallax-y, 0px), 0) scale(var(--mine-slice-x-scale), var(--mine-slice-y-scale));
 }
 
+/* Slice 2 — medium support, top-hung, parallelogram */
 .mine-slice--2 {
-  left: calc(22% + 6px);
-  width: 28%;
-  top: 3%;
-  bottom: 3%;
-  background-size: 357% auto;
-  background-position: 30.6% calc(44% + var(--slice-parallax-y, 0px) * 0.2);
-  transform: translate3d(0, calc(0px - var(--slice-parallax-y, 0px)), 0);
+  left: calc(12% + var(--mine-slice-gap));
+  width: 25%;
+  top: 0%;
+  bottom: 13%;
+  background-size: 400% auto;
+  background-position: 16% calc(44% + var(--slice-parallax-y, 0px) * 0.2);
+  clip-path: polygon(32px 0, 100% 0, calc(100% - 32px) 100%, 0 100%);
+  transform: translate3d(0, calc(0px - var(--slice-parallax-y, 0px)), 0) scale(var(--mine-slice-x-scale), var(--mine-slice-y-scale));
 }
 
 .mine-provenance {
@@ -1343,14 +1365,17 @@ main > section,
   line-height: 1.05;
 }
 
+/* Slice 3 — dominant canvas, centered, most vivid */
 .mine-slice--3 {
-  left: calc(50% + 12px);
+  left: calc(37% + var(--mine-slice-gap) * 2);
   right: 0;
-  top: 3%;
-  bottom: 3%;
-  background-size: 200% auto;
-  background-position: 100% calc(44% - var(--slice-parallax-y, 0px) * 0.18);
-  transform: translate3d(0, var(--slice-parallax-y, 0px), 0);
+  top: 2%;
+  bottom: 0%;
+  background-size: 132% auto;
+  background-position: 96% calc(46% - var(--slice-parallax-y, 0px) * 0.2);
+  clip-path: polygon(32px 0, 100% 0, 100% 100%, 0 100%);
+  filter: saturate(1.06) contrast(1.05) brightness(0.96);
+  transform: translate3d(0, var(--slice-parallax-y, 0px), 0) scale(var(--mine-slice-x-scale), var(--mine-slice-y-scale));
 }
 
 .mine-showcase-copy {
@@ -1804,16 +1829,25 @@ main > section,
 
 .material-grid {
   display: grid;
+  grid-template-columns: 1.36fr 1.02fr 0.88fr 1.04fr;
   align-items: start;
   align-self: center;
-  grid-template-columns: 1.34fr 0.94fr 0.78fr 0.88fr;
-  gap: clamp(14px, 1.4vw, 24px);
+  gap: clamp(8px, 0.8vw, 12px);
   margin-top: 0;
+  transition: grid-template-columns 520ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+/* Accordion — grid-template-columns is the correct animatable property */
+.material-grid:has(.material-card:nth-child(1) a:hover) { grid-template-columns: 2.18fr 0.92fr 0.78fr 0.94fr; }
+.material-grid:has(.material-card:nth-child(2) a:hover) { grid-template-columns: 1.12fr 2.08fr 0.78fr 0.92fr; }
+.material-grid:has(.material-card:nth-child(3) a:hover) { grid-template-columns: 1.18fr 0.92fr 1.92fr 0.92fr; }
+.material-grid:has(.material-card:nth-child(4) a:hover) { grid-template-columns: 1.18fr 0.92fr 0.78fr 2.04fr; }
+
 .material-card {
+  min-width: 0;
   --panel-offset-y: -32px;
   --panel-scroll-y: 0px;
+  --material-image-parallax-y: 0px;
 }
 
 .material-card a {
@@ -1864,35 +1898,40 @@ main > section,
   object-position: 50% 50%;
   border: 0;
   filter: saturate(1.05) contrast(1.05) brightness(0.98);
-  transform: scale(var(--material-image-zoom));
+  transform: translate3d(0, var(--material-image-parallax-y), 0) scale(var(--material-image-zoom));
   transform-origin: 50% 50%;
   transition:
-    opacity 260ms ease,
-    transform 520ms var(--ease-out),
-    filter 520ms ease;
+    opacity 420ms ease,
+    filter 600ms ease,
+    transform 1800ms cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: transform, opacity;
 }
 
 .material-block {
+  --material-image-zoom: 1.24;
   position: absolute;
   inset: 0;
   display: block;
   opacity: 0;
-  transform: scale(var(--material-image-zoom));
   transform-origin: 50% 50%;
+  transition:
+    opacity 600ms ease,
+    filter 600ms ease,
+    transform 1900ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .material-card a:hover .material-stone,
 .material-card a:focus-visible .material-stone {
+  --material-image-zoom: 1.68;
   opacity: 0;
   filter: saturate(1.08) contrast(1.08) brightness(1);
-  transform: scale(calc(var(--material-image-zoom) + 0.025));
 }
 
 .material-card a:hover .material-block,
 .material-card a:focus-visible .material-block {
+  --material-image-zoom: 1.02;
   opacity: 1;
   filter: saturate(1.08) contrast(1.08) brightness(1);
-  transform: scale(calc(var(--material-image-zoom) + 0.025));
 }
 
 .material-info {
@@ -2663,7 +2702,7 @@ main > section,
   }
 
   .material-grid {
-    grid-template-columns: 1.25fr 1fr 1fr 1fr;
+    gap: clamp(6px, 0.7vw, 10px);
   }
 
   .material-visual {
@@ -2871,7 +2910,6 @@ main > section,
     display: none;
   }
 
-  .material-grid,
   .atelier,
   .footer-inner {
     grid-template-columns: 1fr;
@@ -2910,6 +2948,7 @@ main > section,
     inset: 0;
     background-size: cover;
     background-position: center 44%;
+    clip-path: none;
     transform: none !important;
   }
 
@@ -2945,11 +2984,32 @@ main > section,
 
   .material-grid {
     grid-template-columns: 1fr;
-    gap: 28px;
+    gap: 20px;
+    transition: none;
+  }
+
+  .material-grid:has(.material-card:nth-child(1) a:hover),
+  .material-grid:has(.material-card:nth-child(2) a:hover),
+  .material-grid:has(.material-card:nth-child(3) a:hover),
+  .material-grid:has(.material-card:nth-child(4) a:hover) {
+    grid-template-columns: 1fr;
   }
 
   .material-card {
     --panel-offset-y: 0px;
+    flex: 1 1 auto;
+    transition: none;
+  }
+
+  .material-card:nth-child(2),
+  .material-card:nth-child(3),
+  .material-card:nth-child(4) {
+    --panel-offset-y: 0px;
+  }
+
+  .material-card a {
+    transform: none;
+    transition: none;
   }
 
   .material-visual {
@@ -3052,9 +3112,17 @@ main > section,
   }
 
   .footer-inner {
-    grid-template-columns: minmax(0, 1fr) minmax(220px, 1fr);
-    gap: 30px;
+    grid-template-columns: 1fr 1fr;
+    gap: 36px 40px;
     padding-bottom: 36px;
+  }
+
+  .footer-about {
+    grid-column: 1 / -1;
+  }
+
+  .footer-locations {
+    grid-column: 1 / -1;
   }
 
   .footer-links {
@@ -3271,6 +3339,7 @@ main > section,
     inset: 0;
     background-size: cover;
     background-position: center 44%;
+    clip-path: none;
     transform: none !important;
   }
 
