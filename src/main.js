@@ -8,6 +8,7 @@ const heroScene = document.querySelector("[data-hero-scene]");
 const revealItems = Array.from(document.querySelectorAll("[data-reveal]"));
 const parallaxItems = Array.from(document.querySelectorAll("[data-parallax]"));
 const sliceParallaxItems = Array.from(document.querySelectorAll("[data-slice-parallax]"));
+const collectionParallaxItems = Array.from(document.querySelectorAll("[data-collection-parallax]"));
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
@@ -130,13 +131,33 @@ const updateParallax = () => {
       return;
     }
 
-    const motionRoot = item.closest(".mine-showcase") || item.parentElement || item;
+    const motionRoot = item.closest(".statement") || item.closest(".mine-showcase") || item.parentElement || item;
     const rect = motionRoot.getBoundingClientRect();
     const speed = Number(item.dataset.sliceParallax) || 12;
     const maxShift = Math.abs(speed);
     const distance = (rect.top + rect.height / 2 - viewportCenter) / window.innerHeight;
-    const y = clamp(distance * speed, -maxShift, maxShift);
+    const targetY = clamp(distance * speed, -maxShift, maxShift);
+    const currentY = Number(item.dataset.sliceCurrentY) || 0;
+    const y = currentY + (targetY - currentY) * 0.12;
+    item.dataset.sliceCurrentY = y.toFixed(3);
     item.style.setProperty("--slice-parallax-y", `${y.toFixed(2)}px`);
+  });
+
+  collectionParallaxItems.forEach((item) => {
+    const isCompactViewport = window.matchMedia("(max-width: 820px)").matches;
+
+    if (isCompactViewport) {
+      item.style.setProperty("--panel-scroll-y", "0px");
+      return;
+    }
+
+    const motionRoot = item.closest(".collection") || item;
+    const rect = motionRoot.getBoundingClientRect();
+    const speed = Number(item.dataset.collectionParallax) || 12;
+    const maxShift = Math.abs(speed);
+    const distance = (rect.top + rect.height / 2 - viewportCenter) / window.innerHeight;
+    const y = clamp(distance * speed, -maxShift, maxShift);
+    item.style.setProperty("--panel-scroll-y", `${y.toFixed(2)}px`);
   });
 };
 
@@ -310,14 +331,11 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 
     const behavior = reduceMotion ? "auto" : "smooth";
     const scrollExtra = Number(link.dataset.scrollExtra) || 0;
-    const alignedShowcase = link.classList.contains("scroll-cue")
-      ? target.querySelector(".mine-showcase")
-      : null;
+    const shouldFitStoryViewport = link.classList.contains("scroll-cue");
 
-    if (alignedShowcase) {
+    if (shouldFitStoryViewport) {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const rect = alignedShowcase.getBoundingClientRect();
-      const targetTop = rect.top + window.scrollY - (window.innerHeight - rect.height) / 2;
+      const targetTop = target.getBoundingClientRect().top + window.scrollY - 36;
 
       window.scrollTo({
         behavior,
