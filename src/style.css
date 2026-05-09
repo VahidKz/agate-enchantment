@@ -2458,14 +2458,18 @@ main > section,
 }
 
 .final-cta-video {
+  --final-cta-media-y: 0px;
   position: absolute;
-  inset: 0;
+  top: -18%;
+  left: 0;
   width: 100%;
-  height: 100%;
+  height: 136%;
   object-fit: cover;
+  object-position: center 66%;
   filter: brightness(0.66) contrast(0.94) saturate(0.90);
-  transform: scale(1.018);
+  transform: translate3d(0, var(--final-cta-media-y), 0);
   pointer-events: none;
+  will-change: transform;
 }
 
 .final-cta-overlay {
@@ -3644,7 +3648,7 @@ main > section,
   }
 
   .final-cta-video {
-    object-position: 75% center;
+    object-position: center 69%;
   }
 
   .final-cta-content {

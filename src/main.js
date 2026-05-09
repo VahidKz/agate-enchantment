@@ -6,6 +6,7 @@ const progress = document.querySelector("[data-scroll-progress]");
 const year = document.querySelector("[data-year]");
 const heroScene = document.querySelector("[data-hero-scene]");
 const storySection = document.querySelector("#story");
+const finalCtaMedia = document.querySelector("[data-final-cta-parallax]");
 const revealItems = Array.from(document.querySelectorAll("[data-reveal]"));
 const parallaxItems = Array.from(document.querySelectorAll("[data-parallax]"));
 const sliceParallaxItems = Array.from(document.querySelectorAll("[data-slice-parallax]"));
@@ -169,6 +170,14 @@ const updateParallax = () => {
     item.style.setProperty("--panel-scroll-y", `${y.toFixed(2)}px`);
     item.style.setProperty("--material-image-parallax-y", `${imageY.toFixed(2)}px`);
   });
+
+  if (finalCtaMedia) {
+    const rect = finalCtaMedia.parentElement?.getBoundingClientRect() || finalCtaMedia.getBoundingClientRect();
+    const speed = Number(finalCtaMedia.dataset.finalCtaParallax) || 0;
+    const distance = (rect.top + rect.height / 2 - viewportCenter) / window.innerHeight;
+    const y = clamp(distance * -speed, -Math.abs(speed), Math.abs(speed));
+    finalCtaMedia.style.setProperty("--final-cta-media-y", `${y.toFixed(2)}px`);
+  }
 };
 
 const updateFrame = () => {
