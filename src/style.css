@@ -1160,10 +1160,11 @@ main > section,
 /* ── Statement / Source Story ─────────────────────────────────── */
 
 .statement {
+  --statement-caption-height: clamp(44px, 5svh, 58px);
   position: relative;
   display: grid;
   grid-template-columns: minmax(260px, 0.35fr) minmax(0, 0.65fr);
-  grid-template-rows: 1fr auto;
+  grid-template-rows: var(--header-height) minmax(0, 1fr) var(--statement-caption-height);
   height: 100vh;
   height: 100svh;
   min-height: 0;
@@ -1193,9 +1194,10 @@ main > section,
   flex-direction: column;
   justify-content: flex-start;
   grid-column: 1;
-  grid-row: 1;
+  grid-row: 2;
   align-self: center;
-  height: min(600px, calc(100svh - 156px));
+  height: 100%;
+  max-height: 600px;
   padding: 0 clamp(24px, 3.2vw, 48px) 0 var(--page-gutter);
 }
 
@@ -1271,9 +1273,10 @@ main > section,
   z-index: 1;
   display: block;
   grid-column: 2;
-  grid-row: 1;
+  grid-row: 2;
   align-self: center;
-  height: min(600px, calc(100svh - 156px));
+  height: 100%;
+  max-height: 600px;
   min-height: 0;
   width: calc(100% - clamp(24px, 3vw, 56px));
   margin: 0 clamp(24px, 3vw, 56px) 0 0;
@@ -1491,12 +1494,14 @@ main > section,
 
 .mine-caption {
   grid-column: 1 / -1;
-  grid-row: 2;
+  grid-row: 3;
   display: flex;
   align-items: center;
   gap: clamp(10px, 1.4vw, 18px);
   width: 100%;
-  padding: clamp(11px, 1.3vw, 15px) var(--page-gutter);
+  height: var(--statement-caption-height);
+  min-height: 0;
+  padding: 0 var(--page-gutter);
   border-top: 1px solid rgba(24, 22, 18, 0.08);
   color: rgba(24, 22, 18, 0.32);
   font-family: var(--sans);
@@ -1834,7 +1839,8 @@ main > section,
   display: grid;
   grid-template-columns: minmax(0, 33.333%) minmax(0, 66.667%);
   align-items: center;
-  min-height: 100svh;
+  height: 100svh;
+  min-height: 0;
   gap: 0;
   overflow: hidden;
   background:
@@ -1890,10 +1896,10 @@ main > section,
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  margin-top: clamp(38px, 4.4vw, 58px);
+  margin-top: clamp(48px, 6vw, 68px);
   color: var(--bronze);
   font-family: var(--sans);
-  font-size: 0.60rem;
+  font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.22em;
   text-transform: uppercase;
@@ -1921,28 +1927,7 @@ main > section,
   background: rgba(24, 22, 18, 0.10);
 }
 
-/* ── Decorative column motif ── */
-
-.collection-motif {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-top: clamp(50px, 7svh, 92px);
-  color: rgba(154, 103, 63, 0.45);
-}
-
-.collection-motif-line {
-  flex: 1;
-  height: 1px;
-  max-width: 78px;
-  background: currentColor;
-}
-
-.collection-motif-icon {
-  width: 18px;
-  height: 24px;
-  flex-shrink: 0;
-}
+ 
 
 /* ── Right card stage ── */
 
@@ -1950,20 +1935,20 @@ main > section,
   position: relative;
   align-self: center;
   justify-self: center;
-  width: min(100%, clamp(740px, 63vw, 980px));
+  width: min(100%, clamp(700px, 63vw, 980px), 126svh);
   aspect-ratio: 980 / 720;
   height: auto;
   min-height: 0;
-  overflow: hidden;
+  overflow: visible;
 }
 
 /* Subtle beige plinth — quiet horizontal block behind right-side cards only */
 .card-plinth {
   position: absolute;
-  top: 33.333%;
-  bottom: 13.611%;
-  left: 2.653%;
-  right: 11.429%;
+  top: 37.333%;
+  bottom: 2.611%;
+  left: 5.653%;
+  right: 1.429%;
   background:
     linear-gradient(180deg, rgba(234, 227, 216, 0.72), rgba(226, 216, 203, 0.72)),
     #e5ddd3;
@@ -1981,8 +1966,9 @@ main > section,
     0 16px 34px rgba(24, 22, 18, 0.10);
   z-index: 1;
   transition: transform 480ms cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 360ms ease;
+  --card-enter-x: 0px;
   --parallax-y: 0px;
-  transform: translateY(var(--parallax-y));
+  transform: translate3d(var(--card-enter-x), var(--parallax-y), 0);
 }
 
 .sample-card a {
@@ -1997,7 +1983,29 @@ main > section,
   box-shadow:
     0 8px 24px rgba(24, 22, 18, 0.08),
     0 28px 64px rgba(24, 22, 18, 0.13);
-  transform: translateY(calc(var(--parallax-y) - 6px));
+  transform: translate3d(var(--card-enter-x), calc(var(--parallax-y) - 6px), 0);
+}
+
+.reveal-ready .card-stage .sample-card[data-reveal] {
+  --card-enter-x: clamp(90px, 9vw, 170px);
+  opacity: 0;
+  transform: translate3d(var(--card-enter-x), var(--parallax-y), 0);
+  transition:
+    opacity 760ms ease,
+    transform 1100ms var(--ease-out),
+    box-shadow 360ms ease;
+  transition-delay: var(--card-enter-delay, 0ms);
+}
+
+.reveal-ready .card-stage .sample-card[data-reveal].is-visible {
+  --card-enter-x: 0px;
+  opacity: 1;
+  transform: translate3d(0, var(--parallax-y), 0);
+}
+
+.reveal-ready .card-stage .sample-card[data-reveal].is-visible:hover {
+  transform: translate3d(0, calc(var(--parallax-y) - 6px), 0);
+  transition-delay: 0ms;
 }
 
 /* Stone image area */
@@ -2015,6 +2023,7 @@ main > section,
   height: 100%;
   object-fit: cover;
   object-position: center;
+  transform: scale(1.88);
   transition: transform 1600ms cubic-bezier(0.19, 1, 0.22, 1), opacity 600ms ease;
 }
 
@@ -2035,7 +2044,7 @@ main > section,
 .sample-card:hover .material-stone {
   z-index: 1;
   opacity: 0;
-  transform: scale(1.04);
+  transform: scale(1.12);
 }
 
 .sample-card:hover .material-block {
@@ -2049,9 +2058,9 @@ main > section,
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: auto auto;
-  column-gap: 16px;
+  column-gap: 14px;
   align-items: center;
-  padding: 17px 20px 21px;
+  padding: 13px 18px 16px;
   background: #f9f7f3;
 }
 
@@ -2079,9 +2088,9 @@ main > section,
 .sample-name {
   grid-column: 1 / -1;
   grid-row: 2;
-  margin: 8px 0 0;
+  margin: 6px 0 0;
   font-family: var(--serif);
-  font-size: clamp(1.2rem, 1.5vw, 1.62rem);
+  font-size: clamp(1.14rem, 1.42vw, 1.52rem);
   font-weight: 400;
   letter-spacing: -0.01em;
   color: var(--charcoal);
@@ -2092,6 +2101,7 @@ main > section,
 
 /* Ember Vein — hero card: largest, center-left of cluster */
 .sample-card--hero {
+  --card-enter-delay: 80ms;
   left: 8.367%;
   top: 10.833%;
   width: 36.735%;
@@ -2104,6 +2114,7 @@ main > section,
 
 /* Rose Mist — upper right, smaller vertical card */
 .sample-card--rose {
+  --card-enter-delay: 190ms;
   left: 46.531%;
   top: 3.889%;
   width: 23.469%;
@@ -2116,6 +2127,7 @@ main > section,
 
 /* Green Haze — lower center, in front of plinth and rose */
 .sample-card--green {
+  --card-enter-delay: 310ms;
   left: 46.531%;
   top: 55.833%;
   width: 23.469%;
@@ -2131,6 +2143,7 @@ main > section,
 
 /* Noir Horizon — right column, slightly behind green */
 .sample-card--noir {
+  --card-enter-delay: 430ms;
   right: 3.367%;
   top: 27.222%;
   width: 25.306%;
@@ -2477,24 +2490,16 @@ main > section,
   min-height: clamp(390px, 48vh, 500px);
   overflow: hidden;
   padding: clamp(62px, 7vw, 88px) var(--page-gutter) clamp(58px, 6.5vw, 82px);
-  background: var(--midnight);
+  background:
+    linear-gradient(rgba(17, 19, 16, 0.08), rgba(17, 19, 16, 0.08)),
+    url("/assets/1111.png") center 66% / cover fixed,
+    var(--midnight);
   text-align: center;
   isolation: isolate;
 }
 
 .final-cta-video {
-  --final-cta-media-y: 0px;
-  position: absolute;
-  top: -18%;
-  left: 0;
-  width: 100%;
-  height: 136%;
-  object-fit: cover;
-  object-position: center 66%;
-  filter: brightness(0.66) contrast(0.94) saturate(0.90);
-  transform: translate3d(0, var(--final-cta-media-y), 0);
-  pointer-events: none;
-  will-change: transform;
+  display: none;
 }
 
 .final-cta-overlay {
@@ -2902,6 +2907,7 @@ main > section,
 @media (max-width: 1100px) {
   .collection {
     grid-template-columns: 1fr;
+    height: auto;
     min-height: auto;
     overflow: visible;
     border-top: none;
@@ -2919,6 +2925,7 @@ main > section,
     gap: 18px;
     min-height: auto;
     height: auto;
+    aspect-ratio: auto;
     width: 100%;
     padding: 22px var(--page-gutter) 54px;
     overflow-x: auto;
@@ -2963,6 +2970,65 @@ main > section,
   }
 }
 
+@media (min-width: 821px) and (max-width: 1100px) {
+  .statement {
+    grid-template-columns: minmax(280px, 0.38fr) minmax(0, 0.62fr);
+    grid-template-rows: var(--header-height) minmax(0, 1fr) var(--statement-caption-height);
+    height: 100svh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .statement-copy {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: center;
+    height: 100%;
+    max-height: 560px;
+    padding: 0 clamp(18px, 2.4vw, 30px) 0 clamp(34px, 5vw, 56px);
+  }
+
+  .statement h2 {
+    font-size: clamp(2.55rem, 5vw, 3.7rem);
+    line-height: 0.96;
+  }
+
+  .statement-prose {
+    max-width: 360px;
+    font-size: clamp(0.78rem, 1.15vw, 0.9rem);
+    line-height: 1.65;
+  }
+
+  .mine-showcase {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: center;
+    height: 100%;
+    max-height: 560px;
+    min-height: 0;
+    width: calc(100% - 28px);
+    margin: 0 28px 0 0;
+  }
+
+  .mine-slice--1,
+  .mine-slice--2 {
+    display: block;
+  }
+
+  .mine-slice--3 {
+    left: calc(46% + var(--mine-slice-gap) * 2);
+    right: 0;
+    clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%);
+  }
+
+  .mine-caption {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    height: var(--statement-caption-height);
+    padding: 0 clamp(34px, 5vw, 56px);
+  }
+}
+
 @media (max-width: 1280px) and (min-width: 1101px) {
   .collection-intro {
     padding-left: clamp(52px, 4.4vw, 68px);
@@ -2976,6 +3042,30 @@ main > section,
   .collection-copy {
     font-size: clamp(0.9rem, 0.95vw, 0.98rem);
   }
+}
+
+@media (min-width: 1101px) and (max-height: 760px) {
+  .collection-intro {
+    padding-top: clamp(28px, 5svh, 44px);
+    padding-bottom: clamp(28px, 5svh, 44px);
+  }
+
+  .collection h2 {
+    font-size: clamp(2.7rem, 3.45vw, 4.25rem);
+    line-height: 1.03;
+  }
+
+  .collection-copy {
+    margin-top: clamp(20px, 2.6svh, 28px);
+    font-size: clamp(0.88rem, 0.92vw, 0.98rem);
+    line-height: 1.58;
+  }
+
+  .collection-cta {
+    margin-top: clamp(24px, 4svh, 34px);
+  }
+
+   
 }
 
 @media (max-width: 760px) {
@@ -3213,6 +3303,9 @@ main > section,
   .mine-caption {
     grid-column: 1;
     grid-row: 3;
+    height: auto;
+    min-height: 0;
+    padding-block: 14px;
     padding-inline: 22px;
     gap: 12px;
   }
@@ -3268,6 +3361,7 @@ main > section,
     width: 100%;
     min-height: auto;
     height: auto;
+    aspect-ratio: auto;
     padding: 22px 22px 54px;
     overflow-x: auto;
     overflow-y: visible;
@@ -3289,7 +3383,7 @@ main > section,
     height: auto;
     transform: none !important;
     min-height: auto;
-    justify-self: start;
+    justify-self: stretch;
   }
 
   .sample-card:hover {
