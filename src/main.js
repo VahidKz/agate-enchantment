@@ -11,7 +11,7 @@ const parallaxItems = Array.from(document.querySelectorAll("[data-parallax]"));
 const sliceParallaxItems = Array.from(document.querySelectorAll("[data-slice-parallax]"));
 const collectionParallaxItems = Array.from(document.querySelectorAll("[data-collection-parallax]"));
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const scrollCueOffset = -75;
+const scrollCueOffset = -80;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
@@ -143,11 +143,8 @@ const updateParallax = () => {
       return;
     }
 
-    let direction = 0;
-
-    if (item.classList.contains("mine-slice--1")) direction = -0.12;
-    if (item.classList.contains("mine-slice--2")) direction = 0.12;
-    if (item.classList.contains("mine-slice--3")) direction = -0.05;
+    const configuredDirection = Number(item.dataset.sliceParallax);
+    const direction = Number.isFinite(configuredDirection) ? configuredDirection : 0;
 
     const y = storyScrollOffset * direction;
     item.style.setProperty("--slice-parallax-y", `${y.toFixed(2)}px`);
