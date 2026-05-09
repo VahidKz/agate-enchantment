@@ -1,4 +1,31 @@
 import "./style.css";
+import headerMarkup from "./sections/header.html?raw";
+import heroMarkup from "./sections/hero.html?raw";
+import storyMarkup from "./sections/story.html?raw";
+import collectionMarkup from "./sections/collection.html?raw";
+import materialsMarkup from "./sections/materials.html?raw";
+import finalCtaMarkup from "./sections/final-cta.html?raw";
+import footerMarkup from "./sections/footer.html?raw";
+
+const mainSections = [
+  heroMarkup,
+  storyMarkup,
+  collectionMarkup,
+  materialsMarkup,
+  finalCtaMarkup,
+];
+
+const pageSections = [
+  headerMarkup,
+  `<main>${mainSections.join("\n")}</main>`,
+  footerMarkup,
+];
+
+const page = document.querySelector("[data-page]");
+
+if (page) {
+  page.innerHTML = pageSections.join("\n");
+}
 
 const root = document.documentElement;
 const header = document.querySelector("[data-header]");
