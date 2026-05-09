@@ -1252,7 +1252,7 @@ main > section,
   position: absolute;
   top: 0;
   bottom: 0;
-  left: 50%;
+  left: 53%;
   width: min(86%, 1240px);
   transform: translateX(-50%);
 }
@@ -1278,7 +1278,7 @@ main > section,
 }
 
 .mine-slice {
-  --mine-slice-gap: 0px;
+  --mine-slice-gap: -19px;
   --mine-slice-x-scale: 1;
   --mine-slice-y-scale: 0.82;
   position: absolute;
@@ -1296,7 +1296,7 @@ main > section,
   box-shadow:
     0 12px 56px rgba(0, 0, 0, 0.28),
     0 2px 8px rgba(0, 0, 0, 0.12);
-  transition: transform 120ms linear;
+  transition: none;
 }
 
 /*
@@ -1310,11 +1310,12 @@ main > section,
 
 /* Slice 1 — narrow accent, bottom-risen, most receded */
 .mine-slice--1 {
+  z-index: 1;
   left: 0;
-  width: 12%;
-  top: 16%;
+  width: 20%;
+  top: 0;
   bottom: 0%;
-  background-size: 834% auto;
+  background-size: 500% auto;
   background-position: 0% calc(44% - var(--slice-parallax-y, 0px) * 0.18);
   clip-path: polygon(0 0, 100% 0, calc(100% - 32px) 100%, 0 100%);
   filter: saturate(0.60) contrast(1.00) brightness(0.84);
@@ -1323,14 +1324,15 @@ main > section,
 
 /* Slice 2 — medium support, top-hung, parallelogram */
 .mine-slice--2 {
-  left: calc(12% + var(--mine-slice-gap));
+  z-index: 2;
+  left: calc(20% + var(--mine-slice-gap));
   width: 25%;
-  top: 0%;
-  bottom: 13%;
-  background-size: 400% auto;
-  background-position: 16% calc(44% + var(--slice-parallax-y, 0px) * 0.2);
+  top: 0;
+  bottom: 0;
+  background-size: 350% auto;
+  background-position: 25% calc(44% + var(--slice-parallax-y, 0px) * 0.2);
   clip-path: polygon(32px 0, 100% 0, calc(100% - 32px) 100%, 0 100%);
-  transform: translate3d(0, calc(0px - var(--slice-parallax-y, 0px)), 0) scale(var(--mine-slice-x-scale), var(--mine-slice-y-scale));
+  transform: translate3d(0, var(--slice-parallax-y, 0px), 0) scale(var(--mine-slice-x-scale), var(--mine-slice-y-scale));
 }
 
 .mine-provenance {
@@ -1367,10 +1369,11 @@ main > section,
 
 /* Slice 3 — dominant canvas, centered, most vivid */
 .mine-slice--3 {
-  left: calc(37% + var(--mine-slice-gap) * 2);
+  z-index: 3;
+  left: calc(45% + var(--mine-slice-gap) * 2);
   right: 0;
-  top: 2%;
-  bottom: 0%;
+  top: 0;
+  bottom: 0;
   background-size: 132% auto;
   background-position: 96% calc(46% - var(--slice-parallax-y, 0px) * 0.2);
   clip-path: polygon(32px 0, 100% 0, 100% 100%, 0 100%);
@@ -1757,7 +1760,7 @@ main > section,
 .collection-intro {
   align-self: center;
   max-width: 500px;
-  padding-top: 0;
+  padding: 0 0 0 clamp(18px, 2.4vw, 44px);
 }
 
 .collection h2,
@@ -2699,6 +2702,7 @@ main > section,
 
   .collection-intro {
     max-width: 720px;
+    padding-left: 0;
   }
 
   .material-grid {
@@ -2966,7 +2970,7 @@ main > section,
   }
 
   .collection-intro {
-    padding-top: 0;
+    padding: 0;
   }
 
   .collection h2 {

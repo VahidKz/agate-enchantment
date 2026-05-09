@@ -5,11 +5,13 @@ const header = document.querySelector("[data-header]");
 const progress = document.querySelector("[data-scroll-progress]");
 const year = document.querySelector("[data-year]");
 const heroScene = document.querySelector("[data-hero-scene]");
+const storySection = document.querySelector("#story");
 const revealItems = Array.from(document.querySelectorAll("[data-reveal]"));
 const parallaxItems = Array.from(document.querySelectorAll("[data-parallax]"));
 const sliceParallaxItems = Array.from(document.querySelectorAll("[data-slice-parallax]"));
 const collectionParallaxItems = Array.from(document.querySelectorAll("[data-collection-parallax]"));
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+const scrollCueOffset = -75;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 
@@ -98,6 +100,15 @@ const updateHeroDetail = () => {
   heroScene.classList.toggle("is-detail-visible", heroHasPointer || heroHasFocus || hasScrollIntent);
 };
 
+const getStoryScrollOffset = () => {
+  if (!storySection) return 0;
+
+  const headerHeight = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
+  const rect = storySection.getBoundingClientRect();
+
+  return headerHeight - rect.top;
+};
+
 const updateParallax = () => {
   if (reduceMotion) return;
 
@@ -124,6 +135,7 @@ const updateParallax = () => {
   });
 
   const isCompactViewport = window.matchMedia("(max-width: 820px)").matches;
+  const storyScrollOffset = getStoryScrollOffset();
 
   sliceParallaxItems.forEach((item) => {
     if (isCompactViewport) {
@@ -131,15 +143,13 @@ const updateParallax = () => {
       return;
     }
 
-    const motionRoot = item.closest(".statement") || item.closest(".mine-showcase") || item.parentElement || item;
-    const rect = motionRoot.getBoundingClientRect();
-    const speed = Number(item.dataset.sliceParallax) || 12;
-    const maxShift = Math.abs(speed);
-    const distance = (rect.top + rect.height / 2 - viewportCenter) / window.innerHeight;
-    const targetY = clamp(distance * speed, -maxShift, maxShift);
-    const currentY = Number(item.dataset.sliceCurrentY) || 0;
-    const y = currentY + (targetY - currentY) * 0.12;
-    item.dataset.sliceCurrentY = y.toFixed(3);
+    let direction = 0;
+
+    if (item.classList.contains("mine-slice--1")) direction = -0.12;
+    if (item.classList.contains("mine-slice--2")) direction = 0.12;
+    if (item.classList.contains("mine-slice--3")) direction = -0.05;
+
+    const y = storyScrollOffset * direction;
     item.style.setProperty("--slice-parallax-y", `${y.toFixed(2)}px`);
   });
 
@@ -334,15 +344,10 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 
     const behavior = reduceMotion ? "auto" : "smooth";
     const scrollExtra = Number(link.dataset.scrollExtra) || 0;
-    const shouldFitStoryViewport = link.classList.contains("scroll-cue");
 
-    if (shouldFitStoryViewport) {
-      header?.classList.add("is-scrolled");
-      updateHeaderHeight();
-
+    if (link.classList.contains("scroll-cue")) {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      const headerHeight = header ? Math.ceil(header.getBoundingClientRect().height) : 0;
-      const targetTop = target.getBoundingClientRect().top + window.scrollY - headerHeight;
+      const targetTop = target.getBoundingClientRect().top + window.scrollY + scrollCueOffset;
 
       window.scrollTo({
         behavior,
