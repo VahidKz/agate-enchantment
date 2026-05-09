@@ -182,6 +182,7 @@ const updateParallax = () => {
     const isCompactViewport = window.matchMedia("(max-width: 820px)").matches;
 
     if (isCompactViewport) {
+      item.style.setProperty("--parallax-y", "0px");
       item.style.setProperty("--panel-scroll-y", "0px");
       item.style.setProperty("--material-image-parallax-y", "0px");
       return;
@@ -194,6 +195,9 @@ const updateParallax = () => {
     const distance = (rect.top + rect.height / 2 - viewportCenter) / window.innerHeight;
     const y = clamp(distance * speed, -maxShift, maxShift);
     const imageY = clamp(y * -0.62, -maxShift * 0.62, maxShift * 0.62);
+    // New sample-card system
+    item.style.setProperty("--parallax-y", `${y.toFixed(2)}px`);
+    // Legacy (if old cards still exist anywhere)
     item.style.setProperty("--panel-scroll-y", `${y.toFixed(2)}px`);
     item.style.setProperty("--material-image-parallax-y", `${imageY.toFixed(2)}px`);
   });

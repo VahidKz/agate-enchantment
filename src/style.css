@@ -1832,38 +1832,42 @@ main > section,
 
 .collection {
   display: grid;
-  grid-template-columns: minmax(290px, 0.36fr) minmax(0, 0.64fr);
+  grid-template-columns: minmax(0, 33.333%) minmax(0, 66.667%);
   align-items: center;
-  min-height: 100vh;
   min-height: 100svh;
-  gap: clamp(42px, 5.4vw, 96px);
+  gap: 0;
   overflow: hidden;
-  background: var(--warm-white);
+  background:
+    linear-gradient(180deg, rgba(251, 250, 247, 0.98), rgba(247, 243, 237, 0.98)),
+    var(--warm-white);
   border-top: 1px solid rgba(24, 22, 18, 0.07);
 }
 
 .collection.section-pad {
-  padding-block: clamp(72px, 9svh, 108px);
+  padding-block: 0;
+  padding-inline: 0;
 }
+
+/* ── Left intro column ── */
 
 .collection-intro {
   align-self: center;
-  max-width: 500px;
-  padding: 0;
+  width: 100%;
+  max-width: none;
+  padding: clamp(44px, 6svh, 80px) clamp(12px, 1.2vw, 24px) clamp(44px, 6svh, 80px) clamp(72px, 5.2vw, 108px);
 }
 
-.collection h2,
-.atelier h2,
-.material-philosophy h2,
-.final-cta h2 {
-  font-size: clamp(2.3rem, 4.4vw, 5rem);
-  line-height: 1.06;
+.collection-intro > .eyebrow {
+  display: block;
+  margin-bottom: clamp(14px, 1.8vw, 22px);
 }
 
 .collection h2 {
-  max-width: 520px;
-  font-size: clamp(3.2rem, 4.8vw, 5.25rem);
-  line-height: 1.01;
+  max-width: 100%;
+  margin: 0;
+  font-size: clamp(3.15rem, 4.15vw, 5.15rem);
+  line-height: 1.05;
+  letter-spacing: -0.025em;
 }
 
 .collection h2 span {
@@ -1871,249 +1875,270 @@ main > section,
 }
 
 .collection-copy {
-  max-width: 420px;
-  margin: clamp(22px, 2.4vw, 34px) 0 0;
+  max-width: 100%;
+  margin: clamp(28px, 3vw, 42px) 0 0;
   color: var(--ink-soft);
   font-family: var(--sans);
-  font-size: clamp(0.92rem, 0.93vw, 1.02rem);
-  font-weight: 500;
-  line-height: 1.80;
+  font-size: clamp(0.95rem, 1.04vw, 1.08rem);
+  font-weight: 400;
+  line-height: 1.72;
 }
 
-.collection-note {
-  max-width: 360px;
-  margin: clamp(16px, 1.8vw, 24px) 0 0;
-  color: rgba(94, 88, 81, 0.46);
-  font-family: var(--sans);
-  font-size: clamp(0.68rem, 0.70vw, 0.76rem);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  line-height: 1.65;
-}
+/* ── CTA link ── */
 
-.text-link {
-  display: inline-block;
-  margin-top: clamp(30px, 3.2vw, 46px);
-  font-family: var(--sans);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  transition:
-    color 220ms ease,
-    transform 420ms var(--ease-out);
-}
-
-.text-link:hover {
+.collection-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(38px, 4.4vw, 58px);
   color: var(--bronze);
-  transform: translateX(4px);
+  font-family: var(--sans);
+  font-size: 0.60rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 200ms ease, gap 240ms var(--ease-out);
 }
 
-.text-link::before {
-  display: inline-block;
-  width: 30px;
-  height: 1px;
-  margin-right: 12px;
-  background: currentColor;
-  content: "";
-  vertical-align: middle;
-  opacity: 0.55;
+.collection-cta:hover {
+  color: var(--charcoal);
+  gap: 18px;
 }
 
-/* ── Material grid ── */
-
-.material-grid {
-  display: grid;
-  grid-template-columns: 1.36fr 1.02fr 0.88fr 1.04fr;
-  align-items: start;
-  align-self: center;
-  gap: clamp(10px, 0.9vw, 14px);
-  margin-top: 0;
-  transition: grid-template-columns 560ms cubic-bezier(0.4, 0, 0.2, 1);
+.collection-cta svg {
+  width: 22px;
+  height: 10px;
+  flex-shrink: 0;
 }
 
-/* Accordion expansion on hover */
-.material-grid:has(.material-card:nth-child(1) a:hover) { grid-template-columns: 2.28fr 0.88fr 0.76fr 0.92fr; }
-.material-grid:has(.material-card:nth-child(2) a:hover) { grid-template-columns: 1.10fr 2.14fr 0.76fr 0.90fr; }
-.material-grid:has(.material-card:nth-child(3) a:hover) { grid-template-columns: 1.16fr 0.90fr 2.02fr 0.90fr; }
-.material-grid:has(.material-card:nth-child(4) a:hover) { grid-template-columns: 1.16fr 0.90fr 0.76fr 2.12fr; }
-
-.material-card {
-  min-width: 0;
-  --panel-offset-y: -32px;
-  --panel-scroll-y: 0px;
-  --material-image-parallax-y: 0px;
-}
-
-.material-card a {
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
-  gap: clamp(12px, 1.2vw, 18px);
-  height: 100%;
-  position: relative;
-  isolation: isolate;
-  cursor: pointer;
-  transform: translateY(calc(var(--panel-offset-y) + var(--panel-scroll-y)));
-  transition: transform 520ms var(--ease-out);
-}
-
-.material-card:nth-child(2) {
-  --panel-offset-y: 42px;
-}
-
-.material-card:nth-child(3) {
-  --panel-offset-y: -28px;
-}
-
-.material-card:nth-child(4) {
-  --panel-offset-y: 34px;
-}
-
-.material-card a:hover,
-.material-card a:focus-visible {
-  transform: translateY(calc(var(--panel-offset-y) + var(--panel-scroll-y) - 5px));
-}
-
-.material-visual {
-  position: relative;
+.collection-cta-rule {
   display: block;
+  width: 100%;
+  max-width: 300px;
+  height: 1px;
+  margin-top: clamp(14px, 1.8vw, 22px);
+  background: rgba(24, 22, 18, 0.10);
+}
+
+/* ── Decorative column motif ── */
+
+.collection-motif {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: clamp(50px, 7svh, 92px);
+  color: rgba(154, 103, 63, 0.45);
+}
+
+.collection-motif-line {
+  flex: 1;
+  height: 1px;
+  max-width: 78px;
+  background: currentColor;
+}
+
+.collection-motif-icon {
+  width: 18px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+/* ── Right card stage ── */
+
+.card-stage {
+  position: relative;
+  align-self: center;
+  justify-self: center;
+  width: min(100%, clamp(740px, 63vw, 980px));
+  aspect-ratio: 980 / 720;
+  height: auto;
+  min-height: 0;
   overflow: hidden;
-  height: clamp(304px, 45svh, 456px);
-  /* No border-radius: flat, architectural */
-  border-radius: 0;
-  border: 1px solid rgba(30, 27, 24, 0.09);
-  background: #ece5da;
 }
 
-/* Subtle scale lift on hover */
-.material-card a:hover .material-visual,
-.material-card a:focus-visible .material-visual {
-  border-color: rgba(154, 103, 63, 0.22);
+/* Subtle beige plinth — quiet horizontal block behind right-side cards only */
+.card-plinth {
+  position: absolute;
+  top: 33.333%;
+  bottom: 13.611%;
+  left: 2.653%;
+  right: 11.429%;
+  background:
+    linear-gradient(180deg, rgba(234, 227, 216, 0.72), rgba(226, 216, 203, 0.72)),
+    #e5ddd3;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.34);
+  z-index: 0;
 }
 
-.material-visual img {
-  --material-image-zoom: 1.9;
+/* ── Sample cards — shared ── */
+
+.sample-card {
+  position: absolute;
+  background: #f9f7f3;
+  box-shadow:
+    0 3px 8px rgba(24, 22, 18, 0.05),
+    0 16px 34px rgba(24, 22, 18, 0.10);
+  z-index: 1;
+  transition: transform 480ms cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 360ms ease;
+  --parallax-y: 0px;
+  transform: translateY(var(--parallax-y));
+}
+
+.sample-card a {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  text-decoration: none;
+  outline-offset: 3px;
+}
+
+.sample-card:hover {
+  box-shadow:
+    0 8px 24px rgba(24, 22, 18, 0.08),
+    0 28px 64px rgba(24, 22, 18, 0.13);
+  transform: translateY(calc(var(--parallax-y) - 6px));
+}
+
+/* Stone image area */
+.sample-visual {
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: #ddd8ce;
+  margin: 10px 10px 0;
+}
+
+.sample-visual img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 50% 50%;
-  border: 0;
-  filter: saturate(1.04) contrast(1.04) brightness(0.98);
-  transform: translate3d(0, var(--material-image-parallax-y), 0) scale(var(--material-image-zoom));
-  transform-origin: 50% 50%;
-  transition:
-    opacity 480ms ease,
-    filter 700ms ease,
-    transform 1900ms cubic-bezier(0.19, 1, 0.22, 1);
-  will-change: transform, opacity;
+  object-position: center;
+  transition: transform 1600ms cubic-bezier(0.19, 1, 0.22, 1), opacity 600ms ease;
 }
 
-.material-block {
-  --material-image-zoom: 1.24;
+.sample-visual .material-stone {
   position: absolute;
   inset: 0;
-  display: block;
-  opacity: 0;
-  transform-origin: 50% 50%;
-  transition:
-    opacity 650ms ease,
-    filter 700ms ease,
-    transform 1900ms cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.material-card a:hover .material-stone,
-.material-card a:focus-visible .material-stone {
-  --material-image-zoom: 1.68;
-  opacity: 0;
-  filter: saturate(1.08) contrast(1.08) brightness(1);
-}
-
-.material-card a:hover .material-block,
-.material-card a:focus-visible .material-block {
-  --material-image-zoom: 1.02;
+  z-index: 2;
   opacity: 1;
-  filter: saturate(1.08) contrast(1.08) brightness(1);
 }
 
-/* Hover action label */
-.material-action {
+.sample-visual .material-block {
   position: absolute;
-  inset: auto 0 0;
-  z-index: 3;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: clamp(12px, 1.4vw, 18px) 14px;
-  background: linear-gradient(0deg, rgba(24, 22, 18, 0.56) 0%, rgba(24, 22, 18, 0) 100%);
-  color: rgba(251, 250, 247, 0.88);
-  font-family: var(--sans);
-  font-size: clamp(0.52rem, 0.54vw, 0.60rem);
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  line-height: 1.2;
-  text-transform: uppercase;
+  inset: 0;
+  z-index: 1;
   opacity: 0;
-  transform: translateY(6px);
-  transition:
-    opacity 420ms ease,
-    transform 480ms var(--ease-out);
-  pointer-events: none;
 }
 
-.material-card a:hover .material-action,
-.material-card a:focus-visible .material-action {
+.sample-card:hover .material-stone {
+  z-index: 1;
+  opacity: 0;
+  transform: scale(1.04);
+}
+
+.sample-card:hover .material-block {
+  z-index: 3;
   opacity: 1;
-  transform: translateY(0);
 }
 
-.material-info {
+/* Caption strip */
+.sample-caption {
+  flex-shrink: 0;
   display: grid;
-  gap: 5px;
-  margin-top: 0;
-  padding: 0 1px;
-  border-top: 1px solid rgba(24, 22, 18, 0.07);
-  padding-top: clamp(10px, 1.1vw, 15px);
-  transition:
-    color 420ms ease,
-    transform 520ms var(--ease-out);
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 16px;
+  align-items: center;
+  padding: 17px 20px 21px;
+  background: #f9f7f3;
 }
 
-.material-card a:hover .material-info,
-.material-card a:focus-visible .material-info {
-  transform: translateY(-2px);
-}
-
-.material-tag {
-  color: rgba(154, 103, 63, 0.72);
+.sample-label {
+  grid-column: 1;
+  grid-row: 1;
+  color: var(--bronze);
   font-family: var(--sans);
   font-size: clamp(0.50rem, 0.52vw, 0.58rem);
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.18em;
-  line-height: 1.35;
   text-transform: uppercase;
-  transition: color 420ms ease;
+  white-space: nowrap;
 }
 
-.material-card a:hover .material-tag,
-.material-card a:focus-visible .material-tag {
-  color: var(--bronze);
-}
-
-.material-info p {
-  display: none;
-}
-
-/* Material metadata line — visible */
-.material-meta {
+.sample-rule {
+  grid-column: 2;
+  grid-row: 1;
   display: block;
-  margin: 2px 0 0;
-  color: rgba(94, 88, 81, 0.50);
-  font-family: var(--sans);
-  font-size: clamp(0.60rem, 0.62vw, 0.68rem);
-  font-weight: 500;
-  letter-spacing: 0.02em;
-  line-height: 1.4;
+  height: 1px;
+  background: rgba(24, 22, 18, 0.12);
+  align-self: center;
+}
+
+.sample-name {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  margin: 8px 0 0;
+  font-family: var(--serif);
+  font-size: clamp(1.2rem, 1.5vw, 1.62rem);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  color: var(--charcoal);
+  line-height: 1.2;
+}
+
+/* ── Individual card positions (desktop) ── */
+
+/* Ember Vein — hero card: largest, center-left of cluster */
+.sample-card--hero {
+  left: 8.367%;
+  top: 10.833%;
+  width: 36.735%;
+  z-index: 3;
+}
+
+.sample-card--hero .sample-visual {
+  aspect-ratio: 0.7 / 1;
+}
+
+/* Rose Mist — upper right, smaller vertical card */
+.sample-card--rose {
+  left: 46.531%;
+  top: 3.889%;
+  width: 23.469%;
+  z-index: 2;
+}
+
+.sample-card--rose .sample-visual {
+  aspect-ratio: 0.8 / 1;
+}
+
+/* Green Haze — lower center, in front of plinth and rose */
+.sample-card--green {
+  left: 46.531%;
+  top: 55.833%;
+  width: 23.469%;
+  z-index: 4;
+  box-shadow:
+    0 5px 12px rgba(24, 22, 18, 0.06),
+    0 22px 46px rgba(24, 22, 18, 0.16);
+}
+
+.sample-card--green .sample-visual {
+  aspect-ratio: 0.8 / 1;
+}
+
+/* Noir Horizon — right column, slightly behind green */
+.sample-card--noir {
+  right: 3.367%;
+  top: 27.222%;
+  width: 25.306%;
+  z-index: 2;
+}
+
+.sample-card--noir .sample-visual {
+  aspect-ratio: 0.72 / 1;
 }
 
 .atelier {
@@ -2874,12 +2899,6 @@ main > section,
   line-height: 1.6;
 }
 
-@media (min-width: 980px) and (min-height: 760px) {
-  .collection {
-    align-items: center;
-  }
-}
-
 @media (max-width: 1100px) {
   .collection {
     grid-template-columns: 1fr;
@@ -2889,16 +2908,73 @@ main > section,
   }
 
   .collection-intro {
-    max-width: 720px;
-    padding-left: 0;
+    padding: clamp(48px, 7svh, 80px) var(--page-gutter) clamp(36px, 5svh, 60px);
   }
 
-  .material-grid {
-    gap: clamp(8px, 0.8vw, 12px);
+  .card-stage {
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(260px, 72vw);
+    gap: 18px;
+    min-height: auto;
+    height: auto;
+    width: 100%;
+    padding: 22px var(--page-gutter) 54px;
+    overflow-x: auto;
+    overflow-y: visible;
+    scrollbar-width: none;
+    transform: none;
   }
 
-  .material-visual {
-    height: clamp(272px, 38svh, 420px);
+  .card-stage::-webkit-scrollbar {
+    display: none;
+  }
+
+  .card-plinth {
+    display: none;
+  }
+
+  .sample-card,
+  .sample-card--hero,
+  .sample-card--rose,
+  .sample-card--green,
+  .sample-card--noir {
+    position: static;
+    width: auto;
+    height: auto;
+    transform: none !important;
+  }
+
+  .sample-card {
+    min-height: auto;
+  }
+
+  .sample-card:hover {
+    transform: translateY(-4px) !important;
+  }
+
+  .sample-visual,
+  .sample-card--hero .sample-visual,
+  .sample-card--rose .sample-visual,
+  .sample-card--green .sample-visual,
+  .sample-card--noir .sample-visual {
+    aspect-ratio: 0.82 / 1;
+  }
+}
+
+@media (max-width: 1280px) and (min-width: 1101px) {
+  .collection-intro {
+    padding-left: clamp(52px, 4.4vw, 68px);
+    padding-right: clamp(10px, 1vw, 16px);
+  }
+
+  .collection h2 {
+    font-size: clamp(2.65rem, 3.45vw, 3.35rem);
+  }
+
+  .collection-copy {
+    font-size: clamp(0.9rem, 0.95vw, 0.98rem);
   }
 }
 
@@ -2913,19 +2989,11 @@ main > section,
 
   .collection {
     grid-template-columns: 1fr;
-    row-gap: 28px;
-  }
-
-  .collection-intro {
-    max-width: 640px;
+    row-gap: 0;
   }
 
   .collection-cta {
     margin-top: 28px;
-  }
-
-  .material-action {
-    display: none;
   }
 }
 
@@ -3173,79 +3241,97 @@ main > section,
 
   .collection {
     grid-template-columns: 1fr;
-    row-gap: 32px;
+    row-gap: 0;
     min-height: auto;
     overflow: visible;
     border-top: none;
   }
 
-  .collection-intro,
-  .material-grid {
-    grid-column: 1;
-    grid-row: auto;
-  }
-
   .collection-intro {
-    padding: 0;
+    padding: clamp(48px, 8svh, 72px) 22px clamp(28px, 4svh, 44px);
   }
 
   .collection h2 {
     max-width: min(100%, 560px);
-    margin-inline: 0;
   }
 
   .collection-copy {
-    max-width: 580px;
+    max-width: 520px;
   }
 
-  .collection-note {
-    max-width: 420px;
+  .card-stage {
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(260px, 78vw);
+    gap: 16px;
+    width: 100%;
+    min-height: auto;
+    height: auto;
+    padding: 22px 22px 54px;
+    overflow-x: auto;
+    overflow-y: visible;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
 
-  /* Mobile: 2-column staggered pair */
-  .material-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(10px, 2.5vw, 18px);
-    transition: none;
-  }
-
-  .material-grid:has(.material-card:nth-child(1) a:hover),
-  .material-grid:has(.material-card:nth-child(2) a:hover),
-  .material-grid:has(.material-card:nth-child(3) a:hover),
-  .material-grid:has(.material-card:nth-child(4) a:hover) {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .material-card {
-    --panel-offset-y: 0px;
-    flex: 1 1 auto;
-    transition: none;
-  }
-
-  /* Re-introduce subtle vertical stagger on tablet 2-col */
-  .material-card:nth-child(2) {
-    --panel-offset-y: 40px;
-  }
-
-  .material-card:nth-child(3) {
-    --panel-offset-y: 0px;
-  }
-
-  .material-card:nth-child(4) {
-    --panel-offset-y: 32px;
-  }
-
-  .material-card a {
-    transform: translateY(var(--panel-offset-y));
-    transition: none;
-  }
-
-  .material-visual {
-    height: clamp(240px, 46svh, 440px);
-  }
-
-  .material-action {
+  .card-stage::-webkit-scrollbar {
     display: none;
+  }
+
+  .card-plinth {
+    display: none;
+  }
+
+  .sample-card {
+    position: static;
+    width: auto;
+    height: auto;
+    transform: none !important;
+    min-height: auto;
+    justify-self: start;
+  }
+
+  .sample-card:hover {
+    transform: translateY(-4px) !important;
+  }
+
+  .sample-card a {
+    height: 100%;
+  }
+
+  .sample-visual,
+  .sample-card--hero .sample-visual,
+  .sample-card--rose .sample-visual,
+  .sample-card--green .sample-visual,
+  .sample-card--noir .sample-visual {
+    height: auto;
+    aspect-ratio: 1 / 1;
+  }
+
+  .sample-card--hero,
+  .sample-card--rose,
+  .sample-card--green,
+  .sample-card--noir {
+    left: auto;
+    right: auto;
+    top: auto;
+    bottom: auto;
+    height: auto;
+  }
+
+  .sample-card--hero {
+    width: auto;
+  }
+
+  .sample-card--rose,
+  .sample-card--green {
+    justify-self: stretch;
+    width: auto;
+  }
+
+  .sample-card--noir {
+    width: auto;
   }
 
   .material-philosophy {
