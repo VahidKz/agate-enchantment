@@ -1292,7 +1292,7 @@ main > section,
   min-height: 0;
   width: calc(100% - clamp(24px, 3vw, 56px));
   margin: 0 clamp(24px, 3vw, 56px) 0 0;
-  overflow: hidden;
+  overflow: visible;
   background: transparent;
   isolation: isolate;
 }
@@ -1325,6 +1325,9 @@ main > section,
   --mine-slice-zoom: 100%;
   --mine-overlay-top: 0;
   --mine-overlay-mid: 0;
+  --slice-assemble-x: 0px;
+  --slice-assemble-y: 0px;
+  --slice-assemble-rotate: 0deg;
   position: absolute;
   z-index: 1;
   overflow: hidden;
@@ -1338,7 +1341,11 @@ main > section,
   border-radius: 0;
   filter: saturate(0.9) contrast(1.03) brightness(0.94);
   box-shadow: none;
-  transition: none;
+  transition:
+    transform 260ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 160ms ease,
+    background-size 180ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 160ms ease;
 }
 
 .mine-slice::after {
@@ -1374,7 +1381,10 @@ main > section,
   background-position: 4% 58%;
   clip-path: polygon(0 0, 100% 0, calc(100% - 24px) 100%, 0 100%);
   filter: saturate(1.00) contrast(1.04) brightness(0.86);
-  transform: translate3d(0, var(--slice-parallax-y, 0px), 0) scale(var(--mine-slice-x-scale), var(--mine-slice-y-scale));
+  transform:
+    translate3d(var(--slice-assemble-x), calc(var(--slice-parallax-y, 0px) + var(--slice-assemble-y)), 0)
+    rotate(var(--slice-assemble-rotate))
+    scale(var(--mine-slice-x-scale), var(--mine-slice-y-scale));
 }
 
 /* Slice 2 — center stones, medium */
@@ -1390,7 +1400,10 @@ main > section,
   background-position: 23% 55%;
   clip-path: polygon(24px 0, 100% 0, calc(100% - 24px) 100%, 0 100%);
   filter: saturate(1) contrast(1.03) brightness(0.91);
-  transform: translate3d(0, var(--slice-parallax-y, 0px), 0) scale(var(--mine-slice-x-scale), var(--mine-slice-y-scale));
+  transform:
+    translate3d(var(--slice-assemble-x), calc(var(--slice-parallax-y, 0px) + var(--slice-assemble-y)), 0)
+    rotate(var(--slice-assemble-rotate))
+    scale(var(--mine-slice-x-scale), var(--mine-slice-y-scale));
 }
 
 .mine-provenance {
@@ -1438,7 +1451,35 @@ main > section,
   background-position: 86% 50%;
   clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%);
   filter: saturate(1.1) contrast(1.03) brightness(0.97);
-  transform: translate3d(0, var(--slice-parallax-y, 0px), 0) scale(var(--mine-slice-x-scale), var(--mine-slice-y-scale));
+  transform:
+    translate3d(var(--slice-assemble-x), calc(var(--slice-parallax-y, 0px) + var(--slice-assemble-y)), 0)
+    rotate(var(--slice-assemble-rotate))
+    scale(var(--mine-slice-x-scale), var(--mine-slice-y-scale));
+}
+
+.mine-slices:hover .mine-slice {
+  opacity: 0.72;
+}
+
+.mine-slices:hover .mine-slice:hover {
+  z-index: 5;
+  opacity: 1;
+  filter: saturate(1.18) contrast(1.1) brightness(1);
+}
+
+.mine-slice--1:hover {
+  background-size: auto 110%;
+  transform: translate3d(4px, calc(var(--slice-parallax-y, 0px) - 50px), 0) scale(1.015, 1.01);
+}
+
+.mine-slice--2:hover {
+  background-size: auto 110%;
+  transform: translate3d(4px, calc(var(--slice-parallax-y, 0px) - 50px), 0) scale(1.015, 1.01);
+}
+
+.mine-slice--3:hover {
+  background-size: auto 110%;
+  transform: translate3d(4px, calc(var(--slice-parallax-y, 0px) - 50px), 0) scale(1.015, 1.01);
 }
 
 .mine-showcase-copy {

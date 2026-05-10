@@ -42,6 +42,13 @@ const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").match
 const scrollCueOffset = 0;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+const easeOutQuint = (value) => 1 - Math.pow(1 - value, 5);
+
+const sliceAssemblyOffsets = new Map([
+  ["mine-slice--1", { x: -12, y: 40, rotate: -2.2 }],
+  ["mine-slice--2", { x: 16, y: 80, rotate: 1.1 }],
+  ["mine-slice--3", { x: 48, y: 18, rotate: 2 }],
+]);
 
 if (year) {
   year.textContent = new Date().getFullYear();
@@ -164,18 +171,34 @@ const updateParallax = () => {
 
   const isCompactViewport = window.matchMedia("(max-width: 820px)").matches;
   const storyScrollOffset = getStoryScrollOffset();
+  const storyRect = storySection?.getBoundingClientRect();
+  const rawSliceAssemblyProgress = storyRect
+    ? clamp(1 - storyRect.top / (window.innerHeight * 0.78), 0, 1)
+    : 1;
+  const sliceAssemblyProgress = easeOutQuint(rawSliceAssemblyProgress);
 
   sliceParallaxItems.forEach((item) => {
     if (isCompactViewport) {
       item.style.setProperty("--slice-parallax-y", "0px");
+      item.style.setProperty("--slice-assemble-x", "0px");
+      item.style.setProperty("--slice-assemble-y", "0px");
+      item.style.setProperty("--slice-assemble-rotate", "0deg");
       return;
     }
 
     const configuredDirection = Number(item.dataset.sliceParallax);
     const direction = Number.isFinite(configuredDirection) ? configuredDirection : 0;
+    const assemblyOffset = Array.from(sliceAssemblyOffsets).find(([className]) => item.classList.contains(className))?.[1];
+    const remainingAssembly = 1 - sliceAssemblyProgress;
 
     const y = storyScrollOffset * direction;
     item.style.setProperty("--slice-parallax-y", `${y.toFixed(2)}px`);
+
+    if (assemblyOffset) {
+      item.style.setProperty("--slice-assemble-x", `${(assemblyOffset.x * remainingAssembly).toFixed(2)}px`);
+      item.style.setProperty("--slice-assemble-y", `${(assemblyOffset.y * remainingAssembly).toFixed(2)}px`);
+      item.style.setProperty("--slice-assemble-rotate", `${(assemblyOffset.rotate * remainingAssembly).toFixed(3)}deg`);
+    }
   });
 
   collectionParallaxItems.forEach((item) => {
