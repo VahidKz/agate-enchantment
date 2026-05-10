@@ -33,6 +33,7 @@ const progress = document.querySelector("[data-scroll-progress]");
 const year = document.querySelector("[data-year]");
 const heroScene = document.querySelector("[data-hero-scene]");
 const storySection = document.querySelector("#story");
+const mineSlicesScene = document.querySelector("[data-mine-slices]");
 const finalCtaMedia = document.querySelector("[data-final-cta-parallax]");
 const revealItems = Array.from(document.querySelectorAll("[data-reveal]"));
 const parallaxItems = Array.from(document.querySelectorAll("[data-parallax]"));
@@ -45,10 +46,15 @@ const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 const easeOutQuint = (value) => 1 - Math.pow(1 - value, 5);
 
 const sliceAssemblyOffsets = new Map([
-  ["mine-slice--1", { x: -12, y: 40, rotate: -2.2 }],
-  ["mine-slice--2", { x: 16, y: 80, rotate: 1.1 }],
-  ["mine-slice--3", { x: 48, y: 18, rotate: 2 }],
+  ["mine-slice--1", { x: -182, y: 120, rotate: -10.2 }],
+  ["mine-slice--2", { x: 186, y: 720, rotate: 10.1 }],
+  ["mine-slice--3", { x: 180, y: 198, rotate: 10 }],
 ]);
+
+if (mineSlicesScene && !reduceMotion) {
+  mineSlicesScene.classList.add("is-slice-init", "is-slice-before");
+  window.setTimeout(() => mineSlicesScene.classList.remove("is-slice-init"), 1500);
+}
 
 if (year) {
   year.textContent = new Date().getFullYear();
@@ -144,7 +150,26 @@ const getStoryScrollOffset = () => {
   return headerHeight - rect.top;
 };
 
+const updateSliceAssemblyState = (progress) => {
+  if (!mineSlicesScene) return;
+
+  const isBefore = progress < 0.05;
+  const isSettled = progress > 0.985;
+  mineSlicesScene.style.setProperty("--slice-assembly-progress", progress.toFixed(3));
+  mineSlicesScene.classList.toggle("is-slice-before", isBefore);
+  mineSlicesScene.classList.toggle("is-slice-assembling", !isBefore && !isSettled);
+  mineSlicesScene.classList.toggle("is-slice-settled", isSettled);
+};
+
 const updateParallax = () => {
+  const storyScrollOffset = getStoryScrollOffset();
+  const storyRect = storySection?.getBoundingClientRect();
+  const rawSliceAssemblyProgress = storyRect
+    ? clamp(1 - storyRect.top / (window.innerHeight * 0.78), 0, 1)
+    : 1;
+  const sliceAssemblyProgress = easeOutQuint(rawSliceAssemblyProgress);
+  updateSliceAssemblyState(rawSliceAssemblyProgress);
+
   if (reduceMotion) return;
 
   const viewportCenter = window.innerHeight / 2;
@@ -170,12 +195,6 @@ const updateParallax = () => {
   });
 
   const isCompactViewport = window.matchMedia("(max-width: 820px)").matches;
-  const storyScrollOffset = getStoryScrollOffset();
-  const storyRect = storySection?.getBoundingClientRect();
-  const rawSliceAssemblyProgress = storyRect
-    ? clamp(1 - storyRect.top / (window.innerHeight * 0.78), 0, 1)
-    : 1;
-  const sliceAssemblyProgress = easeOutQuint(rawSliceAssemblyProgress);
 
   sliceParallaxItems.forEach((item) => {
     if (isCompactViewport) {
@@ -283,6 +302,72 @@ window.addEventListener("resize", requestFrame);
 if (header && "ResizeObserver" in window) {
   const headerObserver = new ResizeObserver(requestFrame);
   headerObserver.observe(header);
+}
+
+if (mineSlicesScene) {
+  const interactiveSlices = Array.from(mineSlicesScene.querySelectorAll(".mine-slice"));
+  let activeSlicePointer = null;
+
+  const selectMineSlice = (slice) => {
+    interactiveSlices.forEach((item) => {
+      const isSelected = item === slice;
+      item.classList.toggle("is-selected", isSelected);
+      item.setAttribute("aria-pressed", String(isSelected));
+    });
+    mineSlicesScene.classList.add("has-slice-selection");
+    slice.classList.add("is-click-rippling");
+    window.setTimeout(() => slice.classList.remove("is-click-rippling"), 720);
+  };
+
+  const clearSlicePress = () => {
+    interactiveSlices.forEach((item) => item.classList.remove("is-pressing"));
+    activeSlicePointer = null;
+  };
+
+  interactiveSlices.forEach((slice) => {
+    slice.setAttribute("aria-pressed", "false");
+
+    const updateSlicePressPoint = (event) => {
+      const rect = slice.getBoundingClientRect();
+      const x = clamp(((event.clientX - rect.left) / rect.width) * 100, 0, 100);
+      const y = clamp(((event.clientY - rect.top) / rect.height) * 100, 0, 100);
+      slice.style.setProperty("--slice-press-x", `${x.toFixed(2)}%`);
+      slice.style.setProperty("--slice-press-y", `${y.toFixed(2)}%`);
+    };
+
+    slice.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+
+      activeSlicePointer = event.pointerId;
+      slice.classList.add("is-pressing");
+      updateSlicePressPoint(event);
+      slice.setPointerCapture?.(event.pointerId);
+    });
+
+    slice.addEventListener("pointermove", (event) => {
+      if (event.pointerId !== activeSlicePointer) return;
+      updateSlicePressPoint(event);
+    });
+
+    slice.addEventListener("pointerup", (event) => {
+      if (event.pointerId !== activeSlicePointer) return;
+      updateSlicePressPoint(event);
+      clearSlicePress();
+      selectMineSlice(slice);
+    });
+
+    slice.addEventListener("pointercancel", clearSlicePress);
+    slice.addEventListener("lostpointercapture", clearSlicePress);
+
+    slice.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") return;
+
+      event.preventDefault();
+      slice.style.setProperty("--slice-press-x", "50%");
+      slice.style.setProperty("--slice-press-y", "50%");
+      selectMineSlice(slice);
+    });
+  });
 }
 
 if (heroScene) {
