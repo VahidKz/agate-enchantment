@@ -39,7 +39,7 @@ const parallaxItems = Array.from(document.querySelectorAll("[data-parallax]"));
 const sliceParallaxItems = Array.from(document.querySelectorAll("[data-slice-parallax]"));
 const collectionParallaxItems = Array.from(document.querySelectorAll("[data-collection-parallax]"));
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-const scrollCueOffset = -80;
+const scrollCueOffset = 0;
 
 const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
 

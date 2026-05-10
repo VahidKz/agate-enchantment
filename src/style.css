@@ -589,7 +589,7 @@ main > section,
 }
 
 .hero-eyebrow {
-  display: none;
+  display: block;
   margin: 0 0 clamp(18px, 2.2vh, 28px);
   margin: 0 0 clamp(18px, 2.2svh, 28px);
   color: rgba(126, 81, 46, 0.9);
@@ -605,6 +605,7 @@ main > section,
 }
 
 .hero-copy,
+.hero-meta,
 .hero-actions {
   opacity: 0;
   transform: translate3d(0, 18px, 0);
@@ -638,6 +639,10 @@ main > section,
 
 .hero-copy {
   animation-delay: 2920ms;
+}
+
+.hero-meta {
+  animation-delay: 3060ms;
 }
 
 .hero-actions {
@@ -902,9 +907,16 @@ main > section,
 }
 
 .hero-meta span {
+  display: grid;
+  gap: 3px;
   border-top: 1px solid rgba(155, 106, 58, 0.42);
   padding-top: 9px;
   color: rgba(24, 22, 18, 0.66);
+}
+
+.hero-meta strong {
+  color: rgba(155, 106, 58, 0.94);
+  font-weight: 800;
 }
 
 .hero-actions,
