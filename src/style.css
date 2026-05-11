@@ -230,6 +230,17 @@ main > section,
   transform: scaleX(1);
 }
 
+.nav-links a[aria-current="page"],
+.footer-links a[aria-current="page"] {
+  color: var(--bronze);
+}
+
+.nav-links a[aria-current="page"]::after,
+.footer-links a[aria-current="page"]::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
 .hero {
   position: relative;
   --hero-bg-x: 0px;
@@ -3890,6 +3901,11 @@ main > section,
 
   .footer-heading {
     margin-bottom: 20px;
+  }
+
+  .footer-links {
+    align-items: flex-start;
+    text-align: left;
   }
 
   .footer-brand {

@@ -47,8 +47,8 @@ document.querySelectorAll('.brand[href="#hero"]').forEach((el) => {
   el.setAttribute("href", "/");
 });
 
-// Mark Red Onyx nav link as current page
-document.querySelectorAll('.nav-links a[href="/material"]').forEach((el) => {
+// Mark Red Onyx links as current page
+document.querySelectorAll('.nav-links a[href="/material"], .footer-links a[href="/material"]').forEach((el) => {
   el.setAttribute("aria-current", "page");
 });
 
