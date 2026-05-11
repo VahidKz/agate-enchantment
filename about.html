@@ -1,0 +1,1178 @@
+<style>
+  :root{
+    --bg:#f6f1e8;
+    --bg-2:#f9f5ef;
+    --bg-3:#efe7dc;
+    --paper:#fcfaf7;
+    --text:#2f251d;
+    --muted:#75685d;
+    --line:rgba(47,37,29,.12);
+    --line-strong:rgba(47,37,29,.18);
+    --accent:#8b6041;
+    --accent-2:#b58b69;
+    --shadow:0 24px 60px rgba(35,24,18,.08);
+    --radius-xl:34px;
+    --radius-lg:24px;
+    --radius-md:18px;
+    --container:1280px;
+  }
+
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--text);
+    font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+
+  img{display:block;max-width:100%}
+  a{text-decoration:none;color:inherit}
+
+  .scroll-progress{
+    position:fixed;
+    top:0;left:0;
+    width:24%;
+    height:2px;
+    z-index:100;
+    background:linear-gradient(90deg,var(--accent),var(--accent-2));
+  }
+
+  .site-header{
+    position:sticky;
+    top:0;
+    z-index:90;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:2rem;
+    padding:1rem 2rem;
+    background:rgba(246,241,232,.8);
+    backdrop-filter:blur(14px);
+    border-bottom:1px solid rgba(47,37,29,.08);
+  }
+
+  .brand{
+    display:inline-flex;
+    align-items:center;
+    gap:.85rem;
+  }
+
+  .brand-mark{
+    width:24px;
+    height:24px;
+    object-fit:contain;
+  }
+
+  .brand-name{
+    font-size:.95rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+  }
+
+  .nav-links{
+    display:flex;
+    align-items:center;
+    gap:1.4rem;
+    flex-wrap:wrap;
+  }
+
+  .nav-links a{
+    font-size:.88rem;
+    color:var(--muted);
+    transition:.25s ease;
+  }
+
+  .nav-links a:hover{color:var(--text)}
+
+  .eyebrow{
+    margin:0 0 1rem;
+    font-size:.75rem;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+
+  .button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-height:48px;
+    padding:.92rem 1.28rem;
+    border-radius:999px;
+    border:1px solid transparent;
+    transition:.25s ease;
+    font-size:.92rem;
+    white-space:nowrap;
+  }
+
+  .button-dark{
+    background:var(--text);
+    color:#f7f1eb;
+    border-color:var(--text);
+  }
+
+  .button-dark:hover{
+    background:#1f1813;
+    border-color:#1f1813;
+    transform:translateY(-1px);
+  }
+
+  .button-light{
+    background:transparent;
+    color:var(--text);
+    border-color:rgba(47,37,29,.16);
+  }
+
+  .button-light:hover{
+    background:rgba(255,255,255,.38);
+    transform:translateY(-1px);
+  }
+
+  .section-pad{
+    padding:7rem 2rem;
+  }
+
+  .about-page{overflow:hidden}
+
+  /* HERO */
+  .about-hero{
+    position:relative;
+    min-height:95svh;
+    display:grid;
+    grid-template-columns:1.08fr .92fr;
+    align-items:center;
+    padding:4rem 2rem 5rem;
+    background:
+      radial-gradient(circle at 18% 20%, rgba(255,255,255,.56), transparent 32%),
+      linear-gradient(180deg,#f8f3eb 0%,#f3ece2 100%);
+  }
+
+  .about-hero-media{
+    position:relative;
+    min-height:640px;
+    display:grid;
+    place-items:center;
+  }
+
+  .about-hero-frame{
+    width:min(88%,640px);
+    aspect-ratio:4/5;
+    border-radius:28px;
+    overflow:hidden;
+    background:#e8dece;
+    box-shadow:var(--shadow);
+    position:relative;
+  }
+
+  .about-hero-frame img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+
+  .about-hero-frame::after{
+    content:"";
+    position:absolute;
+    inset:auto 0 0 0;
+    height:34%;
+    background:linear-gradient(180deg,transparent,rgba(27,20,16,.08));
+    pointer-events:none;
+  }
+
+  .about-hero-note{
+    position:absolute;
+    left:0;
+    bottom:2.2rem;
+    max-width:280px;
+    padding:1.15rem 1.2rem;
+    border:1px solid rgba(255,255,255,.32);
+    border-radius:18px;
+    background:rgba(255,248,241,.62);
+    backdrop-filter:blur(12px);
+    box-shadow:0 18px 40px rgba(30,20,14,.08);
+  }
+
+  .about-hero-note strong{
+    display:block;
+    margin-bottom:.45rem;
+    font-size:.86rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+
+  .about-hero-note p{
+    margin:0;
+    font-size:.94rem;
+    line-height:1.7;
+    color:var(--muted);
+  }
+
+  .about-hero-copy{
+    max-width:640px;
+    position:relative;
+    z-index:2;
+  }
+
+  .about-hero-title{
+    margin:0;
+    font-family:"Iowan Old Style","Georgia","Times New Roman",serif;
+    font-weight:500;
+    font-size:clamp(3.2rem,6.8vw,6.15rem);
+    line-height:.95;
+    letter-spacing:-.045em;
+  }
+
+  .about-hero-title span{display:block}
+
+  .about-hero-text{
+    margin:1.7rem 0 0;
+    max-width:560px;
+    color:var(--muted);
+    font-size:1.05rem;
+    line-height:1.9;
+  }
+
+  .about-hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.9rem;
+    margin-top:2rem;
+  }
+
+  .scroll-cue{
+    position:absolute;
+    left:2rem;
+    bottom:2rem;
+    width:42px;
+    height:42px;
+    border-radius:50%;
+    border:1px solid rgba(47,37,29,.15);
+    display:grid;
+    place-items:center;
+    background:rgba(255,255,255,.26);
+  }
+
+  .scroll-cue span{
+    width:8px;height:8px;
+    border-right:1.5px solid var(--text);
+    border-bottom:1.5px solid var(--text);
+    transform:rotate(45deg) translateY(-1px);
+  }
+
+  /* STATEMENT */
+  .about-intro{
+    background:var(--paper);
+    border-top:1px solid rgba(47,37,29,.06);
+    border-bottom:1px solid rgba(47,37,29,.06);
+  }
+
+  .about-intro-grid{
+    max-width:var(--container);
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:.88fr 1.12fr;
+    gap:4rem;
+    align-items:start;
+  }
+
+  .about-intro h2,
+  .about-columns h2,
+  .about-house h2,
+  .about-audience h2,
+  .about-locations h2,
+  .about-contact h2{
+    margin:0;
+    font-family:"Iowan Old Style","Georgia",serif;
+    font-weight:500;
+    font-size:clamp(2.15rem,4vw,4.1rem);
+    line-height:1.03;
+    letter-spacing:-.04em;
+  }
+
+  .about-intro-prose p{
+    margin:0 0 1.2rem;
+    color:var(--muted);
+    font-size:1.04rem;
+    line-height:1.95;
+  }
+
+  /* 3 columns philosophy */
+  .about-columns{
+    background:linear-gradient(180deg,var(--bg) 0%, #f4ede3 100%);
+  }
+
+  .about-columns-head{
+    max-width:var(--container);
+    margin:0 auto 3rem;
+    display:grid;
+    grid-template-columns:1fr .92fr;
+    gap:3rem;
+    align-items:end;
+  }
+
+  .about-columns-head p{
+    margin:0;
+    color:var(--muted);
+    line-height:1.85;
+  }
+
+  .about-columns-grid{
+    max-width:var(--container);
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:1.1rem;
+  }
+
+  .about-column{
+    min-height:360px;
+    padding:1.6rem;
+    border-radius:var(--radius-lg);
+    background:rgba(255,255,255,.44);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+  }
+
+  .about-column-index{
+    font-size:.78rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+
+  .about-column h3{
+    margin:1.6rem 0 .8rem;
+    font-family:"Iowan Old Style","Georgia",serif;
+    font-size:1.72rem;
+    font-weight:500;
+    letter-spacing:-.03em;
+  }
+
+  .about-column p{
+    margin:0;
+    color:var(--muted);
+    line-height:1.85;
+    font-size:.98rem;
+  }
+
+  /* house section */
+  .about-house{
+    background:var(--bg-2);
+  }
+
+  .about-house-grid{
+    max-width:var(--container);
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:2rem;
+    align-items:stretch;
+  }
+
+  .about-house-copy{
+    padding-right:1rem;
+  }
+
+  .about-house-copy p{
+    margin:0 0 1rem;
+    color:var(--muted);
+    line-height:1.95;
+    font-size:1rem;
+    max-width:620px;
+  }
+
+  .about-house-quote{
+    margin:2rem 0 0;
+    padding:1.4rem 1.5rem;
+    border-left:2px solid rgba(139,96,65,.28);
+    background:rgba(255,255,255,.4);
+    border-radius:0 18px 18px 0;
+  }
+
+  .about-house-quote p{
+    margin:0;
+    color:var(--text);
+    font-family:"Iowan Old Style","Georgia",serif;
+    font-size:1.32rem;
+    line-height:1.5;
+    letter-spacing:-.01em;
+  }
+
+  .about-house-visual{
+    position:relative;
+    min-height:680px;
+    border-radius:var(--radius-xl);
+    overflow:hidden;
+    background:#e7dece;
+    box-shadow:var(--shadow);
+  }
+
+  .about-house-visual img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+
+  .about-house-caption{
+    position:absolute;
+    left:1.5rem;
+    right:1.5rem;
+    bottom:1.5rem;
+    display:flex;
+    justify-content:space-between;
+    gap:1rem;
+    padding:1rem 1.1rem;
+    border-radius:16px;
+    background:rgba(250,244,237,.64);
+    backdrop-filter:blur(10px);
+    border:1px solid rgba(255,255,255,.34);
+    color:var(--muted);
+    font-size:.9rem;
+  }
+
+  /* audience */
+  .about-audience{
+    background:var(--bg);
+  }
+
+  .about-audience-head{
+    max-width:var(--container);
+    margin:0 auto 2.8rem;
+    display:grid;
+    grid-template-columns:1fr .9fr;
+    gap:3rem;
+    align-items:end;
+  }
+
+  .about-audience-head p{
+    margin:0;
+    color:var(--muted);
+    line-height:1.85;
+  }
+
+  .about-audience-list{
+    max-width:var(--container);
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:1rem;
+  }
+
+  .about-audience-item{
+    padding:1.3rem 1.35rem;
+    border-top:1px solid var(--line-strong);
+    display:grid;
+    grid-template-columns:160px 1fr;
+    gap:1.2rem;
+    align-items:start;
+  }
+
+  .about-audience-item strong{
+    font-size:.92rem;
+    letter-spacing:.08em;
+    text-transform:uppercase;
+    color:var(--accent);
+    font-weight:600;
+  }
+
+  .about-audience-item p{
+    margin:0;
+    color:var(--muted);
+    line-height:1.8;
+    font-size:.98rem;
+  }
+
+  /* locations / house */
+  .about-locations{
+    background:linear-gradient(180deg,#f7f2ea 0%, #efe7dc 100%);
+  }
+
+  .about-locations-grid{
+    max-width:var(--container);
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:.95fr 1.05fr;
+    gap:3rem;
+    align-items:start;
+  }
+
+  .about-locations-copy p{
+    margin:0 0 1rem;
+    color:var(--muted);
+    line-height:1.9;
+  }
+
+  .about-locations-cards{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:1rem;
+  }
+
+  .about-location-card{
+    min-height:200px;
+    padding:1.3rem;
+    border-radius:var(--radius-md);
+    background:rgba(255,255,255,.44);
+    border:1px solid var(--line);
+    box-shadow:var(--shadow);
+  }
+
+  .about-location-card span{
+    display:inline-block;
+    margin-bottom:.9rem;
+    font-size:.75rem;
+    letter-spacing:.15em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+
+  .about-location-card h3{
+    margin:0 0 .55rem;
+    font-family:"Iowan Old Style","Georgia",serif;
+    font-size:1.35rem;
+    font-weight:500;
+    letter-spacing:-.02em;
+  }
+
+  .about-location-card p{
+    margin:0;
+    color:var(--muted);
+    line-height:1.75;
+    font-size:.96rem;
+  }
+
+  /* final contact */
+  .about-contact{
+    position:relative;
+    overflow:hidden;
+    background:#201813;
+    color:#f5eee6;
+  }
+
+  .about-contact::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at 60% 22%, rgba(181,139,105,.2), transparent 30%),
+      linear-gradient(180deg, rgba(32,24,19,.15), rgba(32,24,19,.72));
+    pointer-events:none;
+  }
+
+  .about-contact-inner{
+    position:relative;
+    z-index:2;
+    max-width:960px;
+    margin:0 auto;
+    text-align:center;
+  }
+
+  .about-contact .eyebrow{
+    color:#d3ab86;
+  }
+
+  .about-contact h2{
+    color:#f7f0e8;
+  }
+
+  .about-contact p{
+    margin:1.15rem auto 0;
+    max-width:700px;
+    color:rgba(247,240,232,.76);
+    line-height:1.9;
+    font-size:1rem;
+  }
+
+  .about-contact-actions{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:.9rem;
+    margin-top:2rem;
+  }
+
+  /* footer */
+  .site-footer{
+    background:#f3ecdf;
+    border-top:1px solid rgba(47,37,29,.08);
+  }
+
+  .footer-inner{
+    max-width:var(--container);
+    margin:0 auto;
+    padding:4rem 2rem 3rem;
+    display:grid;
+    grid-template-columns:1.2fr 1fr .7fr .7fr;
+    gap:2rem;
+  }
+
+  .footer-tagline,.footer-sub,.footer-contact-line,.footer-location-grid address span,.footer-links a,.footer-connect-link{
+    color:var(--muted);
+  }
+
+  .footer-tagline,.footer-sub{
+    line-height:1.8;
+    margin:.8rem 0 0;
+  }
+
+  .footer-contact-lines{
+    display:grid;
+    gap:.75rem;
+    margin-top:1.2rem;
+  }
+
+  .footer-contact-line{
+    display:flex;
+    flex-direction:column;
+    gap:.2rem;
+  }
+
+  .footer-contact-label,.footer-heading{
+    font-size:.74rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--accent);
+  }
+
+  .footer-location-grid{
+    display:grid;
+    gap:1rem;
+    margin-top:.8rem;
+  }
+
+  .footer-location-grid address{
+    font-style:normal;
+    display:grid;
+    gap:.25rem;
+    line-height:1.65;
+  }
+
+  .footer-links,.footer-connect{
+    display:grid;
+    align-content:start;
+    gap:.9rem;
+  }
+
+  .footer-connect-link{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:.8rem;
+  }
+
+  .footer-connect-link svg{
+    width:18px;height:18px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:1.4;
+  }
+
+  .footer-bottom{
+    max-width:var(--container);
+    margin:0 auto;
+    padding:1.25rem 2rem 2rem;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:1rem;
+    border-top:1px solid rgba(47,37,29,.08);
+    color:var(--muted);
+    font-size:.88rem;
+  }
+
+  .footer-legal{
+    display:flex;
+    gap:1rem;
+    flex-wrap:wrap;
+  }
+
+  @media (max-width:1180px){
+    .about-hero,
+    .about-intro-grid,
+    .about-columns-head,
+    .about-house-grid,
+    .about-audience-head,
+    .about-locations-grid,
+    .footer-inner{
+      grid-template-columns:1fr;
+    }
+
+    .about-columns-grid{
+      grid-template-columns:1fr;
+    }
+
+    .about-audience-list,
+    .about-locations-cards{
+      grid-template-columns:1fr;
+    }
+
+    .about-hero{
+      padding-top:7rem;
+    }
+
+    .about-hero-media{
+      order:2;
+      min-height:520px;
+      margin-top:2rem;
+    }
+
+    .about-house-visual{
+      min-height:520px;
+    }
+  }
+
+  @media (max-width:760px){
+    .site-header{
+      flex-direction:column;
+      align-items:flex-start;
+      padding:1rem 1.1rem;
+    }
+
+    .section-pad{
+      padding:5rem 1.1rem;
+    }
+
+    .about-hero{
+      padding:6.2rem 1.1rem 4rem;
+    }
+
+    .about-audience-item{
+      grid-template-columns:1fr;
+      gap:.6rem;
+    }
+
+    .about-hero-note{
+      position:relative;
+      left:auto;
+      bottom:auto;
+      margin-top:1rem;
+      max-width:none;
+    }
+
+    .footer-inner{
+      padding:3rem 1.1rem 2rem;
+    }
+
+    .footer-bottom{
+      padding:1rem 1.1rem 1.5rem;
+      flex-direction:column;
+      align-items:flex-start;
+    }
+
+    .scroll-cue{
+      left:1.1rem;
+      bottom:1.1rem;
+    }
+  }
+</style>
+
+<div class="scroll-progress" aria-hidden="true"></div>
+
+<header class="site-header" data-header>
+  <a class="brand" href="/" aria-label="Agate Enchantment home">
+    <img class="brand-mark" src="/assets/AGATE-mark.png" alt="" aria-hidden="true" />
+    <span class="brand-name">Agate Enchantment</span>
+  </a>
+
+  <nav class="nav-links" aria-label="Primary navigation">
+    <a href="/#collection">Collection</a>
+    <a href="/about">About</a>
+    <a href="/#atelier">Quarries</a>
+    <a href="/material">Red Onyx</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main class="about-page">
+
+  <section class="about-hero" id="about-hero" aria-labelledby="about-title">
+    <div class="about-hero-copy">
+      <p class="eyebrow">About the House</p>
+
+      <h1 class="about-hero-title" id="about-title">
+        <span>Not a catalogue.</span>
+        <span>A point of view</span>
+        <span>on stone.</span>
+      </h1>
+
+      <p class="about-hero-text">
+        Agate Enchantment is a curated stone house shaped by selection,
+        restraint, and architectural imagination. We approach natural stone
+        not as inventory to be displayed in excess, but as material to be
+        chosen with clarity, feeling, and intent.
+      </p>
+
+      <div class="about-hero-actions">
+        <a class="button button-dark" href="/#collection">Explore the Collection</a>
+        <a class="button button-light" href="#contact">Begin a Conversation</a>
+      </div>
+    </div>
+
+    <div class="about-hero-media" aria-hidden="true">
+      <div class="about-hero-frame">
+        <img src="/assets/about-editorial.jpg" alt="" />
+      </div>
+      <div class="about-hero-note">
+        <strong>Quiet Luxury</strong>
+        <p>
+          Chosen for tone, movement, translucency, and architectural presence
+          before any surface becomes a product.
+        </p>
+      </div>
+    </div>
+
+    <a class="scroll-cue" href="#about-intro" aria-label="Scroll to introduction">
+      <span aria-hidden="true"></span>
+    </a>
+  </section>
+
+  <section class="about-intro section-pad" id="about-intro" aria-labelledby="about-intro-title">
+    <div class="about-intro-grid">
+      <div>
+        <p class="eyebrow">Our Philosophy</p>
+        <h2 id="about-intro-title">
+          We believe material should shape atmosphere before it fills space.
+        </h2>
+      </div>
+
+      <div class="about-intro-prose">
+        <p>
+          The most memorable interiors are not defined only by furniture,
+          ornament, or scale. They are often defined by one material with
+          enough character to carry the room.
+        </p>
+        <p>
+          That is where our work begins. We look for natural stone with
+          emotional weight — material that holds warmth, movement, depth,
+          and an architectural kind of silence.
+        </p>
+        <p>
+          Agate Enchantment exists to bring a more selective, more composed,
+          and more cultured approach to stone selection for designers,
+          architects, private clients, and spaces that ask for more than
+          standard supply.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-columns section-pad" aria-labelledby="about-columns-title">
+    <div class="about-columns-head">
+      <div>
+        <p class="eyebrow">What Defines Us</p>
+        <h2 id="about-columns-title">
+          A house built on curation, not excess.
+        </h2>
+      </div>
+
+      <p>
+        Our identity is not built around volume. It is built around eye,
+        selection, and the ability to recognise a material’s presence before
+        it is framed, lit, or fully finished.
+      </p>
+    </div>
+
+    <div class="about-columns-grid">
+      <article class="about-column">
+        <span class="about-column-index">01</span>
+        <div>
+          <h3>Selection</h3>
+          <p>
+            We begin with the stone itself: its tone, translucency, movement,
+            geological identity, and the spatial feeling it can create.
+          </p>
+        </div>
+      </article>
+
+      <article class="about-column">
+        <span class="about-column-index">02</span>
+        <div>
+          <h3>Restraint</h3>
+          <p>
+            We do not believe in overwhelming the client with endless options.
+            Luxury begins when the right material is identified with confidence.
+          </p>
+        </div>
+      </article>
+
+      <article class="about-column">
+        <span class="about-column-index">03</span>
+        <div>
+          <h3>Presence</h3>
+          <p>
+            The stones we are drawn to are never passive. They bring
+            atmosphere, gravity, warmth, and a sense of arrival to a space.
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="about-house section-pad" aria-labelledby="about-house-title">
+    <div class="about-house-grid">
+      <div class="about-house-copy">
+        <p class="eyebrow">The House of Agate</p>
+        <h2 id="about-house-title">
+          Our work begins before the first cut.
+        </h2>
+
+        <p>
+          We are interested in the moment before stone becomes standardised —
+          when it is still read for its raw character, its latent beauty, and
+          its future architectural potential.
+        </p>
+        <p>
+          This is why source matters. This is why judgment matters. And this is
+          why our process is less about stocking a catalogue and more about
+          shaping a material relationship with intention.
+        </p>
+        <p>
+          Whether presented as a monumental block, an expressive slab, or a
+          carefully sourced selection for a private project, the material is
+          always approached as something cultural as much as physical.
+        </p>
+
+        <div class="about-house-quote">
+          <p>
+            We do not simply present stone.<br>
+            We frame the eye through which it is chosen.
+          </p>
+        </div>
+      </div>
+
+      <figure class="about-house-visual">
+        <img src="/assets/about-house.jpg" alt="Curated natural stone presented in a refined architectural setting" />
+        <div class="about-house-caption">
+          <span>Curated at source</span>
+          <span>Selected for spatial impact</span>
+        </div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="about-audience section-pad" aria-labelledby="about-audience-title">
+    <div class="about-audience-head">
+      <div>
+        <p class="eyebrow">Who We Are For</p>
+        <h2 id="about-audience-title">
+          For clients who understand the power of one exceptional material.
+        </h2>
+      </div>
+
+      <p>
+        Our work is most relevant where material is not decorative background,
+        but a defining part of the atmosphere, identity, and emotional weight
+        of a project.
+      </p>
+    </div>
+
+    <div class="about-audience-list">
+      <article class="about-audience-item">
+        <strong>Architects</strong>
+        <p>
+          For projects where proportion, material gravity, and architectural
+          clarity must work together.
+        </p>
+      </article>
+
+      <article class="about-audience-item">
+        <strong>Interior Designers</strong>
+        <p>
+          For spaces shaped through tactile contrast, visual restraint,
+          and a more editorial approach to luxury.
+        </p>
+      </article>
+
+      <article class="about-audience-item">
+        <strong>Hospitality</strong>
+        <p>
+          For lobbies, bars, receptions, and interiors that need memorability
+          without visual noise.
+        </p>
+      </article>
+
+      <article class="about-audience-item">
+        <strong>Private Clients</strong>
+        <p>
+          For residences and collectible spaces where singularity matters
+          more than trend.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="about-locations section-pad" aria-labelledby="about-locations-title">
+    <div class="about-locations-grid">
+      <div class="about-locations-copy">
+        <p class="eyebrow">An International House</p>
+        <h2 id="about-locations-title">
+          Rooted in selection.<br>
+          Connected across markets.
+        </h2>
+
+        <p>
+          Agate Enchantment moves between source, curation, and international
+          dialogue. The house is shaped by a cross-border perspective and a
+          refined understanding of where rare natural stone belongs:
+          in spaces with intention.
+        </p>
+
+        <p>
+          Our presence across Milan, London, Frankfurt, and Istanbul reflects a
+          wider cultural frame — one that sees stone not only as material, but
+          as part of architecture, collecting, and atmosphere.
+        </p>
+      </div>
+
+      <div class="about-locations-cards">
+        <article class="about-location-card">
+          <span>Italy</span>
+          <h3>House of Agate — Milan</h3>
+          <p>Piazzetta Umberto Giordano 2, 20122 Milano</p>
+        </article>
+
+        <article class="about-location-card">
+          <span>United Kingdom</span>
+          <h3>Agate Atelier — London</h3>
+          <p>27 Old Gloucester St, Holborn, London WC1N 3AX</p>
+        </article>
+
+        <article class="about-location-card">
+          <span>Germany</span>
+          <h3>Frankfurt am Main</h3>
+          <p>Talstraße 8, 60437 Frankfurt am Main</p>
+        </article>
+
+        <article class="about-location-card">
+          <span>Turkey</span>
+          <h3>Istanbul</h3>
+          <p>Bomonti, Şişli, Istanbul</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-contact section-pad" id="contact" aria-labelledby="about-contact-title">
+    <div class="about-contact-inner">
+      <p class="eyebrow">Contact the House</p>
+      <h2 id="about-contact-title">
+        For projects where material deserves a more considered conversation.
+      </h2>
+      <p>
+        To discuss a project, request a private viewing, or begin a material
+        dialogue with Agate Enchantment, we invite you to get in touch directly.
+      </p>
+
+      <div class="about-contact-actions">
+        <a class="button button-dark" href="mailto:info@agatestone.it">Email Us</a>
+        <a class="button button-light" href="https://wa.me/393343394545">WhatsApp</a>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="footer-inner">
+    <div class="footer-about">
+      <a class="brand footer-brand" href="/" aria-label="Agate Enchantment home">
+        <img class="brand-mark" src="/assets/AGATE-mark.png" alt="" aria-hidden="true" />
+        <span class="brand-name">Agate Enchantment</span>
+      </a>
+
+      <p class="footer-tagline">
+        A curated selection of rare natural stone blocks and slabs for architectural interiors,
+        private residences, and collectible spaces.
+      </p>
+
+      <p class="footer-sub">
+        Available as raw blocks, finished slabs, and project-specific selections.
+      </p>
+
+      <div class="footer-contact-lines">
+        <a class="footer-contact-line" href="mailto:info@agatestone.it">
+          <span class="footer-contact-label">Email</span>
+          <span>info@agatestone.it</span>
+        </a>
+        <a class="footer-contact-line" href="https://wa.me/393343394545">
+          <span class="footer-contact-label">WhatsApp</span>
+          <span>+39 334 339 4545</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-locations" aria-label="Agate Enchantment locations">
+      <span class="footer-heading">Locations</span>
+      <div class="footer-location-grid">
+        <address>
+          <strong>House of Agate — Milan</strong>
+          <span>Piazzetta Umberto Giordano 2, 20122 Milano, Italy</span>
+        </address>
+        <address>
+          <strong>Agate Atelier — United Kingdom</strong>
+          <span>27 Old Gloucester St, Holborn, London WC1N 3AX</span>
+        </address>
+        <address>
+          <strong>Germany — Frankfurt am Main</strong>
+          <span>Talstraße 8, 60437 Frankfurt am Main</span>
+        </address>
+        <address>
+          <strong>Turkey — Istanbul</strong>
+          <span>Bomonti, Şişli, Istanbul</span>
+        </address>
+      </div>
+    </div>
+
+    <nav class="footer-links" aria-label="Footer navigation">
+      <span class="footer-heading">Explore</span>
+      <a href="/#collection">Collection</a>
+      <a href="/about">About</a>
+      <a href="/#story">Our Story</a>
+      <a href="/material">Red Onyx</a>
+      <a href="#contact">Contact</a>
+    </nav>
+
+    <div class="footer-connect" aria-label="Connect with Agate Enchantment">
+      <span class="footer-heading">Connect</span>
+      <a class="footer-connect-link" href="https://wa.me/393343394545" aria-label="WhatsApp">
+        <span>WhatsApp</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M7.7 20.5 8.9 18a8 8 0 1 1 3.1.6 8.2 8.2 0 0 1-3.1-.6l-1.2 2.5Z"/>
+          <path d="M9.4 8.8c.2-.5.4-.6.8-.6h.5c.2 0 .4.1.5.4l.7 1.6c.1.2.1.4-.1.6l-.4.5c-.1.1-.2.3-.1.4a5.7 5.7 0 0 0 2.9 2.4c.2.1.4 0 .5-.2l.5-.7c.1-.2.4-.3.6-.2l1.6.8c.2.1.4.3.4.5-.1.8-.7 1.5-1.5 1.7-1 .3-2.8-.3-4.5-1.7-1.6-1.3-2.9-3.3-3-4.4 0-.5.2-.9.6-1.1Z"/>
+        </svg>
+      </a>
+
+      <a class="footer-connect-link" href="mailto:info@agatestone.it" aria-label="Email">
+        <span>Email</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M4 6.5h16v11H4z"/>
+          <path d="m4 7 8 6 8-6"/>
+        </svg>
+      </a>
+
+      <a class="footer-connect-link" href="https://www.instagram.com/agate_stone_italy/" aria-label="Instagram">
+        <span>Instagram</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <rect x="5" y="5" width="14" height="14" rx="4"/>
+          <circle cx="12" cy="12" r="3.3"/>
+          <path d="M16.7 7.7h.1"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p class="footer-copyright">&copy; 2026 Agate Enchantment. All rights reserved.</p>
+    <div class="footer-legal">
+      <a href="#">Privacy Policy</a>
+      <a href="#">Terms &amp; Conditions</a>
+    </div>
+  </div>
+</footer>

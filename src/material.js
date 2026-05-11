@@ -2,7 +2,6 @@ import "./material.css";
 import headerMarkup  from "./sections/header.html?raw";
 import footerMarkup  from "./sections/footer.html?raw";
 import heroMarkup         from "./sections/material-hero.html?raw";
-import availabilityMarkup from "./sections/material-availability.html?raw";
 import formsMarkup        from "./sections/material-forms.html?raw";
 import applicationsMarkup from "./sections/material-applications.html?raw";
 import specsMarkup        from "./sections/material-specs.html?raw";
@@ -14,7 +13,6 @@ import ctaMarkup          from "./sections/material-cta.html?raw";
 
 const sections = [
   heroMarkup,
-  availabilityMarkup,
   formsMarkup,
   applicationsMarkup,
   specsMarkup,
@@ -103,6 +101,8 @@ if (revealItems.length > 0 && !reduceMotion) {
 /* ─── Smooth scroll for on-page anchors ─────────────────────── */
 
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  if (link.matches("[data-form-card]")) return;
+
   link.addEventListener("click", (e) => {
     const id = link.getAttribute("href");
     if (!id || id === "#") return;
@@ -129,6 +129,112 @@ document.querySelectorAll(".scroll-cue").forEach((cue) => {
 });
 
 /* ─── RAF loop ───────────────────────────────────────────────── */
+
+/* Private material request drawer */
+
+const formDrawer = document.querySelector("[data-form-drawer]");
+const formDrawerTitle = document.querySelector("[data-form-drawer-title]");
+const formDrawerCopy = document.querySelector("[data-form-drawer-copy]");
+const formDrawerLink = document.querySelector("[data-form-drawer-link]");
+let activeFormCard = null;
+
+const formDrawerContent = {
+  block: {
+    title: "Request Red Onyx Block Details",
+    copy: "Receive available block information, documentation, photos, videos, and inspection details based on current material.",
+    subject: "Red Onyx Block Details Request",
+  },
+  slab: {
+    title: "Request Red Onyx Slab Selection",
+    copy: "Receive current slab options, photos, videos, finish details, and project suitability notes.",
+    subject: "Red Onyx Slab Selection Request",
+  },
+};
+
+const closeFormDrawer = () => {
+  if (!formDrawer) return;
+
+  formDrawer.classList.remove("is-open");
+  formDrawer.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("is-form-drawer-open");
+  activeFormCard?.focus();
+  activeFormCard = null;
+};
+
+const openFormDrawer = (type, trigger) => {
+  if (!formDrawer || !formDrawerTitle || !formDrawerCopy || !formDrawerLink) return;
+
+  const content = formDrawerContent[type];
+  if (!content) return;
+
+  activeFormCard = trigger;
+  formDrawerTitle.textContent = content.title;
+  formDrawerCopy.textContent = content.copy;
+  formDrawerLink.href = `mailto:info@agatestone.it?subject=${encodeURIComponent(content.subject)}`;
+  formDrawer.classList.add("is-open");
+  formDrawer.setAttribute("aria-hidden", "false");
+  document.body.classList.add("is-form-drawer-open");
+  formDrawer.querySelector("[data-form-drawer-close]")?.focus();
+};
+
+document.querySelectorAll("[data-form-card]").forEach((card) => {
+  card.addEventListener("click", (event) => {
+    event.preventDefault();
+    openFormDrawer(card.dataset.formCard, card);
+  });
+});
+
+document.querySelectorAll("[data-form-drawer-close]").forEach((control) => {
+  control.addEventListener("click", closeFormDrawer);
+});
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && formDrawer?.classList.contains("is-open")) {
+    closeFormDrawer();
+  }
+});
+
+/* Application feature selector */
+
+const appFeatureImage = document.querySelector("[data-app-feature-image]");
+const appFeatureLabel = document.querySelector("[data-app-feature-label]");
+const appFeatureTitle = document.querySelector("[data-app-feature-title]");
+const appFeatureCopy = document.querySelector("[data-app-feature-copy]");
+const appOptions = Array.from(document.querySelectorAll("[data-app-option]"));
+
+const scrollToApplicationFeatureOnMobile = () => {
+  if (!window.matchMedia("(max-width: 680px)").matches) return;
+
+  appFeatureImage?.closest(".m-app-feature")?.scrollIntoView({
+    behavior: reduceMotion ? "auto" : "smooth",
+    block: "start",
+  });
+};
+
+const setActiveApplication = (option, shouldScroll = false) => {
+  if (!option || !appFeatureImage || !appFeatureLabel || !appFeatureTitle || !appFeatureCopy) return;
+
+  appFeatureImage.src = option.dataset.appImage;
+  appFeatureImage.alt = option.dataset.appAlt;
+  appFeatureLabel.textContent = option.dataset.appLabel;
+  appFeatureTitle.textContent = option.dataset.appTitle;
+  appFeatureCopy.textContent = option.dataset.appCopy;
+
+  appOptions.forEach((item) => {
+    const isActive = item === option;
+    item.classList.toggle("is-active", isActive);
+    item.setAttribute("aria-pressed", String(isActive));
+  });
+
+  if (shouldScroll) {
+    window.setTimeout(scrollToApplicationFeatureOnMobile, 60);
+  }
+};
+
+appOptions.forEach((option) => {
+  option.setAttribute("aria-pressed", "false");
+  option.addEventListener("click", () => setActiveApplication(option, true));
+});
 
 let ticking = false;
 

@@ -4,7 +4,7 @@
     <div class="m-section-head">
       <div data-reveal>
         <p class="eyebrow">Red Onyx Forms</p>
-        <h2 id="forms-title">One rare<br>material.<br>Two paths.</h2>
+        <h2 id="forms-title">One rare material.<br>Two project paths.</h2>
       </div>
 
       <p data-reveal>
@@ -14,59 +14,103 @@
       </p>
     </div>
 
-    <div class="m-form-stage">
+    <div class="m-form-path-label" data-reveal>
+      <span>Select your path</span>
+    </div>
 
-      <!-- Block card -->
-      <article class="m-form-card" data-reveal>
-        <div class="m-form-img stone-surface stone-red-dark" aria-hidden="true">
-          <img src="/assets/block1.png" alt="Red Onyx raw block" loading="lazy" />
+    <div class="m-form-stage" aria-label="Red Onyx form options">
+      <a
+        class="m-form-card m-form-card--block"
+        href="#contact"
+        data-reveal
+        data-form-card="block"
+        aria-haspopup="dialog"
+      >
+        <div class="m-form-img stone-surface stone-red-dark">
+          <img
+            src="/assets/block-view.png"
+            alt="Red Onyx block selected for custom cutting and architectural fabrication."
+            loading="lazy"
+          />
         </div>
 
+        <span class="m-form-number" aria-hidden="true">01</span>
+        <span class="m-form-kind">Raw form</span>
+
         <div class="m-form-copy">
-          <p class="eyebrow">Raw Selection</p>
           <h3>Block</h3>
-          <p>Monumental Red Onyx in raw form, selected for custom cutting,
-             fabrication-led design, and larger architectural projects.</p>
+          <strong>For custom production from the raw material stage.</strong>
+          <p>Monumental Red Onyx blocks, selected for custom cutting,
+             fabrication-to-design, and larger architectural projects.</p>
 
           <ul class="m-form-list">
-            <li>Raw block documentation</li>
-            <li>Dimensions on request</li>
-            <li>Cut-to-slab potential</li>
-            <li>Project-based evaluation</li>
+            <li>Raw material control</li>
+            <li>Custom cutting potential</li>
+            <li>Block documentation available</li>
           </ul>
-
-          <a class="m-form-link" href="#contact">Request block details</a>
+          <span class="m-form-link">Request Block Details</span>
         </div>
-      </article>
+      </a>
 
-      <!-- Divider -->
-      <div class="m-form-divider" aria-hidden="true">
-        <span>AE</span>
-      </div>
-
-      <!-- Slab card -->
-      <article class="m-form-card" data-reveal>
-        <div class="m-form-img stone-surface stone-red" aria-hidden="true">
-          <img src="/assets/slab1.png" alt="Red Onyx finished slab" loading="lazy" />
+      <a
+        class="m-form-card m-form-card--slab"
+        href="#contact"
+        data-reveal
+        data-form-card="slab"
+        aria-haspopup="dialog"
+      >
+        <div class="m-form-img stone-surface stone-red">
+          <img
+            src="/assets/slab-view.png"
+            alt="Finished Red Onyx slab for feature walls and luxury interior surfaces."
+            loading="lazy"
+          />
         </div>
+
+        <span class="m-form-number" aria-hidden="true">02</span>
+        <span class="m-form-kind">Finished surface</span>
 
         <div class="m-form-copy">
-          <p class="eyebrow">Finished Surface</p>
           <h3>Slab</h3>
-          <p>Refined Red Onyx slabs for feature walls, bars, bathrooms,
-             reception desks, fireplaces, and backlit architectural statements.</p>
+          <strong>For architects, designers, and project-ready selection.</strong>
+          <p>Finished Red Onyx slabs for feature walls, bars, bathrooms,
+             reception desks, fireplaces, and backlit statements.</p>
 
           <ul class="m-form-list">
-            <li>Full slab face review</li>
-            <li>Polished finish</li>
-            <li>Backlit potential</li>
-            <li>Bookmatch potential by selection</li>
+            <li>Finished surface selection</li>
+            <li>Project-ready slabs</li>
+            <li>Photos and videos available</li>
           </ul>
-
-          <a class="m-form-link" href="#contact">Request slab photos</a>
+          <span class="m-form-link">Request Slab Selection</span>
         </div>
-      </article>
+      </a>
 
     </div>
+  </div>
+
+  <div class="m-form-drawer" data-form-drawer aria-hidden="true">
+    <button class="m-form-drawer-backdrop" type="button" data-form-drawer-close aria-label="Close request panel"></button>
+    <aside
+      class="m-form-drawer-panel"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="form-drawer-title"
+      aria-describedby="form-drawer-copy"
+    >
+      <button class="m-form-drawer-close" type="button" data-form-drawer-close aria-label="Close request panel">Close</button>
+      <p class="eyebrow">Private Red Onyx Request</p>
+      <h3 id="form-drawer-title" data-form-drawer-title>Request Red Onyx Details</h3>
+      <p id="form-drawer-copy" data-form-drawer-copy>
+        Receive current material information, photos, videos, and project suitability notes.
+      </p>
+      <ul class="m-form-drawer-list">
+        <li>Shared privately upon request</li>
+        <li>Subject to current material</li>
+        <li>Confirmed per block or slab</li>
+      </ul>
+      <a class="m-form-drawer-link" data-form-drawer-link href="mailto:info@agatestone.it?subject=Red%20Onyx%20Material%20Request">
+        Begin private request
+      </a>
+    </aside>
   </div>
 </section>

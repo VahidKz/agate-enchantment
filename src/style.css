@@ -1784,6 +1784,8 @@ main > section,
 /* ── Source caption strip ────────────────────────────────────── */
 
 .mine-caption {
+  position: relative;
+  z-index: 10;
   grid-column: 1 / -1;
   grid-row: 3;
   display: flex;
@@ -1794,6 +1796,9 @@ main > section,
   min-height: 0;
   padding: 0 var(--page-gutter);
   border-top: 1px solid rgba(24, 22, 18, 0.08);
+  background:
+    linear-gradient(180deg, rgba(251, 250, 247, 0.96), rgba(247, 243, 237, 0.98)),
+    var(--warm-white);
   color: rgba(24, 22, 18, 0.32);
   font-family: var(--sans);
   font-size: clamp(0.50rem, 0.54vw, 0.60rem);
