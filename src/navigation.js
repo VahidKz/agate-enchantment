@@ -8,6 +8,7 @@ export const initMobileNavigation = () => {
   const setOpen = (isOpen) => {
     header.classList.toggle("is-menu-open", isOpen);
     toggle.setAttribute("aria-expanded", String(isOpen));
+    toggle.setAttribute("aria-label", isOpen ? "Close navigation menu" : "Open navigation menu");
   };
 
   toggle.addEventListener("click", () => {

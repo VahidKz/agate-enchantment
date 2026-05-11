@@ -3,6 +3,7 @@ import headerMarkup  from "./sections/header.html?raw";
 import footerMarkup  from "./sections/footer.html?raw";
 import heroMarkup         from "./sections/material-hero.html?raw";
 import formsMarkup        from "./sections/material-forms.html?raw";
+import viewMarkup         from "./sections/material-view.html?raw";
 import applicationsMarkup from "./sections/material-applications.html?raw";
 import specsMarkup        from "./sections/material-specs.html?raw";
 import sourcingMarkup     from "./sections/material-sourcing.html?raw";
@@ -15,6 +16,7 @@ import { initMobileNavigation } from "./navigation.js";
 const sections = [
   heroMarkup,
   formsMarkup,
+  viewMarkup,
   applicationsMarkup,
   specsMarkup,
   sourcingMarkup,
@@ -37,7 +39,7 @@ initMobileNavigation();
 // Anchor links that belong to the home page get a "/" prefix
 // so clicking them navigates back to index rather than 404-ing.
 // Links to #contact and #signature stay on this page.
-const PAGE_ANCHORS = new Set(["#contact", "#signature", "#availability", "#forms", "#applications", "#specification", "#sourcing", "#process"]);
+const PAGE_ANCHORS = new Set(["#contact", "#signature", "#availability", "#forms", "#material-view", "#applications", "#specification", "#sourcing", "#process"]);
 
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   const href = link.getAttribute("href");
@@ -238,6 +240,187 @@ appOptions.forEach((option) => {
   option.setAttribute("aria-pressed", "false");
   option.addEventListener("click", () => setActiveApplication(option, true));
 });
+
+/* Material in View selector */
+
+const materialView = document.querySelector("[data-material-view]");
+const materialViewImage = document.querySelector("[data-material-view-image]");
+const materialViewType = document.querySelector("[data-material-view-type]");
+const materialViewTitle = document.querySelector("[data-material-view-title]");
+const materialViewCopy = document.querySelector("[data-material-view-copy]");
+const materialViewList = document.querySelector("[data-material-view-list]");
+const materialViewTabs = Array.from(document.querySelectorAll("[data-material-tab]"));
+
+const materialViewItems = {
+  slabs: [
+    {
+      image: "/assets/slab-view.png",
+      type: "Slab View",
+      title: "Finished Red Onyx slab.",
+      copy: "A broad slab view showing the material as a project-ready surface, useful for reading movement, tone, and scale.",
+      alt: "Finished Red Onyx slab view for architectural review",
+    },
+    {
+      image: "/assets/slab.png",
+      type: "Slab View",
+      title: "Polished surface selection.",
+      copy: "A cleaner slab presentation for comparing color field, mineral rhythm, and the potential of a refined finished surface.",
+      alt: "Polished Red Onyx slab surface",
+    },
+    {
+      image: "/assets/STONE2.png",
+      type: "Slab Placeholder",
+      title: "Amber vein study.",
+      copy: "Placeholder slab view for comparing warm movement, vein density, and architectural presence.",
+      alt: "Placeholder slab image with amber and ivory movement",
+    },
+    {
+      image: "/assets/STONE1.png",
+      type: "Slab Placeholder",
+      title: "Warm surface option.",
+      copy: "Placeholder slab view for reviewing tone, movement, and surface character before final selection.",
+      alt: "Placeholder warm stone slab surface",
+    },
+    {
+      image: "/assets/STONE3.png",
+      type: "Slab Placeholder",
+      title: "Light movement option.",
+      copy: "Placeholder slab view for comparing a lighter expression of natural mineral movement.",
+      alt: "Placeholder light stone slab surface",
+    },
+    {
+      image: "/assets/STONE4.png",
+      type: "Slab Placeholder",
+      title: "Green tonal reference.",
+      copy: "Placeholder slab view for contrasting Red Onyx with a cooler architectural stone direction.",
+      alt: "Placeholder green onyx slab surface",
+    },
+    {
+      image: "/assets/STONE5.png",
+      type: "Slab Placeholder",
+      title: "Soft translucent reference.",
+      copy: "Placeholder slab view for softer color, translucency, and decorative surface comparison.",
+      alt: "Placeholder soft translucent stone slab",
+    },
+    {
+      image: "/assets/STONE6.png",
+      type: "Slab Placeholder",
+      title: "Dark architectural reference.",
+      copy: "Placeholder slab view for contrasting depth, darkness, and dramatic architectural tone.",
+      alt: "Placeholder dark architectural stone slab",
+    },
+  ],
+  blocks: [
+    {
+      image: "/assets/block-view.png",
+      type: "Block View",
+      title: "Origin-selected block.",
+      copy: "A raw block view showing mass, geometry, and the material potential before custom cutting or slab production.",
+      alt: "Raw Red Onyx block selected for custom cutting",
+    },
+    {
+      image: "/assets/block.png",
+      type: "Block View",
+      title: "Cutting potential.",
+      copy: "A block study for understanding structure, volume, and how the stone may translate into larger architectural pieces.",
+      alt: "Red Onyx block showing cutting potential",
+    },
+    {
+      image: "/assets/BLOCK2.png",
+      type: "Block Detail",
+      title: "Raw material character.",
+      copy: "An isolated block view for comparing surface density, color depth, and geological expression.",
+      alt: "Red Onyx block material character",
+    },
+  ],
+  details: [
+    {
+      image: "/assets/backlit.png",
+      type: "Application Detail",
+      title: "Backlit translucency.",
+      copy: "A view of Red Onyx under light, showing the warmth and depth that make it powerful in feature walls and hospitality spaces.",
+      alt: "Backlit Red Onyx feature wall",
+    },
+    {
+      image: "/assets/stone_hero_2.png",
+      type: "Material Detail",
+      title: "Amber mineral movement.",
+      copy: "A closer material expression for reading tone, depth, and the layered movement of the stone.",
+      alt: "Red Onyx material detail with amber movement",
+    },
+    {
+      image: "/assets/fireplace.png",
+      type: "Interior Detail",
+      title: "Architectural presence.",
+      copy: "A project-oriented view that shows how the material can hold focus within a refined interior setting.",
+      alt: "Red Onyx used in a refined architectural interior",
+    },
+  ],
+};
+
+let activeMaterialTab = "slabs";
+let activeMaterialIndex = 0;
+
+const setActiveMaterialView = () => {
+  if (!materialView || !materialViewImage || !materialViewType || !materialViewTitle || !materialViewCopy) return;
+
+  const item = materialViewItems[activeMaterialTab]?.[activeMaterialIndex];
+  if (!item) return;
+
+  materialViewImage.src = item.image;
+  materialViewImage.alt = item.alt;
+  materialViewType.textContent = item.type;
+  materialViewTitle.textContent = item.title;
+  materialViewCopy.textContent = item.copy;
+};
+
+const renderMaterialViewList = () => {
+  if (!materialViewList) return;
+
+  const items = materialViewItems[activeMaterialTab] || [];
+  materialViewList.innerHTML = "";
+
+  items.forEach((item, index) => {
+    const button = document.createElement("button");
+    const isActive = index === activeMaterialIndex;
+    button.className = `m-view-thumb${isActive ? " is-active" : ""}`;
+    button.type = "button";
+    button.setAttribute("aria-pressed", String(isActive));
+    button.innerHTML = `
+      <span class="m-view-thumb-media">
+        <img src="${item.image}" alt="" loading="lazy">
+      </span>
+      <span class="m-view-thumb-copy">
+        <strong>${item.title}</strong>
+        <span>${item.type}</span>
+      </span>
+    `;
+    button.addEventListener("click", () => {
+      activeMaterialIndex = index;
+      setActiveMaterialView();
+      renderMaterialViewList();
+    });
+    materialViewList.appendChild(button);
+  });
+};
+
+materialViewTabs.forEach((tab) => {
+  tab.setAttribute("aria-pressed", String(tab.dataset.materialTab === activeMaterialTab));
+  tab.addEventListener("click", () => {
+    activeMaterialTab = tab.dataset.materialTab || "slabs";
+    activeMaterialIndex = 0;
+    materialViewTabs.forEach((item) => {
+      const isActive = item === tab;
+      item.classList.toggle("is-active", isActive);
+      item.setAttribute("aria-pressed", String(isActive));
+    });
+    setActiveMaterialView();
+    renderMaterialViewList();
+  });
+});
+
+setActiveMaterialView();
+renderMaterialViewList();
 
 let ticking = false;
 

@@ -1,0 +1,50 @@
+<section class="m-section m-view-bg" id="material-view" aria-labelledby="material-view-title">
+  <div class="m-inner">
+    <div class="m-section-head">
+      <div data-reveal>
+        <p class="eyebrow">Material in View</p>
+        <h2 id="material-view-title">
+          See the material before the conversation.
+        </h2>
+      </div>
+
+    </div>
+
+    <div class="m-view-layout" data-material-view data-reveal>
+      <figure class="m-view-stage">
+        <img
+          data-material-view-image
+          src="/assets/slab-view.png"
+          alt="Red Onyx finished slab view for architectural review"
+          loading="lazy"
+        />
+      </figure>
+
+      <aside class="m-view-side" aria-label="Material view selector">
+        <div class="m-view-panel">
+          <div class="m-view-current">
+            <span data-material-view-type>Slab View</span>
+            <strong data-material-view-title>Finished Red Onyx slab.</strong>
+            <p data-material-view-copy>
+              A broad slab view showing the material as a project-ready surface,
+              useful for reading movement, tone, and scale.
+            </p>
+          </div>
+
+          <div class="m-view-tabs" aria-label="Material view categories">
+            <button class="m-view-tab is-active" type="button" data-material-tab="slabs">Slabs</button>
+            <button class="m-view-tab" type="button" data-material-tab="blocks">Blocks</button>
+            <button class="m-view-tab" type="button" data-material-tab="details">Details</button>
+          </div>
+
+          <div class="m-view-list" data-material-view-list></div>
+        </div>
+
+        <p class="m-view-note">
+          Final photos, dimensions, videos, finish details, and block documentation
+          are shared privately according to the selected material and project path.
+        </p>
+      </aside>
+    </div>
+  </div>
+</section>
