@@ -8,10 +8,20 @@
     </span>
   </a>
 
-  <nav class="nav-links" aria-label="Primary navigation">
+  <button
+    class="mobile-menu-toggle"
+    type="button"
+    data-mobile-menu-toggle
+    aria-controls="primary-navigation"
+    aria-expanded="false"
+  >
+    <span>Menu</span>
+  </button>
+
+  <nav class="nav-links" id="primary-navigation" aria-label="Primary navigation">
+    <a href="/">Home</a>
     <a href="/#collection">Collection</a>
     <a href="/about">About</a>
-    <a href="/#atelier">Quarries</a>
     <a href="/material">Red Onyx</a>
     <a href="/contact">Contact</a>
   </nav>

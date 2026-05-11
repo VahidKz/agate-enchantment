@@ -9,6 +9,7 @@ import aboutAudienceMarkup from "./sections/about-audience.html?raw";
 import aboutLocationsMarkup from "./sections/about-locations.html?raw";
 import aboutCtaMarkup from "./sections/about-cta.html?raw";
 import footerMarkup from "./sections/footer.html?raw";
+import { initMobileNavigation } from "./navigation.js";
 
 const sections = [
   aboutHeroMarkup,
@@ -33,6 +34,8 @@ if (page) {
 document.querySelectorAll('.nav-links a[href="/about"], .footer-links a[href="/about"]').forEach((link) => {
   link.setAttribute("aria-current", "page");
 });
+
+initMobileNavigation();
 
 const root = document.documentElement;
 const header = document.querySelector("[data-header]");

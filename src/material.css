@@ -452,6 +452,36 @@ address { font-style: normal; }
 
 .header-cta { min-width: max-content; }
 
+.mobile-menu-toggle {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  justify-self: end;
+  min-height: 42px;
+  padding: 0.72rem 0.9rem;
+  border: 1px solid rgba(24, 22, 18, 0.16);
+  background: rgba(251, 250, 247, 0.72);
+  color: var(--charcoal);
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: 1;
+  text-transform: uppercase;
+  transition:
+    background 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+
+.mobile-menu-toggle:hover,
+.mobile-menu-toggle[aria-expanded="true"] {
+  background: var(--charcoal);
+  border-color: var(--charcoal);
+  color: var(--warm-white);
+}
+
 /* ============================================================
    HERO — material page
    ============================================================ */
@@ -2010,6 +2040,11 @@ address { font-style: normal; }
 
 .footer-links { gap: 0; }
 
+.footer-links {
+  align-items: flex-start;
+  text-align: left;
+}
+
 .footer-links a {
   display: block;
   padding: 0 0 13px;
@@ -2022,6 +2057,7 @@ address { font-style: normal; }
 }
 
 .footer-links a:hover { color: var(--charcoal); }
+.footer-links a[aria-current] { color: var(--bronze); }
 .footer-links a::after { display: none; }
 
 .footer-connect { gap: 0; }
@@ -2086,7 +2122,44 @@ address { font-style: normal; }
 
 @media (max-width: 960px) {
   .site-header { grid-template-columns: 1fr auto; }
-  .nav-links   { display: none; }
+  .mobile-menu-toggle { display: inline-flex; }
+  .nav-links {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 18px;
+    left: 18px;
+    display: grid;
+    align-items: stretch;
+    justify-self: stretch;
+    gap: 0;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(24, 22, 18, 0.1);
+    background: rgba(251, 250, 247, 0.96);
+    box-shadow: 0 22px 56px rgba(24, 22, 18, 0.12);
+    backdrop-filter: blur(18px);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-8px);
+    transition:
+      opacity 180ms ease,
+      transform 180ms ease;
+  }
+
+  .site-header.is-menu-open .nav-links {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+
+  .nav-links a {
+    padding: 1rem 0.2rem;
+    border-bottom: 1px solid rgba(24, 22, 18, 0.08);
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+  }
+
+  .nav-links a:last-child { border-bottom: 0; }
+  .nav-links a::after { display: none; }
   .header-cta  { display: none; }
 
   .m-hero {

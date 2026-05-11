@@ -8,6 +8,7 @@ import specsMarkup        from "./sections/material-specs.html?raw";
 import sourcingMarkup     from "./sections/material-sourcing.html?raw";
 import processMarkup      from "./sections/material-process.html?raw";
 import ctaMarkup          from "./sections/material-cta.html?raw";
+import { initMobileNavigation } from "./navigation.js";
 
 /* ─── Page assembly ──────────────────────────────────────────── */
 
@@ -29,6 +30,8 @@ if (page) {
     footerMarkup,
   ].join("\n");
 }
+
+initMobileNavigation();
 
 /* ─── Cross-page nav link transformation ─────────────────────── */
 // Anchor links that belong to the home page get a "/" prefix

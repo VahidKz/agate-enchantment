@@ -6,6 +6,7 @@ import collectionMarkup from "./sections/collection.html?raw";
 import materialsMarkup from "./sections/materials.html?raw";
 import finalCtaMarkup from "./sections/final-cta.html?raw";
 import footerMarkup from "./sections/footer.html?raw";
+import { initMobileNavigation } from "./navigation.js";
 
 const mainSections = [
   heroMarkup,
@@ -26,6 +27,12 @@ const page = document.querySelector("[data-page]");
 if (page) {
   page.innerHTML = pageSections.join("\n");
 }
+
+document.querySelectorAll('.nav-links a[href="/"], .footer-links a[href="/"]').forEach((el) => {
+  el.setAttribute("aria-current", "page");
+});
+
+initMobileNavigation();
 
 const root = document.documentElement;
 const header = document.querySelector("[data-header]");

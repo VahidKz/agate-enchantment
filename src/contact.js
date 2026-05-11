@@ -8,6 +8,7 @@ import contactLocationsMarkup from "./sections/contact-locations.html?raw";
 import contactExtraMarkup from "./sections/contact-extra.html?raw";
 import contactCtaMarkup from "./sections/contact-cta.html?raw";
 import footerMarkup from "./sections/footer.html?raw";
+import { initMobileNavigation } from "./navigation.js";
 
 const sections = [
   contactHeroMarkup,
@@ -31,6 +32,8 @@ if (page) {
 document.querySelectorAll('.nav-links a[href="/contact"], .footer-links a[href="/contact"]').forEach((link) => {
   link.setAttribute("aria-current", "page");
 });
+
+initMobileNavigation();
 
 const root = document.documentElement;
 const header = document.querySelector("[data-header]");
@@ -84,6 +87,42 @@ document.querySelectorAll('a[href^="#"]').forEach((link) => {
 
     event.preventDefault();
     target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+  });
+});
+
+document.querySelectorAll("[data-contact-form]").forEach((form) => {
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const data = new FormData(form);
+    const getValue = (name) => String(data.get(name) || "").trim();
+    const subjectParts = ["Agate Enchantment Inquiry"];
+    const interest = getValue("interest");
+    const projectType = getValue("project_type");
+
+    if (interest) subjectParts.push(interest);
+    if (projectType) subjectParts.push(projectType);
+
+    const rows = [
+      ["Full Name", getValue("name")],
+      ["Email", getValue("email")],
+      ["Company / Studio", getValue("company")],
+      ["Project Type", projectType],
+      ["Primary Interest", interest],
+      ["Project Location", getValue("location")],
+      ["Project Message", getValue("message")],
+    ];
+
+    const body = rows
+      .filter(([, value]) => value)
+      .map(([label, value]) => `${label}:\n${value}`)
+      .join("\n\n");
+
+    const mailto = new URL("mailto:info@agatestone.it");
+    mailto.searchParams.set("subject", subjectParts.join(" - "));
+    mailto.searchParams.set("body", body || "Hello Agate Enchantment, I would like to begin a project inquiry.");
+
+    window.location.href = mailto.toString();
   });
 });
 
