@@ -11,20 +11,42 @@
     </div>
 
     <div class="m-view-layout" data-material-view data-reveal>
-      <figure class="m-view-stage">
+      <figure class="m-view-stage" data-material-view-stage>
         <img
           data-material-view-image
           src="/assets/slab-view.png"
-          alt="Red Onyx finished slab view for architectural review"
+          alt="Ember Vein finished slab view for architectural review"
           loading="lazy"
+          draggable="false"
         />
+        <div class="m-view-controls" aria-label="Image controls">
+          <button class="m-view-icon-btn" type="button" data-material-prev aria-label="Previous image">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m15 18-6-6 6-6"/></svg>
+          </button>
+          <button class="m-view-icon-btn" type="button" data-material-next aria-label="Next image">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+          <span class="m-view-control-divider" aria-hidden="true"></span>
+          <button class="m-view-icon-btn" type="button" data-material-zoom-out aria-label="Zoom out">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="6"/><path d="M8.5 11h5M16 16l4 4"/></svg>
+          </button>
+          <button class="m-view-icon-btn" type="button" data-material-zoom-in aria-label="Zoom in">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="11" cy="11" r="6"/><path d="M8.5 11h5M11 8.5v5M16 16l4 4"/></svg>
+          </button>
+          <button class="m-view-icon-btn" type="button" data-material-reset aria-label="Reset image">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 5v5h5"/></svg>
+          </button>
+          <button class="m-view-icon-btn" type="button" data-material-fullscreen aria-label="View fullscreen">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 4H4v4M16 4h4v4M8 20H4v-4M16 20h4v-4"/></svg>
+          </button>
+        </div>
       </figure>
 
       <aside class="m-view-side" aria-label="Material view selector">
         <div class="m-view-panel">
           <div class="m-view-current">
             <span data-material-view-type>Slab View</span>
-            <strong data-material-view-title>Finished Red Onyx slab.</strong>
+            <strong data-material-view-title>Finished Ember Vein slab.</strong>
             <p data-material-view-copy>
               A broad slab view showing the material as a project-ready surface,
               useful for reading movement, tone, and scale.

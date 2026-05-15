@@ -96,7 +96,7 @@ document.querySelectorAll("[data-contact-form]").forEach((form) => {
 
     const data = new FormData(form);
     const getValue = (name) => String(data.get(name) || "").trim();
-    const subjectParts = ["Agate Enchantment Inquiry"];
+    const subjectParts = ["Agate Stone Inquiry"];
     const interest = getValue("interest");
     const projectType = getValue("project_type");
 
@@ -120,7 +120,7 @@ document.querySelectorAll("[data-contact-form]").forEach((form) => {
 
     const mailto = new URL("mailto:info@agatestone.it");
     mailto.searchParams.set("subject", subjectParts.join(" - "));
-    mailto.searchParams.set("body", body || "Hello Agate Enchantment, I would like to begin a project inquiry.");
+    mailto.searchParams.set("body", body || "Hello Agate Stone, I would like to begin a project inquiry.");
 
     window.location.href = mailto.toString();
   });

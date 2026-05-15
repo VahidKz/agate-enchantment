@@ -52,7 +52,7 @@ document.querySelectorAll('.brand[href="#hero"]').forEach((el) => {
   el.setAttribute("href", "/");
 });
 
-// Mark Red Onyx links as current page
+// Mark Ember Vein links as current page
 document.querySelectorAll('.nav-links a[href="/material"], .footer-links a[href="/material"]').forEach((el) => {
   el.setAttribute("aria-current", "page");
 });
@@ -145,14 +145,14 @@ let activeFormCard = null;
 
 const formDrawerContent = {
   block: {
-    title: "Request Red Onyx Block Details",
+    title: "Request Ember Vein Block Details",
     copy: "Receive available block information, documentation, photos, videos, and inspection details based on current material.",
-    subject: "Red Onyx Block Details Request",
+    subject: "Ember Vein Block Details Request",
   },
   slab: {
-    title: "Request Red Onyx Slab Selection",
+    title: "Request Ember Vein Slab Selection",
     copy: "Receive current slab options, photos, videos, finish details, and project suitability notes.",
-    subject: "Red Onyx Slab Selection Request",
+    subject: "Ember Vein Slab Selection Request",
   },
 };
 
@@ -244,28 +244,35 @@ appOptions.forEach((option) => {
 /* Material in View selector */
 
 const materialView = document.querySelector("[data-material-view]");
+const materialViewStage = document.querySelector("[data-material-view-stage]");
 const materialViewImage = document.querySelector("[data-material-view-image]");
 const materialViewType = document.querySelector("[data-material-view-type]");
 const materialViewTitle = document.querySelector("[data-material-view-title]");
 const materialViewCopy = document.querySelector("[data-material-view-copy]");
 const materialViewList = document.querySelector("[data-material-view-list]");
 const materialViewTabs = Array.from(document.querySelectorAll("[data-material-tab]"));
+const materialViewPrev = document.querySelector("[data-material-prev]");
+const materialViewNext = document.querySelector("[data-material-next]");
+const materialViewZoomIn = document.querySelector("[data-material-zoom-in]");
+const materialViewZoomOut = document.querySelector("[data-material-zoom-out]");
+const materialViewReset = document.querySelector("[data-material-reset]");
+const materialViewFullscreen = document.querySelector("[data-material-fullscreen]");
 
 const materialViewItems = {
   slabs: [
     {
       image: "/assets/slab-view.png",
       type: "Slab View",
-      title: "Finished Red Onyx slab.",
+      title: "Finished Ember Vein slab.",
       copy: "A broad slab view showing the material as a project-ready surface, useful for reading movement, tone, and scale.",
-      alt: "Finished Red Onyx slab view for architectural review",
+      alt: "Finished Ember Vein slab view for architectural review",
     },
     {
       image: "/assets/slab.png",
       type: "Slab View",
       title: "Polished surface selection.",
       copy: "A cleaner slab presentation for comparing color field, mineral rhythm, and the potential of a refined finished surface.",
-      alt: "Polished Red Onyx slab surface",
+      alt: "Polished Ember Vein slab surface",
     },
     {
       image: "/assets/STONE2.png",
@@ -292,8 +299,8 @@ const materialViewItems = {
       image: "/assets/STONE4.png",
       type: "Slab Placeholder",
       title: "Green tonal reference.",
-      copy: "Placeholder slab view for contrasting Red Onyx with a cooler architectural stone direction.",
-      alt: "Placeholder green onyx slab surface",
+      copy: "Placeholder slab view for contrasting Ember Vein with a cooler architectural stone direction.",
+      alt: "Placeholder Green Haze slab surface",
     },
     {
       image: "/assets/STONE5.png",
@@ -316,21 +323,21 @@ const materialViewItems = {
       type: "Block View",
       title: "Origin-selected block.",
       copy: "A raw block view showing mass, geometry, and the material potential before custom cutting or slab production.",
-      alt: "Raw Red Onyx block selected for custom cutting",
+      alt: "Raw Ember Vein block selected for custom cutting",
     },
     {
       image: "/assets/block.png",
       type: "Block View",
       title: "Cutting potential.",
       copy: "A block study for understanding structure, volume, and how the stone may translate into larger architectural pieces.",
-      alt: "Red Onyx block showing cutting potential",
+      alt: "Ember Vein block showing cutting potential",
     },
     {
       image: "/assets/BLOCK2.png",
       type: "Block Detail",
       title: "Raw material character.",
       copy: "An isolated block view for comparing surface density, color depth, and geological expression.",
-      alt: "Red Onyx block material character",
+      alt: "Ember Vein block material character",
     },
   ],
   details: [
@@ -338,40 +345,68 @@ const materialViewItems = {
       image: "/assets/backlit.png",
       type: "Application Detail",
       title: "Backlit translucency.",
-      copy: "A view of Red Onyx under light, showing the warmth and depth that make it powerful in feature walls and hospitality spaces.",
-      alt: "Backlit Red Onyx feature wall",
+      copy: "A view of Ember Vein under light, showing the warmth and depth that make it powerful in feature walls and hospitality spaces.",
+      alt: "Backlit Ember Vein feature wall",
     },
     {
       image: "/assets/stone_hero_2.png",
       type: "Material Detail",
       title: "Amber mineral movement.",
       copy: "A closer material expression for reading tone, depth, and the layered movement of the stone.",
-      alt: "Red Onyx material detail with amber movement",
+      alt: "Ember Vein material detail with amber movement",
     },
     {
       image: "/assets/fireplace.png",
       type: "Interior Detail",
       title: "Architectural presence.",
       copy: "A project-oriented view that shows how the material can hold focus within a refined interior setting.",
-      alt: "Red Onyx used in a refined architectural interior",
+      alt: "Ember Vein used in a refined architectural interior",
     },
   ],
 };
 
 let activeMaterialTab = "slabs";
 let activeMaterialIndex = 0;
+let materialZoom = 1;
+let materialPanX = 0;
+let materialPanY = 0;
+let materialDragStart = null;
+
+const applyMaterialImageTransform = () => {
+  if (!materialViewImage) return;
+  materialViewImage.style.transform = `translate3d(${materialPanX}px, ${materialPanY}px, 0) scale(${materialZoom})`;
+  materialViewStage?.classList.toggle("is-zoomed", materialZoom > 1);
+};
+
+const resetMaterialImageTransform = () => {
+  materialZoom = 1;
+  materialPanX = 0;
+  materialPanY = 0;
+  applyMaterialImageTransform();
+};
+
+const setMaterialIndex = (index) => {
+  const items = materialViewItems[activeMaterialTab] || [];
+  if (items.length === 0) return;
+  activeMaterialIndex = (index + items.length) % items.length;
+  resetMaterialImageTransform();
+  setActiveMaterialView();
+  renderMaterialViewList();
+};
 
 const setActiveMaterialView = () => {
   if (!materialView || !materialViewImage || !materialViewType || !materialViewTitle || !materialViewCopy) return;
 
   const item = materialViewItems[activeMaterialTab]?.[activeMaterialIndex];
   if (!item) return;
+  const items = materialViewItems[activeMaterialTab] || [];
 
   materialViewImage.src = item.image;
   materialViewImage.alt = item.alt;
   materialViewType.textContent = item.type;
   materialViewTitle.textContent = item.title;
   materialViewCopy.textContent = item.copy;
+
 };
 
 const renderMaterialViewList = () => {
@@ -396,9 +431,7 @@ const renderMaterialViewList = () => {
       </span>
     `;
     button.addEventListener("click", () => {
-      activeMaterialIndex = index;
-      setActiveMaterialView();
-      renderMaterialViewList();
+      setMaterialIndex(index);
     });
     materialViewList.appendChild(button);
   });
@@ -414,13 +447,74 @@ materialViewTabs.forEach((tab) => {
       item.classList.toggle("is-active", isActive);
       item.setAttribute("aria-pressed", String(isActive));
     });
-    setActiveMaterialView();
-    renderMaterialViewList();
+    setMaterialIndex(0);
   });
 });
 
 setActiveMaterialView();
 renderMaterialViewList();
+
+materialViewPrev?.addEventListener("click", () => setMaterialIndex(activeMaterialIndex - 1));
+materialViewNext?.addEventListener("click", () => setMaterialIndex(activeMaterialIndex + 1));
+
+materialViewZoomIn?.addEventListener("click", () => {
+  materialZoom = clamp(materialZoom + 0.25, 1, 2.5);
+  applyMaterialImageTransform();
+});
+
+materialViewZoomOut?.addEventListener("click", () => {
+  materialZoom = clamp(materialZoom - 0.25, 1, 2.5);
+  if (materialZoom === 1) {
+    materialPanX = 0;
+    materialPanY = 0;
+  }
+  applyMaterialImageTransform();
+});
+
+materialViewReset?.addEventListener("click", resetMaterialImageTransform);
+
+materialViewFullscreen?.addEventListener("click", async () => {
+  if (!materialViewStage || !document.fullscreenEnabled) return;
+  if (document.fullscreenElement === materialViewStage) {
+    await document.exitFullscreen();
+    return;
+  }
+  await materialViewStage.requestFullscreen();
+});
+
+materialViewStage?.addEventListener("pointerdown", (event) => {
+  if (event.target instanceof Element && event.target.closest("button, input")) return;
+  if (event.pointerType === "mouse" && event.button !== 0) return;
+  materialDragStart = {
+    pointerId: event.pointerId,
+    x: event.clientX,
+    y: event.clientY,
+    panX: materialPanX,
+    panY: materialPanY,
+  };
+  materialViewStage.classList.add("is-dragging");
+  materialViewStage.setPointerCapture?.(event.pointerId);
+});
+
+materialViewStage?.addEventListener("pointermove", (event) => {
+  if (!materialDragStart || event.pointerId !== materialDragStart.pointerId) return;
+  materialPanX = materialDragStart.panX + event.clientX - materialDragStart.x;
+  materialPanY = materialDragStart.panY + event.clientY - materialDragStart.y;
+  applyMaterialImageTransform();
+});
+
+const endMaterialDrag = (event) => {
+  if (!materialDragStart || event.pointerId !== materialDragStart.pointerId) return;
+  materialDragStart = null;
+  materialViewStage?.classList.remove("is-dragging");
+};
+
+materialViewStage?.addEventListener("pointerup", endMaterialDrag);
+materialViewStage?.addEventListener("pointercancel", endMaterialDrag);
+materialViewStage?.addEventListener("lostpointercapture", () => {
+  materialDragStart = null;
+  materialViewStage?.classList.remove("is-dragging");
+});
 
 let ticking = false;
 
