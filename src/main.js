@@ -3,7 +3,7 @@ import headerMarkup from "./sections/header.html?raw";
 import heroMarkup from "./sections/hero.html?raw";
 import storyMarkup from "./sections/story.html?raw";
 import collectionMarkup from "./sections/collection.html?raw";
-import materialsMarkup from "./sections/materials.html?raw";
+import formsMarkup from "./sections/material-forms.html?raw";
 import finalCtaMarkup from "./sections/final-cta.html?raw";
 import footerMarkup from "./sections/footer.html?raw";
 import { initMobileNavigation } from "./navigation.js";
@@ -12,7 +12,7 @@ const mainSections = [
   heroMarkup,
   storyMarkup,
   collectionMarkup,
-  materialsMarkup,
+  formsMarkup,
   finalCtaMarkup,
 ];
 
@@ -57,6 +57,51 @@ const sliceAssemblyOffsets = new Map([
   ["mine-slice--2", { x: 186, y: 720, rotate: 10.1 }],
   ["mine-slice--3", { x: 180, y: 198, rotate: 10 }],
 ]);
+
+const formDrawer = document.querySelector("[data-form-drawer]");
+const formDrawerTitle = document.querySelector("[data-form-drawer-title]");
+const formDrawerCopy = document.querySelector("[data-form-drawer-copy]");
+const formDrawerLink = document.querySelector("[data-form-drawer-link]");
+let activeFormCard = null;
+
+const formDrawerContent = {
+  block: {
+    title: "Request Ember Vein Block Details",
+    copy: "Receive available block information, documentation, photos, videos, and inspection details based on current material.",
+    subject: "Ember Vein Block Details Request",
+  },
+  slab: {
+    title: "Request Ember Vein Slab Selection",
+    copy: "Receive current slab options, photos, videos, finish details, and project suitability notes.",
+    subject: "Ember Vein Slab Selection Request",
+  },
+};
+
+const closeFormDrawer = () => {
+  if (!formDrawer) return;
+
+  formDrawer.classList.remove("is-open");
+  formDrawer.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("is-form-drawer-open");
+  activeFormCard?.focus();
+  activeFormCard = null;
+};
+
+const openFormDrawer = (type, trigger) => {
+  if (!formDrawer || !formDrawerTitle || !formDrawerCopy || !formDrawerLink) return;
+
+  const content = formDrawerContent[type];
+  if (!content) return;
+
+  activeFormCard = trigger;
+  formDrawerTitle.textContent = content.title;
+  formDrawerCopy.textContent = content.copy;
+  formDrawerLink.href = `mailto:info@agatestone.it?subject=${encodeURIComponent(content.subject)}`;
+  formDrawer.classList.add("is-open");
+  formDrawer.setAttribute("aria-hidden", "false");
+  document.body.classList.add("is-form-drawer-open");
+  formDrawer.querySelector("[data-form-drawer-close]")?.focus();
+};
 
 if (mineSlicesScene && !reduceMotion) {
   mineSlicesScene.classList.add("is-slice-init", "is-slice-before");
@@ -228,27 +273,9 @@ const updateParallax = () => {
   });
 
   collectionParallaxItems.forEach((item) => {
-    const isCompactViewport = window.matchMedia("(max-width: 820px)").matches;
-
-    if (isCompactViewport) {
-      item.style.setProperty("--parallax-y", "0px");
-      item.style.setProperty("--panel-scroll-y", "0px");
-      item.style.setProperty("--material-image-parallax-y", "0px");
-      return;
-    }
-
-    const motionRoot = item.closest(".collection") || item;
-    const rect = motionRoot.getBoundingClientRect();
-    const speed = Number(item.dataset.collectionParallax) || 12;
-    const maxShift = Math.abs(speed);
-    const distance = (rect.top + rect.height / 2 - viewportCenter) / window.innerHeight;
-    const y = clamp(distance * speed, -maxShift, maxShift);
-    const imageY = clamp(y * -0.62, -maxShift * 0.62, maxShift * 0.62);
-    // New sample-card system
-    item.style.setProperty("--parallax-y", `${y.toFixed(2)}px`);
-    // Legacy (if old cards still exist anywhere)
-    item.style.setProperty("--panel-scroll-y", `${y.toFixed(2)}px`);
-    item.style.setProperty("--material-image-parallax-y", `${imageY.toFixed(2)}px`);
+    item.style.setProperty("--parallax-y", "0px");
+    item.style.setProperty("--panel-scroll-y", "0px");
+    item.style.setProperty("--material-image-parallax-y", "0px");
   });
 
   if (finalCtaMedia) {
@@ -484,7 +511,26 @@ if (heroScene) {
   }
 }
 
+document.querySelectorAll("[data-form-card]").forEach((card) => {
+  card.addEventListener("click", (event) => {
+    event.preventDefault();
+    openFormDrawer(card.dataset.formCard, card);
+  });
+});
+
+document.querySelectorAll("[data-form-drawer-close]").forEach((control) => {
+  control.addEventListener("click", closeFormDrawer);
+});
+
+window.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && formDrawer?.classList.contains("is-open")) {
+    closeFormDrawer();
+  }
+});
+
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
+  if (link.matches("[data-form-card]")) return;
+
   link.addEventListener("click", (event) => {
     const targetId = link.getAttribute("href");
     if (!targetId || targetId === "#") return;

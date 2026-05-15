@@ -2,7 +2,6 @@ import "./material.css";
 import headerMarkup  from "./sections/header.html?raw";
 import footerMarkup  from "./sections/footer.html?raw";
 import heroMarkup         from "./sections/material-hero.html?raw";
-import formsMarkup        from "./sections/material-forms.html?raw";
 import viewMarkup         from "./sections/material-view.html?raw";
 import applicationsMarkup from "./sections/material-applications.html?raw";
 import specsMarkup        from "./sections/material-specs.html?raw";
@@ -15,7 +14,6 @@ import { initMobileNavigation } from "./navigation.js";
 
 const sections = [
   heroMarkup,
-  formsMarkup,
   viewMarkup,
   applicationsMarkup,
   specsMarkup,
@@ -39,7 +37,7 @@ initMobileNavigation();
 // Anchor links that belong to the home page get a "/" prefix
 // so clicking them navigates back to index rather than 404-ing.
 // Links to #contact and #signature stay on this page.
-const PAGE_ANCHORS = new Set(["#contact", "#signature", "#availability", "#forms", "#material-view", "#applications", "#specification", "#sourcing", "#process"]);
+const PAGE_ANCHORS = new Set(["#contact", "#signature", "#availability", "#material-view", "#applications", "#specification", "#sourcing", "#process"]);
 
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
   const href = link.getAttribute("href");
@@ -106,8 +104,6 @@ if (revealItems.length > 0 && !reduceMotion) {
 /* ─── Smooth scroll for on-page anchors ─────────────────────── */
 
 document.querySelectorAll('a[href^="#"]').forEach((link) => {
-  if (link.matches("[data-form-card]")) return;
-
   link.addEventListener("click", (e) => {
     const id = link.getAttribute("href");
     if (!id || id === "#") return;
@@ -134,70 +130,6 @@ document.querySelectorAll(".scroll-cue").forEach((cue) => {
 });
 
 /* ─── RAF loop ───────────────────────────────────────────────── */
-
-/* Private material request drawer */
-
-const formDrawer = document.querySelector("[data-form-drawer]");
-const formDrawerTitle = document.querySelector("[data-form-drawer-title]");
-const formDrawerCopy = document.querySelector("[data-form-drawer-copy]");
-const formDrawerLink = document.querySelector("[data-form-drawer-link]");
-let activeFormCard = null;
-
-const formDrawerContent = {
-  block: {
-    title: "Request Ember Vein Block Details",
-    copy: "Receive available block information, documentation, photos, videos, and inspection details based on current material.",
-    subject: "Ember Vein Block Details Request",
-  },
-  slab: {
-    title: "Request Ember Vein Slab Selection",
-    copy: "Receive current slab options, photos, videos, finish details, and project suitability notes.",
-    subject: "Ember Vein Slab Selection Request",
-  },
-};
-
-const closeFormDrawer = () => {
-  if (!formDrawer) return;
-
-  formDrawer.classList.remove("is-open");
-  formDrawer.setAttribute("aria-hidden", "true");
-  document.body.classList.remove("is-form-drawer-open");
-  activeFormCard?.focus();
-  activeFormCard = null;
-};
-
-const openFormDrawer = (type, trigger) => {
-  if (!formDrawer || !formDrawerTitle || !formDrawerCopy || !formDrawerLink) return;
-
-  const content = formDrawerContent[type];
-  if (!content) return;
-
-  activeFormCard = trigger;
-  formDrawerTitle.textContent = content.title;
-  formDrawerCopy.textContent = content.copy;
-  formDrawerLink.href = `mailto:info@agatestone.it?subject=${encodeURIComponent(content.subject)}`;
-  formDrawer.classList.add("is-open");
-  formDrawer.setAttribute("aria-hidden", "false");
-  document.body.classList.add("is-form-drawer-open");
-  formDrawer.querySelector("[data-form-drawer-close]")?.focus();
-};
-
-document.querySelectorAll("[data-form-card]").forEach((card) => {
-  card.addEventListener("click", (event) => {
-    event.preventDefault();
-    openFormDrawer(card.dataset.formCard, card);
-  });
-});
-
-document.querySelectorAll("[data-form-drawer-close]").forEach((control) => {
-  control.addEventListener("click", closeFormDrawer);
-});
-
-window.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && formDrawer?.classList.contains("is-open")) {
-    closeFormDrawer();
-  }
-});
 
 /* Application feature selector */
 
@@ -240,6 +172,8 @@ appOptions.forEach((option) => {
   option.setAttribute("aria-pressed", "false");
   option.addEventListener("click", () => setActiveApplication(option, true));
 });
+
+setActiveApplication(appOptions[0], false);
 
 /* Material in View selector */
 
@@ -368,14 +302,27 @@ const materialViewItems = {
 let activeMaterialTab = "slabs";
 let activeMaterialIndex = 0;
 let materialZoom = 1;
+let materialScrollZoom = 1;
 let materialPanX = 0;
 let materialPanY = 0;
 let materialDragStart = null;
 
 const applyMaterialImageTransform = () => {
   if (!materialViewImage) return;
-  materialViewImage.style.transform = `translate3d(${materialPanX}px, ${materialPanY}px, 0) scale(${materialZoom})`;
+  const combinedZoom = materialZoom * materialScrollZoom;
+  materialViewImage.style.transform = `translate3d(${materialPanX}px, ${materialPanY}px, 0) scale(${combinedZoom.toFixed(3)})`;
   materialViewStage?.classList.toggle("is-zoomed", materialZoom > 1);
+};
+
+const updateMaterialViewScrollZoom = () => {
+  if (!materialView || !materialViewImage || reduceMotion) return;
+
+  const rect = materialView.getBoundingClientRect();
+  const scrollRange = window.innerHeight + rect.height;
+  const progress = scrollRange > 0 ? clamp((window.innerHeight - rect.top) / scrollRange, 0, 1) : 0;
+  const eased = 1 - Math.pow(1 - progress, 3);
+  materialScrollZoom = 1.02 + eased * 0.06;
+  applyMaterialImageTransform();
 };
 
 const resetMaterialImageTransform = () => {
@@ -521,6 +468,7 @@ let ticking = false;
 const frame = () => {
   updateHeader();
   updateProgress();
+  updateMaterialViewScrollZoom();
   ticking = false;
 };
 

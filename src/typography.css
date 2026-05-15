@@ -42,6 +42,9 @@
   --type-eyebrow-weight: var(--type-section-kicker-weight);
   --type-eyebrow-line: var(--type-section-kicker-line);
   --type-eyebrow-tracking: var(--type-section-kicker-tracking);
+  --type-eyebrow-divider-width: 28px;
+  --type-eyebrow-divider-height: 1px;
+  --type-eyebrow-divider-gap: 17px;
 
   --type-card-title-family: var(--display-serif);
   --type-card-title-size: clamp(1.6rem, 2.2vw, 2.4rem);

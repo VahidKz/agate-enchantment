@@ -433,11 +433,23 @@ main > section:not(.about-hero) h2 {
 }
 
 main > section:not(.about-hero) :where(.eyebrow, .about-value span, .about-location-cards span, figcaption span) {
+  color: var(--bronze);
   font-family: var(--type-eyebrow-family);
   font-size: var(--type-eyebrow-size);
   font-weight: var(--type-eyebrow-weight);
   letter-spacing: var(--type-eyebrow-tracking);
   line-height: var(--type-eyebrow-line);
+  text-transform: uppercase;
+}
+
+main > section:not(.about-hero) .eyebrow::after {
+  display: block;
+  width: var(--type-eyebrow-divider-width);
+  height: var(--type-eyebrow-divider-height);
+  margin-top: var(--type-eyebrow-divider-gap);
+  margin-inline: 0;
+  background: currentColor;
+  content: "";
 }
 
 main > section:not(.about-hero) :where(p:not(.eyebrow), li, blockquote) {
@@ -454,4 +466,154 @@ main > section:not(.about-hero) :where(h3, .about-audience-list strong, .about-h
   font-weight: var(--type-card-title-weight);
   letter-spacing: var(--type-card-title-tracking);
   line-height: var(--type-card-title-line);
+}
+
+/* ============================================================
+   DESKTOP VIEWPORT-FIT STANDARD
+   Keeps each about section visible within one desktop viewport.
+   ============================================================ */
+
+@media (min-width: 981px) {
+  .about-page > section {
+    height: 100vh;
+    height: 100svh;
+    max-height: 100svh;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .about-page > section.section-pad {
+    padding-block: clamp(40px, 5.8svh, 72px);
+  }
+
+  .about-hero {
+    padding-block: clamp(78px, 10svh, 112px) clamp(34px, 5.5svh, 64px);
+  }
+
+  .about-hero-inner,
+  .about-split,
+  .about-house-grid,
+  .about-locations-grid {
+    align-items: center;
+    max-height: calc(100svh - clamp(96px, 14svh, 160px));
+    min-height: 0;
+  }
+
+  .about-hero-media {
+    height: min(62svh, 640px);
+    min-height: 0;
+  }
+
+  .about-hero-frame {
+    height: 100%;
+    max-width: min(92%, 560px);
+  }
+
+  .about-section-head {
+    margin-bottom: clamp(1.25rem, 2.8svh, 2.35rem);
+  }
+
+  .about-values-grid,
+  .about-audience-list,
+  .about-location-cards {
+    min-height: 0;
+  }
+
+  .about-value,
+  .about-audience-list article,
+  .about-location-cards article {
+    min-height: 0;
+    padding: clamp(1rem, 2svh, 1.55rem);
+  }
+
+  .about-house-visual {
+    max-height: min(62svh, 560px);
+  }
+
+  .about-house-visual img {
+    max-height: inherit;
+  }
+
+  .about-cta {
+    display: grid;
+    align-items: center;
+  }
+
+  .about-page > section:not(.about-hero) {
+    height: auto;
+    max-height: none;
+    min-height: 0;
+    overflow: visible;
+  }
+
+  .about-page > section.section-pad:not(.about-hero) {
+    padding-block: clamp(56px, 7svh, 88px);
+  }
+
+  .about-intro .about-split,
+  .about-values .about-section-head,
+  .about-audience .about-section-head,
+  .about-locations-grid {
+    align-items: center;
+    gap: clamp(2rem, 4.8vw, 5.6rem);
+    max-height: none;
+  }
+
+  .about-values .about-section-head,
+  .about-audience .about-section-head {
+    margin-bottom: clamp(1.3rem, 2.5svh, 2.1rem);
+  }
+
+  .about-intro h2,
+  .about-values h2,
+  .about-audience h2,
+  .about-locations h2 {
+    max-width: 680px;
+    font-size: clamp(2.25rem, min(3.65vw, 5.7svh), 3.45rem);
+    line-height: 0.99;
+  }
+
+  .about-prose {
+    gap: clamp(0.75rem, 1.45svh, 1.05rem);
+  }
+
+  .about-prose p,
+  .about-section-head > p,
+  .about-locations-copy p {
+    font-size: clamp(0.82rem, 0.86vw, 0.94rem);
+    line-height: 1.62;
+  }
+
+  .about-values-grid,
+  .about-audience-list,
+  .about-location-cards {
+    min-height: 0;
+  }
+
+  .about-value,
+  .about-audience-list article,
+  .about-location-cards article {
+    min-height: clamp(180px, 24svh, 250px);
+    padding: clamp(1rem, 2svh, 1.45rem) clamp(1.05rem, 2vw, 1.6rem);
+  }
+
+  .about-location-cards article {
+    min-height: clamp(150px, 20svh, 210px);
+  }
+
+  .about-value h3,
+  .about-audience-list strong,
+  .about-location-cards h3 {
+    margin-top: clamp(0.85rem, 1.5svh, 1.15rem);
+    font-size: clamp(1.25rem, 1.8vw, 1.8rem);
+    line-height: 1.08;
+  }
+
+  .about-value p,
+  .about-audience-list p,
+  .about-location-cards p {
+    margin-top: clamp(0.55rem, 1svh, 0.8rem);
+    font-size: clamp(0.8rem, 0.84vw, 0.92rem);
+    line-height: 1.55;
+  }
 }
