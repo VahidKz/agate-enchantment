@@ -1,0 +1,87 @@
+:root {
+  --type-hero-title-family: var(--display-serif);
+  --type-hero-title-size: clamp(3.35rem, min(5.4vw, 9svh), 6.45rem);
+  --type-hero-title-size-fallback: clamp(3.35rem, min(5.4vw, 9vh), 6.45rem);
+  --type-hero-title-weight: 400;
+  --type-hero-title-line: 0.98;
+  --type-hero-title-tracking: 0;
+  --type-hero-copy-family: var(--sans);
+  --type-hero-copy-size: clamp(0.86rem, 0.88vw, 0.98rem);
+  --type-hero-copy-size-fallback: clamp(0.86rem, 0.88vw, 0.98rem);
+  --type-hero-copy-weight: 500;
+  --type-hero-copy-line: 1.68;
+  --type-hero-eyebrow-family: var(--sans);
+  --type-hero-eyebrow-size: clamp(0.60rem, 0.66vw, 0.72rem);
+  --type-hero-eyebrow-weight: 700;
+  --type-hero-eyebrow-line: 1.35;
+  --type-hero-eyebrow-tracking: 0.20em;
+
+  --type-section-title-family: var(--display-serif);
+  --type-section-title-size: clamp(3.2rem, 5.1vw, 4.875rem);
+  --type-section-title-weight: 400;
+  --type-section-title-line: 0.94;
+  --type-section-title-tracking: -0.01em;
+
+  --type-section-kicker-family: var(--sans);
+  --type-section-kicker-size: clamp(0.58rem, 0.62vw, 0.70rem);
+  --type-section-kicker-weight: 800;
+  --type-section-kicker-line: 1.5;
+  --type-section-kicker-tracking: 0.22em;
+
+  --type-section-prose-family: var(--sans);
+  --type-section-prose-size: clamp(0.82rem, 0.88vw, 0.96rem);
+  --type-section-prose-weight: 500;
+  --type-section-prose-line: 1.8;
+  --type-section-copy-family: var(--type-section-prose-family);
+  --type-section-copy-size: var(--type-section-prose-size);
+  --type-section-copy-weight: var(--type-section-prose-weight);
+  --type-section-copy-line: var(--type-section-prose-line);
+
+  --type-eyebrow-family: var(--type-section-kicker-family);
+  --type-eyebrow-size: var(--type-section-kicker-size);
+  --type-eyebrow-weight: var(--type-section-kicker-weight);
+  --type-eyebrow-line: var(--type-section-kicker-line);
+  --type-eyebrow-tracking: var(--type-section-kicker-tracking);
+
+  --type-card-title-family: var(--display-serif);
+  --type-card-title-size: clamp(1.6rem, 2.2vw, 2.4rem);
+  --type-card-title-weight: 400;
+  --type-card-title-line: 0.96;
+  --type-card-title-tracking: 0;
+  --type-card-copy-family: var(--type-section-prose-family);
+  --type-card-copy-size: var(--type-section-prose-size);
+  --type-card-copy-weight: var(--type-section-prose-weight);
+  --type-card-copy-line: 1.65;
+}
+
+@media (max-width: 960px) {
+  :root {
+    --type-hero-title-size: clamp(2.35rem, min(8.8vw, 7svh), 4.1rem);
+    --type-hero-title-size-fallback: clamp(2.35rem, min(8.8vw, 7vh), 4.1rem);
+    --type-hero-title-line: 1.04;
+    --type-hero-copy-size: clamp(0.84rem, 2vw, 0.98rem);
+    --type-hero-copy-line: 1.65;
+    --type-section-title-size: clamp(2.55rem, 5vw, 3.7rem);
+    --type-section-title-line: 0.96;
+    --type-section-prose-size: clamp(0.78rem, 1.15vw, 0.9rem);
+    --type-section-prose-line: 1.65;
+    --type-card-title-size: clamp(1.4rem, 2.4vw, 2rem);
+  }
+}
+
+@media (max-width: 680px) {
+  :root {
+    --type-hero-title-size: clamp(2.08rem, min(11vw, 6.6svh), 3rem);
+    --type-hero-title-size-fallback: clamp(2.08rem, min(11vw, 6.6vh), 3rem);
+    --type-hero-title-line: 1.05;
+    --type-hero-copy-size: clamp(0.78rem, 2.4svh, 0.9rem);
+    --type-hero-copy-size-fallback: clamp(0.78rem, 2.4vh, 0.9rem);
+    --type-hero-copy-line: 1.6;
+    --type-section-title-size: clamp(2.1rem, 10vw, 3rem);
+    --type-section-prose-size: 0.88rem;
+    --type-section-prose-line: 1.62;
+    --type-section-kicker-size: 0.82rem;
+    --type-section-kicker-tracking: 0.18em;
+    --type-card-title-size: clamp(1.55rem, 7vw, 2.25rem);
+  }
+}

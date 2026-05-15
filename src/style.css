@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500&family=Inter:wght@400;500;600;700;800&display=swap");
+@import "./typography.css";
 
 :root {
   color-scheme: light;
@@ -680,11 +681,11 @@ main > section,
   margin: 0 0 clamp(18px, 2.2vh, 28px);
   margin: 0 0 clamp(18px, 2.2svh, 28px);
   color: rgba(126, 81, 46, 0.9);
-  font-family: var(--sans);
-  font-size: clamp(0.60rem, 0.66vw, 0.72rem);
-  font-weight: 700;
-  letter-spacing: 0.20em;
-  line-height: 1.35;
+  font-family: var(--type-hero-eyebrow-family);
+  font-size: var(--type-hero-eyebrow-size);
+  font-weight: var(--type-hero-eyebrow-weight);
+  letter-spacing: var(--type-hero-eyebrow-tracking);
+  line-height: var(--type-hero-eyebrow-line);
   text-transform: uppercase;
   opacity: 0;
   transform: translate3d(0, 12px, 0);
@@ -907,11 +908,11 @@ main > section,
 .eyebrow {
   margin: 0 0 22px;
   color: var(--bronze);
-  font-family: var(--sans);
-  font-size: 0.68rem;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  line-height: 1.4;
+  font-family: var(--type-eyebrow-family);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  letter-spacing: var(--type-eyebrow-tracking);
+  line-height: var(--type-eyebrow-line);
   text-transform: uppercase;
 }
 
@@ -931,17 +932,28 @@ main > section,
 .material-philosophy h2,
 .final-cta h2 {
   margin: 0;
-  font-family: var(--display-serif);
-  font-weight: 400;
-  letter-spacing: 0;
+  font-family: var(--type-section-title-family);
+  font-weight: var(--type-section-title-weight);
+  letter-spacing: var(--type-section-title-tracking);
 }
 
 .hero h1 {
   max-width: none;
-  font-family: var(--display-serif);
-  font-size: clamp(3.35rem, min(5.4vw, 9vh), 6.45rem);
-  font-size: clamp(3.35rem, min(5.4vw, 9svh), 6.45rem);
-  line-height: 0.98;
+  font-family: var(--type-hero-title-family);
+  font-size: var(--type-hero-title-size-fallback);
+  font-size: var(--type-hero-title-size);
+  font-weight: var(--type-hero-title-weight);
+  letter-spacing: var(--type-hero-title-tracking);
+  line-height: var(--type-hero-title-line);
+}
+
+.hero h1 :where(span, em, strong) {
+  font-family: inherit;
+  font-size: inherit;
+  font-style: normal;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
 }
 
 .hero h1::after {
@@ -975,10 +987,10 @@ main > section,
   margin: clamp(18px, 2.6vh, 28px) 0 0;
   margin: clamp(18px, 2.6svh, 28px) 0 0;
   color: rgba(68, 62, 55, 0.90);
-  font-family: var(--sans);
-  font-size: clamp(0.86rem, 0.88vw, 0.98rem);
-  font-weight: 500;
-  line-height: 1.68;
+  font-family: var(--type-hero-copy-family);
+  font-size: var(--type-hero-copy-size);
+  font-weight: var(--type-hero-copy-weight);
+  line-height: var(--type-hero-copy-line);
 }
 
 .hero-meta {
@@ -1330,10 +1342,11 @@ main > section,
 .statement h2 {
   margin: 0;
   max-width: none;
-  font-family: var(--display-serif);
-  font-size: clamp(3.2rem, 5.1vw, 4.875rem);
-  line-height: 0.94;
-  letter-spacing: -0.01em;
+  font-family: var(--type-section-title-family);
+  font-size: var(--type-section-title-size);
+  font-weight: var(--type-section-title-weight);
+  line-height: var(--type-section-title-line);
+  letter-spacing: var(--type-section-title-tracking);
   text-transform: none;
 }
 
@@ -1345,11 +1358,11 @@ main > section,
   max-width: 380px;
   margin: clamp(16px, 2vw, 26px) 0 0;
   color: var(--bronze);
-  font-family: var(--sans);
-  font-size: clamp(0.58rem, 0.62vw, 0.70rem);
-  font-weight: 800;
-  letter-spacing: 0.22em;
-  line-height: 1.5;
+  font-family: var(--type-section-kicker-family);
+  font-size: var(--type-section-kicker-size);
+  font-weight: var(--type-section-kicker-weight);
+  letter-spacing: var(--type-section-kicker-tracking);
+  line-height: var(--type-section-kicker-line);
   text-transform: uppercase;
 }
 
@@ -1361,10 +1374,10 @@ main > section,
   padding-left: clamp(16px, 2vw, 24px);
   border-left: 1px solid rgba(154, 103, 63, 0.18);
   color: var(--ink-soft);
-  font-family: var(--sans);
-  font-size: clamp(0.82rem, 0.88vw, 0.96rem);
-  font-weight: 500;
-  line-height: 1.80;
+  font-family: var(--type-section-prose-family);
+  font-size: var(--type-section-prose-size);
+  font-weight: var(--type-section-prose-weight);
+  line-height: var(--type-section-prose-line);
 }
 
 .mine-showcase {
@@ -2049,11 +2062,11 @@ main > section,
 
 .identity-text h2 {
   margin: 0;
-  font-family: var(--display-serif);
-  font-size: clamp(2.9rem, 4.1vw, 5.1rem);
-  font-weight: 400;
-  line-height: 1.02;
-  letter-spacing: 0;
+  font-family: var(--type-section-title-family);
+  font-size: var(--type-section-title-size);
+  font-weight: var(--type-section-title-weight);
+  line-height: var(--type-section-title-line);
+  letter-spacing: var(--type-section-title-tracking);
   color: var(--charcoal);
 }
 
@@ -2254,9 +2267,9 @@ main > section,
 .collection h2 {
   max-width: 100%;
   margin: 0;
-  font-size: clamp(3.15rem, 4.15vw, 5.15rem);
-  line-height: 1.05;
-  letter-spacing: -0.025em;
+  font-size: var(--type-section-title-size);
+  line-height: var(--type-section-title-line);
+  letter-spacing: var(--type-section-title-tracking);
 }
 
 .collection h2 span {
@@ -2267,10 +2280,10 @@ main > section,
   max-width: 100%;
   margin: clamp(28px, 3vw, 42px) 0 0;
   color: var(--ink-soft);
-  font-family: var(--sans);
-  font-size: clamp(0.95rem, 1.04vw, 1.08rem);
-  font-weight: 400;
-  line-height: 1.72;
+  font-family: var(--type-section-prose-family);
+  font-size: var(--type-section-prose-size);
+  font-weight: var(--type-section-prose-weight);
+  line-height: var(--type-section-prose-line);
 }
 
 /* ── CTA link ── */
@@ -2583,9 +2596,10 @@ main > section,
   max-width: 560px;
   margin: 28px 0 0;
   color: rgba(251, 250, 247, 0.72);
-  font-family: var(--sans);
-  font-size: 0.98rem;
-  line-height: 1.9;
+  font-family: var(--type-section-prose-family);
+  font-size: var(--type-section-prose-size);
+  font-weight: var(--type-section-prose-weight);
+  line-height: var(--type-section-prose-line);
 }
 
 .process-list {
@@ -2645,7 +2659,9 @@ main > section,
 
 .material-philosophy h2 {
   color: #24211d;
-  font-size: clamp(2.2rem, 4.2vw, 4.45rem);
+  font-size: var(--type-section-title-size);
+  line-height: var(--type-section-title-line);
+  letter-spacing: var(--type-section-title-tracking);
 }
 
 .material-philosophy-stage {
@@ -2914,11 +2930,11 @@ main > section,
   align-items: center;
   margin: 0 0 clamp(24px, 3vw, 34px);
   color: rgba(214, 176, 132, 0.82);
-  font-family: var(--luxury-sans);
-  font-size: clamp(0.68rem, 0.72vw, 0.76rem);
-  font-weight: 700;
-  letter-spacing: 0.28em;
-  line-height: 1.3;
+  font-family: var(--type-eyebrow-family);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  letter-spacing: var(--type-eyebrow-tracking);
+  line-height: var(--type-eyebrow-line);
 }
 
 .final-cta .eyebrow::after {
@@ -2932,11 +2948,11 @@ main > section,
   max-width: 780px;
   margin: 0;
   color: var(--warm-white);
-  font-family: var(--luxury-serif);
-  font-size: clamp(3.05rem, 5.1vw, 4.05rem);
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 1.15;
+  font-family: var(--type-section-title-family);
+  font-size: var(--type-section-title-size);
+  font-weight: var(--type-section-title-weight);
+  letter-spacing: var(--type-section-title-tracking);
+  line-height: var(--type-section-title-line);
   text-transform: none;
 }
 
@@ -2948,11 +2964,11 @@ main > section,
   max-width: 640px;
   margin: clamp(24px, 3vw, 34px) auto 0;
   color: rgba(251, 250, 247, 0.68);
-  font-family: var(--luxury-sans);
-  font-size: clamp(0.94rem, 1vw, 1.04rem);
-  font-weight: 400;
+  font-family: var(--type-section-prose-family);
+  font-size: var(--type-section-prose-size);
+  font-weight: var(--type-section-prose-weight);
   letter-spacing: 0;
-  line-height: 1.78;
+  line-height: var(--type-section-prose-line);
 }
 
 .cta-actions {
@@ -3372,14 +3388,14 @@ main > section,
   }
 
   .statement h2 {
-    font-size: clamp(2.55rem, 5vw, 3.7rem);
-    line-height: 0.96;
+    font-size: var(--type-section-title-size);
+    line-height: var(--type-section-title-line);
   }
 
   .statement-prose {
     max-width: 360px;
-    font-size: clamp(0.78rem, 1.15vw, 0.9rem);
-    line-height: 1.65;
+    font-size: var(--type-section-prose-size);
+    line-height: var(--type-section-prose-line);
   }
 
   .mine-showcase {
@@ -3624,9 +3640,9 @@ main > section,
 
   .hero h1 {
     max-width: 12.8ch;
-    font-size: clamp(2.35rem, min(8.8vw, 7vh), 4.1rem);
-    font-size: clamp(2.35rem, min(8.8vw, 7svh), 4.1rem);
-    line-height: 1.04;
+    font-size: var(--type-hero-title-size-fallback);
+    font-size: var(--type-hero-title-size);
+    line-height: var(--type-hero-title-line);
     text-shadow: none;
   }
 
@@ -3642,9 +3658,9 @@ main > section,
     margin-top: clamp(16px, 3vh, 28px);
     margin-top: clamp(16px, 3svh, 28px);
     color: var(--ink-soft);
-    font-size: clamp(0.84rem, 2vw, 0.98rem);
-    font-weight: 500;
-    line-height: 1.65;
+    font-size: var(--type-hero-copy-size);
+    font-weight: var(--type-hero-copy-weight);
+    line-height: var(--type-hero-copy-line);
     text-shadow: none;
   }
 
@@ -4100,16 +4116,16 @@ main > section,
 
   .hero h1 {
     max-width: 12.4ch;
-    font-size: clamp(2.08rem, min(11vw, 6.6vh), 3rem);
-    font-size: clamp(2.08rem, min(11vw, 6.6svh), 3rem);
-    line-height: 1.05;
+    font-size: var(--type-hero-title-size-fallback);
+    font-size: var(--type-hero-title-size);
+    line-height: var(--type-hero-title-line);
   }
 
   .hero-copy {
     max-width: 33ch;
-    font-size: clamp(0.78rem, 2.4vh, 0.9rem);
-    font-size: clamp(0.78rem, 2.4svh, 0.9rem);
-    line-height: 1.6;
+    font-size: var(--type-hero-copy-size-fallback);
+    font-size: var(--type-hero-copy-size);
+    line-height: var(--type-hero-copy-line);
   }
 
   .statement h2,
@@ -4170,21 +4186,21 @@ main > section,
   }
 
   .statement h2 {
-    font-size: clamp(2.1rem, 10vw, 3rem);
+    font-size: var(--type-section-title-size);
     max-width: none;
     margin-inline: 0;
   }
 
   .statement-kicker {
     margin-top: 16px;
-    font-size: 0.82rem;
-    letter-spacing: 0.18em;
+    font-size: var(--type-section-kicker-size);
+    letter-spacing: var(--type-section-kicker-tracking);
   }
 
   .statement-prose {
     max-width: 360px;
-    font-size: 0.88rem;
-    line-height: 1.62;
+    font-size: var(--type-section-prose-size);
+    line-height: var(--type-section-prose-line);
     padding-left: 14px;
   }
 
@@ -4427,4 +4443,41 @@ main > section,
   .mine-showcase img {
     transform: none !important;
   }
+}
+
+/* ============================================================
+   TYPOGRAPHY STANDARD OVERRIDES
+   One source of truth: edit src/typography.css tokens.
+   ============================================================ */
+
+main > section:not(.hero) h2 {
+  font-family: var(--type-section-title-family);
+  font-size: var(--type-section-title-size);
+  font-weight: var(--type-section-title-weight);
+  letter-spacing: var(--type-section-title-tracking);
+  line-height: var(--type-section-title-line);
+}
+
+main > section:not(.hero) :where(.eyebrow, .statement-kicker) {
+  font-family: var(--type-eyebrow-family);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  letter-spacing: var(--type-eyebrow-tracking);
+  line-height: var(--type-eyebrow-line);
+}
+
+main > section:not(.hero) :where(p:not(.eyebrow), .statement-prose, li, blockquote) {
+  font-family: var(--type-section-prose-family);
+  font-size: var(--type-section-prose-size);
+  font-weight: var(--type-section-prose-weight);
+  letter-spacing: 0;
+  line-height: var(--type-section-prose-line);
+}
+
+main > section:not(.hero) :where(h3, .sample-title, .material-form-title) {
+  font-family: var(--type-card-title-family);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  letter-spacing: var(--type-card-title-tracking);
+  line-height: var(--type-card-title-line);
 }

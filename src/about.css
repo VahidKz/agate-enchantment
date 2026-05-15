@@ -10,7 +10,7 @@
 .about-page span,
 .about-page strong,
 .about-page li {
-  font-family: var(--luxury-sans);
+  font-family: var(--type-section-prose-family);
 }
 
 .about-hero {
@@ -39,24 +39,45 @@
   max-width: 660px;
 }
 
+.about-hero .eyebrow {
+  font-family: var(--type-hero-eyebrow-family);
+  font-size: var(--type-hero-eyebrow-size);
+  font-weight: var(--type-hero-eyebrow-weight);
+  letter-spacing: var(--type-hero-eyebrow-tracking);
+  line-height: var(--type-hero-eyebrow-line);
+}
+
 .about-hero h1,
 .about-page h2 {
   margin: 0;
   color: var(--charcoal);
-  font-family: var(--luxury-serif);
-  font-weight: 500;
-  letter-spacing: 0;
+  font-family: var(--type-section-title-family);
+  font-weight: var(--type-section-title-weight);
+  letter-spacing: var(--type-section-title-tracking);
 }
 
 .about-hero h1 {
   margin-top: 1.2rem;
-  font-size: clamp(4.2rem, 9vw, 8.8rem);
-  line-height: 0.88;
+  font-family: var(--type-hero-title-family);
+  font-size: var(--type-hero-title-size-fallback);
+  font-size: var(--type-hero-title-size);
+  font-weight: var(--type-hero-title-weight);
+  line-height: var(--type-hero-title-line);
+  letter-spacing: var(--type-hero-title-tracking);
 }
 
 .about-hero h1 span {
   display: block;
   font-family: inherit;
+}
+
+.about-hero h1 :where(span, em, strong) {
+  font-family: inherit;
+  font-size: inherit;
+  font-style: normal;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
 }
 
 .about-hero-copy > p:not(.eyebrow),
@@ -69,8 +90,10 @@
 .about-audience-list p,
 .about-location-cards p {
   color: var(--ink-soft);
-  font-size: clamp(1rem, 1.25vw, 1.12rem);
-  line-height: 1.85;
+  font-family: var(--type-section-prose-family);
+  font-size: var(--type-section-prose-size);
+  font-weight: var(--type-section-prose-weight);
+  line-height: var(--type-section-prose-line);
 }
 
 .about-hero-copy > p:not(.eyebrow) {
@@ -131,9 +154,11 @@
 .about-location-cards span {
   display: block;
   color: var(--bronze);
-  font-size: 0.68rem;
-  font-weight: 800;
-  letter-spacing: 0.16em;
+  font-family: var(--type-section-kicker-family);
+  font-size: var(--type-section-kicker-size);
+  font-weight: var(--type-section-kicker-weight);
+  letter-spacing: var(--type-section-kicker-tracking);
+  line-height: var(--type-section-kicker-line);
   text-transform: uppercase;
 }
 
@@ -158,8 +183,8 @@
 .about-page h2 {
   margin-top: 1rem;
   max-width: 760px;
-  font-size: clamp(3rem, 5.6vw, 6.2rem);
-  line-height: 0.96;
+  font-size: var(--type-section-title-size);
+  line-height: var(--type-section-title-line);
 }
 
 .about-prose,
@@ -215,11 +240,11 @@
   display: block;
   margin: 1.5rem 0 0;
   color: var(--charcoal);
-  font-family: var(--luxury-serif);
-  font-size: clamp(2rem, 3vw, 3.2rem);
-  font-weight: 500;
-  letter-spacing: 0;
-  line-height: 1;
+  font-family: var(--type-card-title-family);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  letter-spacing: var(--type-card-title-tracking);
+  line-height: var(--type-card-title-line);
 }
 
 .about-value p,
@@ -241,10 +266,11 @@
   padding: 1.3rem 0 0;
   border-top: 1px solid rgba(155, 106, 58, 0.28);
   color: var(--charcoal);
-  font-family: var(--luxury-serif);
-  font-size: clamp(1.8rem, 3.2vw, 3.4rem);
-  font-weight: 500;
-  line-height: 1.1;
+  font-family: var(--type-card-title-family);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  letter-spacing: var(--type-card-title-tracking);
+  line-height: var(--type-card-title-line);
 }
 
 .about-house-visual {
@@ -267,9 +293,11 @@
 }
 
 .about-house-visual figcaption span {
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: 0.12em;
+  font-family: var(--type-section-kicker-family);
+  font-size: var(--type-section-kicker-size);
+  font-weight: var(--type-section-kicker-weight);
+  letter-spacing: var(--type-section-kicker-tracking);
+  line-height: var(--type-section-kicker-line);
   text-transform: uppercase;
 }
 
@@ -363,7 +391,11 @@
 
   .about-hero h1,
   .about-page h2 {
-    font-size: clamp(3.25rem, 16vw, 5rem);
+    font-size: var(--type-section-title-size);
+  }
+
+  .about-hero h1 {
+    font-size: var(--type-hero-title-size);
   }
 
   .about-values-grid,
@@ -385,4 +417,41 @@
   .about-actions .button {
     width: 100%;
   }
+}
+
+/* ============================================================
+   TYPOGRAPHY STANDARD OVERRIDES
+   One source of truth: edit src/typography.css tokens.
+   ============================================================ */
+
+main > section:not(.about-hero) h2 {
+  font-family: var(--type-section-title-family);
+  font-size: var(--type-section-title-size);
+  font-weight: var(--type-section-title-weight);
+  letter-spacing: var(--type-section-title-tracking);
+  line-height: var(--type-section-title-line);
+}
+
+main > section:not(.about-hero) :where(.eyebrow, .about-value span, .about-location-cards span, figcaption span) {
+  font-family: var(--type-eyebrow-family);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  letter-spacing: var(--type-eyebrow-tracking);
+  line-height: var(--type-eyebrow-line);
+}
+
+main > section:not(.about-hero) :where(p:not(.eyebrow), li, blockquote) {
+  font-family: var(--type-section-prose-family);
+  font-size: var(--type-section-prose-size);
+  font-weight: var(--type-section-prose-weight);
+  letter-spacing: 0;
+  line-height: var(--type-section-prose-line);
+}
+
+main > section:not(.about-hero) :where(h3, .about-audience-list strong, .about-house-copy blockquote) {
+  font-family: var(--type-card-title-family);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  letter-spacing: var(--type-card-title-tracking);
+  line-height: var(--type-card-title-line);
 }

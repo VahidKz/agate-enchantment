@@ -14,7 +14,7 @@
 .contact-page select,
 .contact-page textarea,
 .contact-page button {
-  font-family: var(--luxury-sans);
+  font-family: var(--type-section-prose-family);
 }
 
 .contact-hero {
@@ -43,24 +43,45 @@
   max-width: 660px;
 }
 
+.contact-hero .eyebrow {
+  font-family: var(--type-hero-eyebrow-family);
+  font-size: var(--type-hero-eyebrow-size);
+  font-weight: var(--type-hero-eyebrow-weight);
+  letter-spacing: var(--type-hero-eyebrow-tracking);
+  line-height: var(--type-hero-eyebrow-line);
+}
+
 .contact-hero h1,
 .contact-page h2 {
   margin: 0;
   color: var(--charcoal);
-  font-family: var(--luxury-serif);
-  font-weight: 500;
-  letter-spacing: 0;
+  font-family: var(--type-section-title-family);
+  font-weight: var(--type-section-title-weight);
+  letter-spacing: var(--type-section-title-tracking);
 }
 
 .contact-hero h1 {
   margin-top: 1.2rem;
-  font-size: clamp(4.1rem, 8.5vw, 8.5rem);
-  line-height: 0.88;
+  font-family: var(--type-hero-title-family);
+  font-size: var(--type-hero-title-size-fallback);
+  font-size: var(--type-hero-title-size);
+  font-weight: var(--type-hero-title-weight);
+  line-height: var(--type-hero-title-line);
+  letter-spacing: var(--type-hero-title-tracking);
 }
 
 .contact-hero h1 span {
   display: block;
   font-family: inherit;
+}
+
+.contact-hero h1 :where(span, em, strong) {
+  font-family: inherit;
+  font-size: inherit;
+  font-style: normal;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
 }
 
 .contact-hero-copy > p:not(.eyebrow),
@@ -73,8 +94,10 @@
 .contact-locations-grid p,
 .contact-extra-cards p {
   color: var(--ink-soft);
-  font-size: clamp(1rem, 1.25vw, 1.12rem);
-  line-height: 1.85;
+  font-family: var(--type-section-prose-family);
+  font-size: var(--type-section-prose-size);
+  font-weight: var(--type-section-prose-weight);
+  line-height: var(--type-section-prose-line);
 }
 
 .contact-hero-copy > p:not(.eyebrow) {
@@ -118,16 +141,18 @@
 }
 
 .contact-access-head h2 {
-  font-size: clamp(2.25rem, 3.7vw, 3.6rem);
-  line-height: 1;
+  font-size: var(--type-card-title-size);
+  line-height: var(--type-card-title-line);
 }
 
 .contact-access-head p {
   max-width: 520px;
   margin: 0.7rem 0 0;
   color: var(--ink-soft);
-  font-size: clamp(1.05rem, 1.25vw, 1.22rem);
-  line-height: 1.75;
+  font-family: var(--type-section-prose-family);
+  font-size: var(--type-section-prose-size);
+  font-weight: var(--type-section-prose-weight);
+  line-height: var(--type-section-prose-line);
 }
 
 .contact-access-head > span,
@@ -135,9 +160,11 @@
 .contact-form-tags span,
 .contact-locations-grid span {
   color: var(--bronze);
-  font-size: 0.66rem;
-  font-weight: 800;
-  letter-spacing: 0.15em;
+  font-family: var(--type-section-kicker-family);
+  font-size: var(--type-section-kicker-size);
+  font-weight: var(--type-section-kicker-weight);
+  letter-spacing: var(--type-section-kicker-tracking);
+  line-height: var(--type-section-kicker-line);
   text-transform: uppercase;
 }
 
@@ -161,15 +188,15 @@
 
 .contact-channel strong {
   color: var(--charcoal);
-  font-size: clamp(1rem, 1.35vw, 1.18rem);
-  font-weight: 500;
-  line-height: 1.45;
+  font-size: var(--type-card-copy-size);
+  font-weight: var(--type-card-copy-weight);
+  line-height: var(--type-card-copy-line);
 }
 
 .contact-channel a {
   color: rgba(94, 88, 81, 0.84);
-  font-size: clamp(0.98rem, 1.2vw, 1.12rem);
-  font-weight: 500;
+  font-size: var(--type-card-copy-size);
+  font-weight: var(--type-card-copy-weight);
   letter-spacing: 0;
   text-transform: none;
 }
@@ -194,8 +221,8 @@
 .contact-page h2 {
   margin-top: 1rem;
   max-width: 760px;
-  font-size: clamp(3rem, 5.6vw, 6.2rem);
-  line-height: 0.96;
+  font-size: var(--type-section-title-size);
+  line-height: var(--type-section-title-line);
 }
 
 .contact-prose,
@@ -229,8 +256,8 @@
   border-radius: 999px;
   background: rgba(251, 250, 247, 0.66);
   color: rgba(94, 88, 81, 0.9);
-  font-size: 0.9rem;
-  font-weight: 500;
+  font-size: var(--type-card-copy-size);
+  font-weight: var(--type-card-copy-weight);
   letter-spacing: 0;
   text-transform: none;
 }
@@ -297,8 +324,10 @@
   max-width: 620px;
   margin: 0;
   color: var(--ink-soft);
-  font-size: clamp(0.95rem, 1.1vw, 1.08rem);
-  line-height: 1.65;
+  font-family: var(--type-section-prose-family);
+  font-size: var(--type-section-prose-size);
+  font-weight: var(--type-section-prose-weight);
+  line-height: var(--type-section-prose-line);
 }
 
 .contact-form-foot .button {
@@ -346,11 +375,11 @@
   display: block;
   margin: 1.5rem 0 0;
   color: var(--charcoal);
-  font-family: var(--luxury-serif);
-  font-size: clamp(1.8rem, 2.7vw, 2.8rem);
-  font-weight: 500;
-  letter-spacing: 0;
-  line-height: 1;
+  font-family: var(--type-card-title-family);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  letter-spacing: var(--type-card-title-tracking);
+  line-height: var(--type-card-title-line);
 }
 
 .contact-extra-grid {
@@ -421,7 +450,11 @@
 
   .contact-hero h1,
   .contact-page h2 {
-    font-size: clamp(3.25rem, 16vw, 5rem);
+    font-size: var(--type-section-title-size);
+  }
+
+  .contact-hero h1 {
+    font-size: var(--type-hero-title-size);
   }
 
   .contact-access-head,
@@ -441,4 +474,47 @@
   .contact-form-foot .button {
     width: 100%;
   }
+}
+
+/* ============================================================
+   TYPOGRAPHY STANDARD OVERRIDES
+   One source of truth: edit src/typography.css tokens.
+   ============================================================ */
+
+main > section:not(.contact-hero) h2 {
+  font-family: var(--type-section-title-family);
+  font-size: var(--type-section-title-size);
+  font-weight: var(--type-section-title-weight);
+  letter-spacing: var(--type-section-title-tracking);
+  line-height: var(--type-section-title-line);
+}
+
+main > section:not(.contact-hero) :where(
+  .eyebrow,
+  .contact-access-head > span,
+  .contact-channel span,
+  .contact-form-tags span,
+  .contact-locations-grid span
+) {
+  font-family: var(--type-eyebrow-family);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  letter-spacing: var(--type-eyebrow-tracking);
+  line-height: var(--type-eyebrow-line);
+}
+
+main > section:not(.contact-hero) :where(p:not(.eyebrow), li, blockquote, .field input, .field select, .field textarea) {
+  font-family: var(--type-section-prose-family);
+  font-size: var(--type-section-prose-size);
+  font-weight: var(--type-section-prose-weight);
+  letter-spacing: 0;
+  line-height: var(--type-section-prose-line);
+}
+
+main > section:not(.contact-hero) :where(h3, .contact-locations-grid h3, .contact-extra-cards strong, .contact-channel strong) {
+  font-family: var(--type-card-title-family);
+  font-size: var(--type-card-title-size);
+  font-weight: var(--type-card-title-weight);
+  letter-spacing: var(--type-card-title-tracking);
+  line-height: var(--type-card-title-line);
 }
