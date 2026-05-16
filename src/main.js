@@ -405,6 +405,81 @@ if (mineSlicesScene) {
 }
 
 if (heroScene) {
+  const heroMedia = heroScene.querySelector(".hero-media");
+  const heroCursorLight = document.createElement("span");
+  let heroLightImpactTimer = 0;
+
+  if (heroMedia) {
+    heroCursorLight.className = "hero-cursor-light";
+    heroCursorLight.setAttribute("aria-hidden", "true");
+    heroMedia.appendChild(heroCursorLight);
+  }
+
+  const updateHeroRevealPoint = (event) => {
+    if (!heroMedia) return false;
+
+    const pointerEvent = event.getCoalescedEvents?.().at(-1) || event;
+    const rect = heroMedia.getBoundingClientRect();
+    const pointX = clamp(pointerEvent.clientX - rect.left, 0, rect.width);
+    const pointY = clamp(pointerEvent.clientY - rect.top, 0, rect.height);
+    const x = rect.width > 0 ? (pointX / rect.width) * 100 : 50;
+    const y = rect.height > 0 ? (pointY / rect.height) * 100 : 50;
+
+    heroScene.style.setProperty("--hero-reveal-x", `${x.toFixed(2)}%`);
+    heroScene.style.setProperty("--hero-reveal-y", `${y.toFixed(2)}%`);
+    heroScene.style.setProperty("--hero-reveal-x-px", `${pointX.toFixed(1)}px`);
+    heroScene.style.setProperty("--hero-reveal-y-px", `${pointY.toFixed(1)}px`);
+    heroCursorLight.style.transform = `translate3d(${pointX.toFixed(1)}px, ${pointY.toFixed(1)}px, 0) translate(-50%, -50%)`;
+    return (
+      pointerEvent.clientX >= rect.left &&
+      pointerEvent.clientX <= rect.right &&
+      pointerEvent.clientY >= rect.top &&
+      pointerEvent.clientY <= rect.bottom
+    );
+  };
+
+  heroMedia?.addEventListener("pointerenter", (event) => {
+    if (event.pointerType === "touch") return;
+    heroHasPointer = true;
+    heroMedia.classList.add("is-lighting");
+    updateHeroRevealPoint(event);
+    updateHeroDetail();
+  });
+
+  heroMedia?.addEventListener("pointermove", (event) => {
+    if (event.pointerType === "touch") return;
+    updateHeroRevealPoint(event);
+  });
+
+  heroMedia?.addEventListener("pointerleave", () => {
+    heroHasPointer = false;
+    if (
+      !heroMedia.classList.contains("is-hero-dragging") &&
+      !heroMedia.classList.contains("is-light-impact")
+    ) {
+      heroMedia.classList.remove("is-lighting");
+    }
+    updateHeroDetail();
+  });
+
+  const triggerHeroLightImpact = () => {
+    if (!heroMedia) return;
+
+    heroMedia.classList.add("is-lighting");
+    heroMedia.classList.remove("is-light-impact");
+    window.clearTimeout(heroLightImpactTimer);
+    void heroMedia.offsetWidth;
+    heroMedia.classList.add("is-light-impact");
+
+    heroLightImpactTimer = window.setTimeout(() => {
+      heroMedia.classList.remove("is-light-impact");
+
+      if (!heroHasPointer && !heroHasFocus) {
+        heroMedia.classList.remove("is-lighting");
+      }
+    }, 850);
+  };
+
   heroScene.addEventListener("focusin", () => {
     heroHasFocus = true;
     updateHeroDetail();
@@ -415,39 +490,14 @@ if (heroScene) {
     updateHeroDetail();
   });
 
-  // Hero stone touch: Web Animations API (never re-triggers CSS entry anim).
-  if (!reduceMotion) {
-    const heroMedia = heroScene.querySelector(".hero-media");
+  // Hero stone press: Web Animations API (never re-triggers CSS entry anim).
+  if (heroMedia) {
     let isHeroPressing = false;
     let didHeroDrag = false;
     let activeHeroPointer = null;
-    let heroPressLight = null;
     let heroPressStartX = 0;
     let heroPressStartY = 0;
     let suppressHeroClickUntil = 0;
-
-    const removeHeroPressLight = (linger = 0) => {
-      if (!heroPressLight) return;
-
-      const light = heroPressLight;
-      heroPressLight = null;
-      window.setTimeout(() => light.classList.remove("is-visible"), linger);
-      window.setTimeout(() => light.remove(), linger + 980);
-    };
-
-    const updateHeroPressLight = (event) => {
-      if (!heroMedia || !heroPressLight) return false;
-
-      const rect = heroMedia.getBoundingClientRect();
-      const cx = event.clientX - rect.left;
-      const cy = event.clientY - rect.top;
-
-      if (cx < 0 || cy < 0 || cx > rect.width || cy > rect.height) return false;
-
-      heroPressLight.style.setProperty("--press-x", `${((cx / rect.width) * 100).toFixed(2)}%`);
-      heroPressLight.style.setProperty("--press-y", `${((cy / rect.height) * 100).toFixed(2)}%`);
-      return true;
-    };
 
     const endHeroDrag = (event) => {
       if (!isHeroPressing || (activeHeroPointer !== null && event.pointerId !== activeHeroPointer)) return;
@@ -457,11 +507,9 @@ if (heroScene) {
       heroMedia?.classList.remove("is-hero-dragging");
       const wasHeroDrag = didHeroDrag;
 
-      if (!wasHeroDrag) {
-        heroPressLight?.classList.add("is-click-wave");
+      if (!heroHasPointer && !heroHasFocus) {
+        heroMedia?.classList.remove("is-lighting");
       }
-
-      removeHeroPressLight(wasHeroDrag ? 120 : 620);
 
       if (wasHeroDrag) {
         suppressHeroClickUntil = performance.now() + 280;
@@ -476,25 +524,30 @@ if (heroScene) {
       activeHeroPointer = event.pointerId;
       heroPressStartX = event.clientX;
       heroPressStartY = event.clientY;
-      heroPressLight?.remove();
-      heroPressLight = document.createElement("span");
-      heroPressLight.className = "hero-drag-sheen";
-      heroMedia.appendChild(heroPressLight);
+      updateHeroRevealPoint(event);
+      heroMedia.classList.add("is-lighting");
       heroMedia.classList.add("is-hero-dragging");
+      heroMedia.classList.remove("is-light-impact");
+      window.clearTimeout(heroLightImpactTimer);
       heroMedia.setPointerCapture?.(event.pointerId);
-
-      if (updateHeroPressLight(event)) {
-        window.requestAnimationFrame(() => heroPressLight?.classList.add("is-visible"));
-      }
     });
 
     heroMedia?.addEventListener("pointermove", (event) => {
       if (!isHeroPressing || event.pointerId !== activeHeroPointer) return;
 
+      updateHeroRevealPoint(event);
       const movedX = event.clientX - heroPressStartX;
       const movedY = event.clientY - heroPressStartY;
-      didHeroDrag ||= Math.hypot(movedX, movedY) > 8;
-      updateHeroPressLight(event);
+      const isPastDragThreshold = Math.hypot(movedX, movedY) > 8;
+      didHeroDrag ||= isPastDragThreshold;
+      if (isPastDragThreshold) {
+        heroMedia.classList.add("is-hero-dragging");
+      }
+    });
+
+    heroMedia?.addEventListener("pointerrawupdate", (event) => {
+      if (!isHeroPressing || event.pointerId !== activeHeroPointer) return;
+      updateHeroRevealPoint(event);
     });
 
     heroMedia?.addEventListener("pointerup", endHeroDrag);

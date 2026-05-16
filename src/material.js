@@ -305,12 +305,26 @@ let materialZoom = 1;
 let materialScrollZoom = 1;
 let materialPanX = 0;
 let materialPanY = 0;
-let materialDragStart = null;
+let materialSlideOffsetX = 0;
+let materialGestureStart = null;
+
+const clearMaterialSlideCue = () => {
+  if (!materialViewStage) return;
+  materialViewStage.classList.remove("is-slide-prev", "is-slide-next");
+};
+
+const setMaterialSlideCue = (direction) => {
+  if (!materialViewStage) return;
+
+  materialViewStage.classList.toggle("is-slide-prev", direction === "prev");
+  materialViewStage.classList.toggle("is-slide-next", direction === "next");
+};
 
 const applyMaterialImageTransform = () => {
   if (!materialViewImage) return;
   const combinedZoom = materialZoom * materialScrollZoom;
-  materialViewImage.style.transform = `translate3d(${materialPanX}px, ${materialPanY}px, 0) scale(${combinedZoom.toFixed(3)})`;
+  const translateX = materialPanX + materialSlideOffsetX;
+  materialViewImage.style.transform = `translate3d(${translateX}px, ${materialPanY}px, 0) scale(${combinedZoom.toFixed(3)})`;
   materialViewStage?.classList.toggle("is-zoomed", materialZoom > 1);
 };
 
@@ -329,6 +343,7 @@ const resetMaterialImageTransform = () => {
   materialZoom = 1;
   materialPanX = 0;
   materialPanY = 0;
+  materialSlideOffsetX = 0;
   applyMaterialImageTransform();
 };
 
@@ -406,11 +421,13 @@ materialViewNext?.addEventListener("click", () => setMaterialIndex(activeMateria
 
 materialViewZoomIn?.addEventListener("click", () => {
   materialZoom = clamp(materialZoom + 0.25, 1, 2.5);
+  materialSlideOffsetX = 0;
   applyMaterialImageTransform();
 });
 
 materialViewZoomOut?.addEventListener("click", () => {
   materialZoom = clamp(materialZoom - 0.25, 1, 2.5);
+  materialSlideOffsetX = 0;
   if (materialZoom === 1) {
     materialPanX = 0;
     materialPanY = 0;
@@ -432,35 +449,85 @@ materialViewFullscreen?.addEventListener("click", async () => {
 materialViewStage?.addEventListener("pointerdown", (event) => {
   if (event.target instanceof Element && event.target.closest("button, input")) return;
   if (event.pointerType === "mouse" && event.button !== 0) return;
-  materialDragStart = {
+  clearMaterialSlideCue();
+  const isZoomPanGesture = materialZoom > 1;
+  materialGestureStart = {
+    mode: isZoomPanGesture ? "pan" : "slide",
     pointerId: event.pointerId,
     x: event.clientX,
     y: event.clientY,
     panX: materialPanX,
     panY: materialPanY,
+    isHorizontalSlide: false,
   };
-  materialViewStage.classList.add("is-dragging");
+  materialViewStage.classList.toggle("is-dragging", isZoomPanGesture);
+  materialViewStage.classList.toggle("is-sliding", !isZoomPanGesture);
   materialViewStage.setPointerCapture?.(event.pointerId);
 });
 
 materialViewStage?.addEventListener("pointermove", (event) => {
-  if (!materialDragStart || event.pointerId !== materialDragStart.pointerId) return;
-  materialPanX = materialDragStart.panX + event.clientX - materialDragStart.x;
-  materialPanY = materialDragStart.panY + event.clientY - materialDragStart.y;
+  if (!materialGestureStart || event.pointerId !== materialGestureStart.pointerId) return;
+
+  const movedX = event.clientX - materialGestureStart.x;
+  const movedY = event.clientY - materialGestureStart.y;
+
+  if (materialGestureStart.mode === "pan") {
+    materialPanX = materialGestureStart.panX + movedX;
+    materialPanY = materialGestureStart.panY + movedY;
+    applyMaterialImageTransform();
+    return;
+  }
+
+  if (!materialGestureStart.isHorizontalSlide) {
+    materialGestureStart.isHorizontalSlide = Math.abs(movedX) > 10 && Math.abs(movedX) > Math.abs(movedY) * 1.25;
+  }
+
+  if (!materialGestureStart.isHorizontalSlide) return;
+
+  event.preventDefault();
+  const stageWidth = materialViewStage?.getBoundingClientRect().width || 1;
+  materialSlideOffsetX = clamp(movedX, -stageWidth * 0.28, stageWidth * 0.28);
+  setMaterialSlideCue(movedX < 0 ? "next" : "prev");
   applyMaterialImageTransform();
 });
 
 const endMaterialDrag = (event) => {
-  if (!materialDragStart || event.pointerId !== materialDragStart.pointerId) return;
-  materialDragStart = null;
+  if (!materialGestureStart || event.pointerId !== materialGestureStart.pointerId) return;
+
+  const gesture = materialGestureStart;
+  const movedX = event.clientX - gesture.x;
+  const movedY = event.clientY - gesture.y;
+  const stageWidth = materialViewStage?.getBoundingClientRect().width || 0;
+  const slideThreshold = clamp(stageWidth * 0.14, 56, 132);
+
+  materialGestureStart = null;
+  materialSlideOffsetX = 0;
   materialViewStage?.classList.remove("is-dragging");
+  materialViewStage?.classList.remove("is-sliding");
+
+  if (
+    gesture.mode === "slide" &&
+    Math.abs(movedX) >= slideThreshold &&
+    Math.abs(movedX) > Math.abs(movedY) * 1.2
+  ) {
+    clearMaterialSlideCue();
+    setMaterialIndex(activeMaterialIndex + (movedX < 0 ? 1 : -1));
+    return;
+  }
+
+  clearMaterialSlideCue();
+  applyMaterialImageTransform();
 };
 
 materialViewStage?.addEventListener("pointerup", endMaterialDrag);
 materialViewStage?.addEventListener("pointercancel", endMaterialDrag);
 materialViewStage?.addEventListener("lostpointercapture", () => {
-  materialDragStart = null;
+  materialGestureStart = null;
+  materialSlideOffsetX = 0;
   materialViewStage?.classList.remove("is-dragging");
+  materialViewStage?.classList.remove("is-sliding");
+  clearMaterialSlideCue();
+  applyMaterialImageTransform();
 });
 
 let ticking = false;
