@@ -630,7 +630,7 @@ address { font-style: normal; }
   line-height: var(--type-hero-title-line);
   letter-spacing: var(--type-hero-title-tracking);
   color: var(--charcoal);
-  margin-bottom: 0;
+  margin: 7px 0 0;
 }
 
 .m-hero-title span { display: block; }
@@ -2157,7 +2157,7 @@ address { font-style: normal; }
 
 .m-spec-layout {
   display: grid;
-  grid-template-columns: minmax(260px, 0.62fr) minmax(0, 1.72fr);
+  grid-template-columns: minmax(260px, 1fr) minmax(0, 2fr);
   gap: clamp(2.6rem, 5.4vw, 5.8rem);
   align-items: center;
 }
@@ -2176,14 +2176,14 @@ address { font-style: normal; }
   line-height: 0.94;
   letter-spacing: var(--type-section-title-tracking);
   color: var(--charcoal);
-  max-width: 9.4ch;
+  max-width: 100%;
   margin: clamp(1.5rem, 3svh, 2.6rem) 0 clamp(1rem, 2.2svh, 1.65rem);
 }
 
 .m-spec-copy {
   margin-top: 8px !important;
   display: grid;
-  max-width: 36ch;
+  max-width: 100%;
 }
 
 .m-spec-copy p,
@@ -2219,7 +2219,7 @@ address { font-style: normal; }
   display: grid;
   grid-template-columns: 18px minmax(0, 1fr);
   gap: 0.8rem;
-  max-width: 34ch;
+  max-width: 100%;
   margin-top: clamp(1.7rem, 3.5svh, 2.8rem);
   font-size: clamp(0.76rem, 0.82vw, 0.92rem);
   line-height: 1.42;
@@ -2265,7 +2265,7 @@ address { font-style: normal; }
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: 49% 50%;
+  object-position: 29% 50%;
   filter: saturate(1.08) contrast(1.04);
   transform: scale(1.1);
 }
@@ -2391,11 +2391,16 @@ address { font-style: normal; }
    OTHER STONES — sourcing
    ============================================================ */
 
+#sourcing .m-inner {
+  width: min(100%, var(--max));
+}
+
 .m-source-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) repeat(3, minmax(0, 0.88fr));
-  gap: 1rem;
+  grid-template-columns: minmax(0, 1.08fr) repeat(3, minmax(0, 0.82fr));
+  gap: clamp(1rem, 2.4vw, 1.8rem);
   align-items: stretch;
+  width: 100%;
 }
 
 .m-source-card {
@@ -2625,13 +2630,15 @@ address { font-style: normal; }
 
 .m-cta {
   position: relative;
-  min-height: clamp(600px, 76svh, 820px);
+  height: clamp(320px, 38svh, 420px);
+  min-height: clamp(320px, 38svh, 420px);
+  max-height: clamp(320px, 38svh, 420px);
   display: grid;
   place-items: center;
   text-align: center;
   overflow: hidden;
   isolation: isolate;
-  padding: clamp(4.8rem, 7.4vw, 7.4rem) var(--pad);
+  padding: clamp(44px, 5.5vw, 68px) var(--pad) clamp(42px, 5vw, 62px);
   border-bottom: none;
   background:
     url("/assets/material-cta.png") center / cover fixed,
@@ -2643,14 +2650,7 @@ address { font-style: normal; }
 }
 
 .m-cta::after {
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(90deg, rgba(5, 4, 3, 0.58), rgba(5, 4, 3, 0.08) 24%, rgba(5, 4, 3, 0.04) 70%, rgba(5, 4, 3, 0.38)),
-    linear-gradient(180deg, rgba(5, 4, 3, 0.08), rgba(5, 4, 3, 0.16));
-  content: "";
-  pointer-events: none;
+  display: none;
 }
 
 .m-cta-inner {
@@ -2692,19 +2692,28 @@ address { font-style: normal; }
 }
 
 .m-cta .eyebrow::after {
-  margin-inline: auto;
-  opacity: 0.76;
+  display: none;
 }
 
 .m-cta h2 {
+  position: relative;
   font-family: var(--type-section-title-family);
   font-weight: var(--type-section-title-weight);
-  font-size: clamp(3.2rem, 6.2vw, 6rem);
+  font-size: clamp(2.25rem, min(4.2vw, 7svh), 4rem);
   line-height: 0.94;
   letter-spacing: var(--type-section-title-tracking);
   color: rgba(251, 250, 247, 0.96);
-  margin: clamp(1.15rem, 2.1svh, 1.6rem) auto clamp(1.35rem, 2.5svh, 1.9rem);
+  margin: 0 auto clamp(14px, 2vw, 24px);
   text-shadow: 0 2px 32px rgba(0, 0, 0, 0.42);
+}
+
+.m-cta h2::after {
+  display: block;
+  width: var(--type-eyebrow-divider-width);
+  height: var(--type-eyebrow-divider-height);
+  margin: clamp(0.7rem, 1.2svh, 0.95rem) auto 0;
+  background: rgba(221, 199, 170, 0.76);
+  content: "";
 }
 
 .m-cta-sub {
@@ -2714,7 +2723,7 @@ address { font-style: normal; }
   font-family: var(--type-section-copy-family);
   font-size: var(--type-section-copy-size);
   font-weight: var(--type-section-copy-weight);
-  line-height: 1.78;
+  line-height: 1.5;
 }
 
 .m-request-tags {
@@ -2722,14 +2731,14 @@ address { font-style: normal; }
   flex-wrap: wrap;
   justify-content: center;
   gap: clamp(0.58rem, 1vw, 0.9rem);
-  margin: clamp(1.6rem, 3svh, 2.25rem) auto 0;
+  margin: clamp(0.75rem, 1.4svh, 1.1rem) auto 0;
 }
 
 .m-request-tags span {
   display: inline-flex;
   border: 1px solid rgba(251, 250, 247, 0.18);
   border-radius: 0;
-  padding: 0.62rem 1.02rem;
+  padding: 0.42rem 0.74rem;
   color: rgba(251, 250, 247, 0.74);
   background: rgba(18, 9, 5, 0.12);
   text-transform: uppercase;
@@ -2742,15 +2751,18 @@ address { font-style: normal; }
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: clamp(1rem, 2vw, 1.4rem);
-  max-width: 820px;
-  margin: clamp(2.2rem, 4.2svh, 3.2rem) auto 0;
+  align-items: center;
+  gap: clamp(0.7rem, 1.3vw, 1rem);
+  max-width: min(100%, 720px);
+  margin: clamp(1rem, 2svh, 1.45rem) auto 0;
 }
 
 .m-cta .button {
-  min-width: min(100%, 350px);
-  min-height: 64px;
-  letter-spacing: 0.14em;
+  min-width: 0;
+  min-height: 46px;
+  padding-inline: clamp(1rem, 2vw, 1.45rem);
+  letter-spacing: 0.11em;
+  white-space: nowrap;
 }
 
 .m-cta .button-primary {
@@ -2778,16 +2790,20 @@ address { font-style: normal; }
 }
 
 .m-cta-actions .button-ghost:last-child {
+  display: inline-flex;
   flex-basis: 100%;
-  width: fit-content;
+  width: max-content;
   min-width: 0;
   min-height: 0;
-  margin: clamp(0.7rem, 1.3svh, 1rem) auto 0;
+  margin: clamp(0.55rem, 1.1svh, 0.85rem) auto 0;
   padding: 0.2rem 0 0.45rem;
   border: 0;
-  border-bottom: 1px solid rgba(251, 250, 247, 0.34);
   color: rgba(251, 250, 247, 0.82);
   background: transparent;
+  text-decoration: underline;
+  text-decoration-color: rgba(251, 250, 247, 0.34);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.45rem;
 }
 
 /* ============================================================
@@ -3207,20 +3223,43 @@ address { font-style: normal; }
   .m-form-divider { min-height: 60px; }
   .m-form-card    { min-height: 560px; }
 
+  .m-view-bg {
+    height: auto;
+    min-height: 0;
+    overflow: visible;
+    padding-top: clamp(5.4rem, 11svh, 7rem);
+    padding-bottom: clamp(2rem, 6svh, 3.5rem);
+  }
+
+  .m-view-bg .m-section-head {
+    margin-bottom: clamp(1.2rem, 4vw, 1.8rem);
+  }
+
   .m-view-layout {
     grid-template-columns: 1fr;
+    height: auto;
+    gap: clamp(1rem, 4vw, 1.6rem);
   }
 
   .m-view-side {
     position: static;
+    height: auto;
   }
 
   .m-view-stage {
-    min-height: 520px;
+    height: clamp(360px, 55svh, 560px);
+    min-height: 0;
+  }
+
+  .m-view-panel {
+    height: auto;
+    overflow: visible;
   }
 
   .m-view-list {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-height: none;
+    overflow: visible;
   }
 
   .m-view-thumb {
@@ -3325,12 +3364,26 @@ address { font-style: normal; }
 
   .m-cta-actions .button { width: 100%; }
 
+  .m-cta-actions {
+    flex-wrap: wrap;
+  }
+
+  .m-cta-actions .button {
+    width: auto;
+  }
+
   .m-cta-actions .button-ghost:last-child {
     width: fit-content;
   }
 
+  .m-cta {
+    min-height: clamp(340px, 48svh, 420px);
+    padding: clamp(42px, 9vw, 56px) 24px clamp(38px, 8vw, 52px);
+  }
+
   .m-view-stage {
-    min-height: 420px;
+    height: clamp(300px, 48svh, 420px);
+    min-height: 0;
   }
 
   .m-view-list {
@@ -3867,7 +3920,7 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
   }
 
   .m-source-grid {
-    gap: clamp(0.65rem, 1.1vw, 0.95rem);
+    gap: clamp(1rem, 2.4vw, 1.8rem);
   }
 
   .m-source-card {
@@ -3901,8 +3954,12 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
   }
 
   .m-cta {
+    display: grid;
+    align-items: center;
     height: auto;
-    min-height: clamp(600px, 76svh, 820px);
-    padding-block: clamp(60px, 7.4svh, 90px);
+    max-height: none;
+    min-height: clamp(320px, 38svh, 420px);
+    overflow: hidden;
+    padding-block: clamp(44px, 5.5vw, 68px) clamp(42px, 5vw, 62px);
   }
 }
