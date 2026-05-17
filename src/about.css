@@ -137,6 +137,10 @@
   object-fit: cover;
 }
 
+.about-house-visual img {
+  object-position: center center;
+}
+
 .about-hero-note {
   position: absolute;
   right: 0;
@@ -205,9 +209,25 @@
   margin-bottom: clamp(2.2rem, 5vw, 4.8rem);
 }
 
+.about-audience .about-section-head {
+  grid-template-columns: 1fr;
+  justify-items: center;
+  gap: clamp(1rem, 2.2vw, 1.6rem);
+  max-width: 900px;
+  text-align: center;
+}
+
 .about-section-head > p {
   max-width: 560px;
   margin: 0;
+}
+
+.about-audience .about-section-head > p {
+  max-width: 680px;
+}
+
+.about-audience .about-section-head .eyebrow::after {
+  margin-inline: auto;
 }
 
 .about-values-grid,
@@ -259,6 +279,7 @@
 
 .about-house-grid {
   align-items: center;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
 }
 
 .about-house-copy blockquote {
@@ -275,7 +296,9 @@
 
 .about-house-visual {
   position: relative;
-  aspect-ratio: 4 / 5;
+  justify-self: center;
+  width: min(100%, 680px);
+  aspect-ratio: 5 / 4;
 }
 
 .about-house-visual figcaption {
@@ -344,6 +367,15 @@
 
 .about-cta .eyebrow {
   color: var(--sand);
+  text-align: center;
+}
+
+.about-cta .eyebrow::after {
+  margin-inline: auto;
+}
+
+.about-cta .about-actions {
+  justify-content: center;
 }
 
 .about-cta h2,
@@ -452,6 +484,15 @@ main > section:not(.about-hero) .eyebrow::after {
   content: "";
 }
 
+main > section.about-cta .eyebrow {
+  color: var(--sand);
+  text-align: center;
+}
+
+main > section.about-cta .eyebrow::after {
+  margin-inline: auto;
+}
+
 main > section:not(.about-hero) :where(p:not(.eyebrow), li, blockquote) {
   font-family: var(--type-section-prose-family);
   font-size: var(--type-section-prose-size);
@@ -528,6 +569,7 @@ main > section:not(.about-hero) :where(h3, .about-audience-list strong, .about-h
 
   .about-house-visual {
     max-height: min(62svh, 560px);
+    width: min(100%, 620px, 77.5svh);
   }
 
   .about-house-visual img {

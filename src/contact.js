@@ -2,21 +2,13 @@ import "./style.css";
 import "./contact.css";
 import headerMarkup from "./sections/header.html?raw";
 import contactHeroMarkup from "./sections/contact-hero.html?raw";
-import contactNoteMarkup from "./sections/contact-note.html?raw";
 import contactFormMarkup from "./sections/contact-form.html?raw";
-import contactLocationsMarkup from "./sections/contact-locations.html?raw";
-import contactExtraMarkup from "./sections/contact-extra.html?raw";
-import contactCtaMarkup from "./sections/contact-cta.html?raw";
 import footerMarkup from "./sections/footer.html?raw";
 import { initMobileNavigation } from "./navigation.js";
 
 const sections = [
   contactHeroMarkup,
-  contactNoteMarkup,
   contactFormMarkup,
-  contactLocationsMarkup,
-  contactExtraMarkup,
-  contactCtaMarkup,
 ];
 
 const page = document.querySelector("[data-page]");

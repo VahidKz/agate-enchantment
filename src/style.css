@@ -827,6 +827,10 @@ main > section,
   animation: hero-content-enter 900ms var(--ease-out) 1880ms both;
 }
 
+.hero-eyebrow span {
+  display: inline;
+}
+
 .hero-copy,
 .hero-meta,
 .hero-actions {
@@ -2595,7 +2599,7 @@ main > section,
 }
 
 .sample-card:hover .sample-visual img {
-  transform: scale(1);
+  transform: scale(1.05);
 }
 
 /* Caption strip */
@@ -2721,6 +2725,11 @@ main > section,
 
 .sample-card--noir .sample-visual {
   aspect-ratio: 0.72 / 1;
+}
+
+.sample-card--noir .sample-visual img {
+  object-position: 19% 50%;
+  transform-origin: left center;
 }
 
 .atelier {
@@ -4474,6 +4483,7 @@ main > section,
   }
 
   .hero-copy {
+    display: none;
     max-width: 37ch;
     margin-top: clamp(16px, 3vh, 28px);
     margin-top: clamp(16px, 3svh, 28px);
@@ -4932,6 +4942,16 @@ main > section,
     min-height: 0;
     margin-left: 0;
     padding: 0;
+  }
+
+  .hero-eyebrow {
+    display: grid;
+    gap: 0.24rem;
+    line-height: 1.22;
+  }
+
+  .hero-eyebrow span {
+    display: block;
   }
 
   .hero h1 {

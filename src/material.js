@@ -137,6 +137,26 @@ const appFeatureImage = document.querySelector("[data-app-feature-image]");
 const appFeatureLabel = document.querySelector("[data-app-feature-label]");
 const appFeatureTitle = document.querySelector("[data-app-feature-title]");
 const appFeatureCopy = document.querySelector("[data-app-feature-copy]");
+const appFeatureDetails = [
+  {
+    label: document.querySelector("[data-app-detail-one-label]"),
+    copy: document.querySelector("[data-app-detail-one-copy]"),
+    labelKey: "appDetailOneLabel",
+    copyKey: "appDetailOneCopy",
+  },
+  {
+    label: document.querySelector("[data-app-detail-two-label]"),
+    copy: document.querySelector("[data-app-detail-two-copy]"),
+    labelKey: "appDetailTwoLabel",
+    copyKey: "appDetailTwoCopy",
+  },
+  {
+    label: document.querySelector("[data-app-detail-three-label]"),
+    copy: document.querySelector("[data-app-detail-three-copy]"),
+    labelKey: "appDetailThreeLabel",
+    copyKey: "appDetailThreeCopy",
+  },
+];
 const appOptions = Array.from(document.querySelectorAll("[data-app-option]"));
 
 const scrollToApplicationFeatureOnMobile = () => {
@@ -156,6 +176,12 @@ const setActiveApplication = (option, shouldScroll = false) => {
   appFeatureLabel.textContent = option.dataset.appLabel;
   appFeatureTitle.textContent = option.dataset.appTitle;
   appFeatureCopy.textContent = option.dataset.appCopy;
+
+  appFeatureDetails.forEach((detail) => {
+    if (!detail.label || !detail.copy) return;
+    detail.label.textContent = option.dataset[detail.labelKey] || "";
+    detail.copy.textContent = option.dataset[detail.copyKey] || "";
+  });
 
   appOptions.forEach((item) => {
     const isActive = item === option;
@@ -191,6 +217,8 @@ const materialViewZoomIn = document.querySelector("[data-material-zoom-in]");
 const materialViewZoomOut = document.querySelector("[data-material-zoom-out]");
 const materialViewReset = document.querySelector("[data-material-reset]");
 const materialViewFullscreen = document.querySelector("[data-material-fullscreen]");
+const materialSpecImage = document.querySelector("[data-spec-image]");
+const materialSpecFocusControls = Array.from(document.querySelectorAll("[data-spec-focus]"));
 
 const materialViewItems = {
   slabs: [
@@ -307,6 +335,7 @@ let materialPanX = 0;
 let materialPanY = 0;
 let materialSlideOffsetX = 0;
 let materialGestureStart = null;
+const materialDoubleClickZoom = 1.85;
 
 const clearMaterialSlideCue = () => {
   if (!materialViewStage) return;
@@ -344,6 +373,23 @@ const resetMaterialImageTransform = () => {
   materialPanX = 0;
   materialPanY = 0;
   materialSlideOffsetX = 0;
+  applyMaterialImageTransform();
+};
+
+const toggleMaterialDoubleClickZoom = () => {
+  materialGestureStart = null;
+  materialSlideOffsetX = 0;
+  clearMaterialSlideCue();
+  materialViewStage?.classList.remove("is-dragging", "is-sliding");
+
+  if (materialZoom > 1) {
+    resetMaterialImageTransform();
+    return;
+  }
+
+  materialZoom = materialDoubleClickZoom;
+  materialPanX = 0;
+  materialPanY = 0;
   applyMaterialImageTransform();
 };
 
@@ -437,6 +483,12 @@ materialViewZoomOut?.addEventListener("click", () => {
 
 materialViewReset?.addEventListener("click", resetMaterialImageTransform);
 
+materialViewStage?.addEventListener("dblclick", (event) => {
+  if (event.target instanceof Element && event.target.closest(".m-view-controls, button, input")) return;
+  event.preventDefault();
+  toggleMaterialDoubleClickZoom();
+});
+
 materialViewFullscreen?.addEventListener("click", async () => {
   if (!materialViewStage || !document.fullscreenEnabled) return;
   if (document.fullscreenElement === materialViewStage) {
@@ -529,6 +581,27 @@ materialViewStage?.addEventListener("lostpointercapture", () => {
   clearMaterialSlideCue();
   applyMaterialImageTransform();
 });
+
+const setMaterialSpecFocus = (control) => {
+  if (!materialSpecImage) return;
+
+  materialSpecImage.style.objectPosition = control.dataset.specFocus || "29% 50%";
+  materialSpecImage.style.transform = `scale(${control.dataset.specScale || "1.1"})`;
+
+  materialSpecFocusControls.forEach((item) => {
+    const isActive = item === control;
+    item.classList.toggle("is-active", isActive);
+    item.setAttribute("aria-pressed", String(isActive));
+  });
+};
+
+materialSpecFocusControls.forEach((control) => {
+  control.addEventListener("click", () => setMaterialSpecFocus(control));
+});
+
+if (materialSpecFocusControls.length > 0) {
+  setMaterialSpecFocus(materialSpecFocusControls[0]);
+}
 
 let ticking = false;
 
