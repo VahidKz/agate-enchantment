@@ -85,6 +85,12 @@ const closeFormDrawer = () => {
   document.body.classList.remove("is-form-drawer-open");
   activeFormCard?.focus();
   activeFormCard = null;
+
+  window.setTimeout(() => {
+    if (!formDrawer.classList.contains("is-open")) {
+      formDrawer.classList.remove("is-from-left", "is-from-right");
+    }
+  }, 540);
 };
 
 const openFormDrawer = (type, trigger) => {
@@ -97,6 +103,8 @@ const openFormDrawer = (type, trigger) => {
   formDrawerTitle.textContent = content.title;
   formDrawerCopy.textContent = content.copy;
   formDrawerLink.href = `mailto:info@agatestone.it?subject=${encodeURIComponent(content.subject)}`;
+  formDrawer.classList.remove("is-from-left", "is-from-right");
+  formDrawer.classList.add(type === "block" ? "is-from-left" : "is-from-right");
   formDrawer.classList.add("is-open");
   formDrawer.setAttribute("aria-hidden", "false");
   document.body.classList.add("is-form-drawer-open");

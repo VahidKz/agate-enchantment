@@ -390,23 +390,22 @@ address { font-style: normal; }
 .brand {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
   width: fit-content;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.brand-mark {
+.brand-logo {
   display: block;
   flex: 0 0 auto;
-  width: clamp(34px, 3.3vw, 48px);
+  width: clamp(132px, 12vw, 174px);
+  max-height: clamp(42px, 4.4vw, 56px);
   height: auto;
-  aspect-ratio: 1;
   object-fit: contain;
   transition: transform 500ms var(--ease-out);
 }
 
-.brand:hover .brand-mark { transform: rotate(-2deg) scale(1.04); }
+.brand:hover .brand-logo { transform: scale(1.025); }
 
 .brand-text {
   display: inline-flex;
@@ -882,14 +881,16 @@ address { font-style: normal; }
 
 .m-forms-bg .m-section-head {
   display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  column-gap: var(--forms-grid-gap);
-  align-items: end;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  align-items: center;
+  text-align: center;
   margin-bottom: clamp(1.8rem, 3.8svh, 3rem);
 }
 
 .m-forms-bg .m-section-head > div {
   grid-column: 1;
+  width: 100%;
 }
 
 .m-forms-bg .m-section-head .eyebrow {
@@ -1090,9 +1091,10 @@ address { font-style: normal; }
 }
 
 .m-forms-bg .m-section-head {
-  grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-  column-gap: clamp(1.2rem, 3vw, 3rem);
-  align-items: end;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  align-items: center;
+  text-align: center;
   margin-bottom: clamp(1.8rem, 3.8svh, 3rem);
 }
 
@@ -1393,6 +1395,10 @@ address { font-style: normal; }
   visibility: visible;
 }
 
+.m-form-drawer.is-from-left {
+  justify-items: start;
+}
+
 .m-form-drawer-backdrop {
   position: absolute;
   inset: 0;
@@ -1419,6 +1425,13 @@ address { font-style: normal; }
   box-shadow: -30px 0 80px rgba(24, 22, 18, 0.16);
   transform: translateX(102%);
   transition: transform 520ms var(--ease);
+}
+
+.m-form-drawer.is-from-left .m-form-drawer-panel {
+  border-right: 1px solid rgba(138, 90, 50, 0.20);
+  border-left: 0;
+  box-shadow: 30px 0 80px rgba(24, 22, 18, 0.16);
+  transform: translateX(-102%);
 }
 
 .m-form-drawer.is-open .m-form-drawer-panel {
@@ -3121,13 +3134,13 @@ address { font-style: normal; }
 .footer-brand {
   display: inline-flex;
   align-items: center;
-  gap: 12px;
   width: auto;
   margin-bottom: clamp(24px, 2.6vw, 34px);
 }
 
-.footer-brand .brand-mark {
-  width: clamp(36px, 2.4vw, 50px);
+.footer-brand .brand-logo {
+  width: clamp(150px, 13vw, 190px);
+  max-height: clamp(48px, 5vw, 62px);
   opacity: 0.92;
 }
 
@@ -3787,13 +3800,15 @@ address { font-style: normal; }
   }
 
   .m-forms-bg .m-section-head {
-    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
-    column-gap: var(--forms-grid-gap);
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
     margin-bottom: clamp(1.4rem, 3svh, 2.4rem);
   }
 
   .m-forms-bg .m-section-head > div {
     grid-column: 1;
+    width: 100%;
   }
 
   .m-forms-bg .m-section-head h2 {
