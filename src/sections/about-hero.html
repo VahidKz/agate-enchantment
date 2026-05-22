@@ -1,4 +1,6 @@
 <section class="about-hero" id="about" aria-labelledby="about-title">
+
+  <!-- Content overlay -->
   <div class="about-hero-copy" data-reveal>
     <p class="eyebrow">About the House</p>
     <h1 id="about-title">
@@ -17,17 +19,21 @@
     </div>
   </div>
 
-  <div class="about-hero-media" data-reveal aria-hidden="true">
-    <figure class="about-hero-frame">
-      <img src="/assets/about2.png" alt="" />
-    </figure>
-    <div class="about-hero-note">
-      <strong>Quiet Luxury</strong>
-      <p>Chosen for tone, movement, translucency, and architectural presence before any surface becomes a product.</p>
-    </div>
+  <!-- Background video -->
+  <div class="about-hero-media" aria-hidden="true">
+    <video
+      class="about-hero-video"
+      src="/assets/video/intro.mp4"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="auto"
+    ></video>
   </div>
 
   <a class="scroll-cue" href="#about-intro" aria-label="Scroll to introduction">
     <span aria-hidden="true"></span>
   </a>
+
 </section>

@@ -31,16 +31,24 @@
     </div>
   </div>
 
-  <!-- Right - stone visual -->
-  <div class="m-hero-media" aria-hidden="true" data-reveal>
-    <figure class="m-hero-object">
-      <img
-        src="/assets/material.png"
-        alt="Full-page Ember Vein material presentation"
-        loading="eager"
-        fetchpriority="high"
-      />
+  <!-- Right - stone video -->
+  <div class="m-hero-media" data-reveal aria-hidden="true">
+    <figure class="m-hero-frame">
+      <video
+        class="m-hero-video"
+        data-boomerang-video
+        src="/assets/video/Agate.mp4"
+        autoplay
+        muted
+        playsinline
+        preload="auto"
+      ></video>
+      <canvas class="m-hero-video-canvas" data-boomerang-canvas></canvas>
     </figure>
+    <div class="m-hero-note">
+      <strong>Ember Vein Onyx</strong>
+      <p>Chosen for its depth of tone, movement, and translucency — a stone that commands presence in any space.</p>
+    </div>
   </div>
 
   <a class="scroll-cue" href="#material-view" aria-label="Scroll to Ember Vein material view">

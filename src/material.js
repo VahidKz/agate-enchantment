@@ -81,6 +81,218 @@ document.querySelectorAll('.nav-links a[href="/material"], .footer-links a[href=
 const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
 const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+/* Hero video Boomerang playback */
+
+const initBoomerangVideo = (video) => {
+  const canvas = document.querySelector("[data-boomerang-canvas]");
+  const ctx = canvas?.getContext("2d");
+  if (!video || !canvas || !ctx) return;
+
+  const fps = 24;
+  const frameInterval = 1000 / fps;
+  const edgeThreshold = 0.18;
+  const maxFrames = 220;
+  const pixelRatioCap = 1.35;
+  let frames = [];
+  let captureFrame = 0;
+  let forwardFrame = 0;
+  let reverseFrame = 0;
+  let lastCaptureAt = 0;
+  let capturePending = false;
+  let isReversing = false;
+
+  const clearFrames = () => {
+    frames.forEach((frame) => frame.close?.());
+    frames = [];
+  };
+
+  const stopCapture = () => {
+    if (captureFrame) {
+      window.cancelAnimationFrame(captureFrame);
+      captureFrame = 0;
+    }
+  };
+
+  const stopForwardWatch = () => {
+    if (forwardFrame) {
+      window.cancelAnimationFrame(forwardFrame);
+      forwardFrame = 0;
+    }
+  };
+
+  const stopReverse = () => {
+    if (reverseFrame) {
+      window.cancelAnimationFrame(reverseFrame);
+      reverseFrame = 0;
+    }
+
+    isReversing = false;
+  };
+
+  const syncCanvasSize = () => {
+    const rect = canvas.getBoundingClientRect();
+    const ratio = Math.min(window.devicePixelRatio || 1, pixelRatioCap);
+    const nextWidth = Math.max(1, Math.round(rect.width * ratio));
+    const nextHeight = Math.max(1, Math.round(rect.height * ratio));
+
+    if (canvas.width === nextWidth && canvas.height === nextHeight) return;
+
+    canvas.width = nextWidth;
+    canvas.height = nextHeight;
+    clearFrames();
+  };
+
+  const drawCoverVideo = () => {
+    if (!video.videoWidth || !video.videoHeight) return false;
+
+    syncCanvasSize();
+
+    const canvasRatio = canvas.width / canvas.height;
+    const videoRatio = video.videoWidth / video.videoHeight;
+    let sourceX = 0;
+    let sourceY = 0;
+    let sourceWidth = video.videoWidth;
+    let sourceHeight = video.videoHeight;
+
+    if (videoRatio > canvasRatio) {
+      sourceWidth = video.videoHeight * canvasRatio;
+      sourceX = (video.videoWidth - sourceWidth) / 2;
+    } else {
+      sourceHeight = video.videoWidth / canvasRatio;
+      sourceY = (video.videoHeight - sourceHeight) / 2;
+    }
+
+    ctx.drawImage(
+      video,
+      sourceX,
+      sourceY,
+      sourceWidth,
+      sourceHeight,
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+    return true;
+  };
+
+  const captureForwardFrame = async (timestamp) => {
+    if (!isReversing && !document.hidden) {
+      if (
+        !capturePending &&
+        timestamp - lastCaptureAt >= frameInterval &&
+        video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA &&
+        drawCoverVideo()
+      ) {
+        capturePending = true;
+        lastCaptureAt = timestamp;
+
+        try {
+          const frame = await createImageBitmap(canvas);
+          frames.push(frame);
+
+          if (frames.length > maxFrames) {
+            frames.shift()?.close?.();
+          }
+        } finally {
+          capturePending = false;
+        }
+      }
+
+      captureFrame = window.requestAnimationFrame(captureForwardFrame);
+    }
+  };
+
+  const playForward = () => {
+    stopCapture();
+    stopForwardWatch();
+    stopReverse();
+    clearFrames();
+    canvas.classList.remove("is-active");
+    lastCaptureAt = 0;
+    video.currentTime = 0;
+    video.play().catch(() => {});
+    captureFrame = window.requestAnimationFrame(captureForwardFrame);
+    forwardFrame = window.requestAnimationFrame(watchForward);
+  };
+
+  const startReverse = () => {
+    if (isReversing || frames.length < 2) {
+      playForward();
+      return;
+    }
+
+    stopCapture();
+    stopForwardWatch();
+    video.pause();
+    canvas.classList.add("is-active");
+    isReversing = true;
+
+    let index = frames.length - 1;
+    let lastFrameAt = 0;
+
+    const renderReverseFrame = (timestamp) => {
+      if (!isReversing) return;
+
+      if (!lastFrameAt || timestamp - lastFrameAt >= frameInterval) {
+        const frame = frames[index];
+        if (frame) {
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          ctx.drawImage(frame, 0, 0, canvas.width, canvas.height);
+        }
+
+        index -= 1;
+        lastFrameAt = timestamp;
+      }
+
+      if (index < 0) {
+        playForward();
+        return;
+      }
+
+      reverseFrame = window.requestAnimationFrame(renderReverseFrame);
+    };
+
+    reverseFrame = window.requestAnimationFrame(renderReverseFrame);
+  };
+
+  function watchForward() {
+    if (
+      !isReversing &&
+      Number.isFinite(video.duration) &&
+      video.duration > 0 &&
+      video.currentTime >= video.duration - edgeThreshold
+    ) {
+      startReverse();
+      return;
+    }
+
+    forwardFrame = window.requestAnimationFrame(watchForward);
+  }
+
+  video.loop = false;
+  video.addEventListener("ended", startReverse);
+
+  if (video.readyState >= HTMLMediaElement.HAVE_METADATA) {
+    playForward();
+  } else {
+    video.addEventListener("loadedmetadata", playForward, { once: true });
+  }
+
+  document.addEventListener("visibilitychange", () => {
+    stopCapture();
+    stopForwardWatch();
+    stopReverse();
+
+    if (document.hidden) return;
+
+    playForward();
+  });
+};
+
+initBoomerangVideo(document.querySelector("[data-boomerang-video]"));
+
 /* ─── Scroll progress ────────────────────────────────────────── */
 
 const header   = document.querySelector("[data-header]");

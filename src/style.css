@@ -3101,7 +3101,10 @@ main > section,
 
 .m-forms-bg .m-section-head > div {
   grid-column: 1;
+  display: grid;
+  justify-items: center;
   width: 100%;
+  text-align: center;
 }
 
 .m-forms-bg .m-section-head .eyebrow {
@@ -5328,6 +5331,23 @@ main > section:not(.hero) .eyebrow::after {
   margin-inline: 0;
   background: currentColor;
   content: "";
+}
+
+main > section.m-forms-bg .m-section-head .m-forms-eyebrow {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  margin-inline: auto;
+  padding-bottom: calc(var(--type-eyebrow-divider-gap) + var(--type-eyebrow-divider-height));
+  background: linear-gradient(currentColor, currentColor) center bottom /
+    var(--type-eyebrow-divider-width) var(--type-eyebrow-divider-height) no-repeat;
+  text-align: center;
+}
+
+main > section.m-forms-bg .m-section-head .m-forms-eyebrow::after,
+main > section.m-forms-bg .m-section-head .m-forms-eyebrow:after {
+  display: none;
+  content: none;
 }
 
 main > section:not(.hero) :where(p:not(.eyebrow), .statement-prose, li, blockquote) {
