@@ -31,6 +31,19 @@ if (page) {
   ].join("\n");
 }
 
+if ("scrollRestoration" in window.history) {
+  window.history.scrollRestoration = "manual";
+}
+
+const resetMaterialPageScroll = () => {
+  if (window.location.hash) return;
+  window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+};
+
+window.requestAnimationFrame(resetMaterialPageScroll);
+window.addEventListener("pageshow", resetMaterialPageScroll);
+window.addEventListener("load", resetMaterialPageScroll, { once: true });
+
 initMobileNavigation();
 
 /* ─── Cross-page nav link transformation ─────────────────────── */
@@ -53,6 +66,14 @@ document.querySelectorAll('.brand[href="#hero"]').forEach((el) => {
 // Mark Ember Vein links as current page
 document.querySelectorAll('.nav-links a[href="/material"], .footer-links a[href="/material"]').forEach((el) => {
   el.setAttribute("aria-current", "page");
+});
+
+document.querySelectorAll('.nav-links a[href="/material"], .footer-links a[href="/material"]').forEach((link) => {
+  link.addEventListener("click", (event) => {
+    if (!window.location.pathname.replace(/\/$/, "").endsWith("/material")) return;
+    event.preventDefault();
+    window.scrollTo({ top: 0, left: 0, behavior: reduceMotion ? "auto" : "smooth" });
+  });
 });
 
 /* ─── Shared utilities ───────────────────────────────────────── */
@@ -137,32 +158,38 @@ const appFeatureImage = document.querySelector("[data-app-feature-image]");
 const appFeatureLabel = document.querySelector("[data-app-feature-label]");
 const appFeatureTitle = document.querySelector("[data-app-feature-title]");
 const appFeatureCopy = document.querySelector("[data-app-feature-copy]");
+const appMaterialImage = document.querySelector("[data-app-focus-image-target]");
+const appMaterialName = document.querySelector("[data-app-focus-name-target]");
+const appMaterialFinish = document.querySelector("[data-app-focus-finish-target]");
+const appPrev = document.querySelector("[data-app-prev]");
+const appNext = document.querySelector("[data-app-next]");
 const appFeatureDetails = [
   {
-    label: document.querySelector("[data-app-detail-one-label]"),
-    copy: document.querySelector("[data-app-detail-one-copy]"),
+    label: document.querySelector("[data-app-detail-one-label-display]"),
+    copy: document.querySelector("[data-app-detail-one-copy-display]"),
     labelKey: "appDetailOneLabel",
     copyKey: "appDetailOneCopy",
   },
   {
-    label: document.querySelector("[data-app-detail-two-label]"),
-    copy: document.querySelector("[data-app-detail-two-copy]"),
+    label: document.querySelector("[data-app-detail-two-label-display]"),
+    copy: document.querySelector("[data-app-detail-two-copy-display]"),
     labelKey: "appDetailTwoLabel",
     copyKey: "appDetailTwoCopy",
   },
   {
-    label: document.querySelector("[data-app-detail-three-label]"),
-    copy: document.querySelector("[data-app-detail-three-copy]"),
+    label: document.querySelector("[data-app-detail-three-label-display]"),
+    copy: document.querySelector("[data-app-detail-three-copy-display]"),
     labelKey: "appDetailThreeLabel",
     copyKey: "appDetailThreeCopy",
   },
 ];
 const appOptions = Array.from(document.querySelectorAll("[data-app-option]"));
+let activeApplicationIndex = 0;
 
 const scrollToApplicationFeatureOnMobile = () => {
   if (!window.matchMedia("(max-width: 680px)").matches) return;
 
-  appFeatureImage?.closest(".m-app-feature")?.scrollIntoView({
+  appFeatureImage?.closest(".m-app-atlas")?.scrollIntoView({
     behavior: reduceMotion ? "auto" : "smooth",
     block: "start",
   });
@@ -171,11 +198,27 @@ const scrollToApplicationFeatureOnMobile = () => {
 const setActiveApplication = (option, shouldScroll = false) => {
   if (!option || !appFeatureImage || !appFeatureLabel || !appFeatureTitle || !appFeatureCopy) return;
 
-  appFeatureImage.src = option.dataset.appImage;
-  appFeatureImage.alt = option.dataset.appAlt;
-  appFeatureLabel.textContent = option.dataset.appLabel;
-  appFeatureTitle.textContent = option.dataset.appTitle;
-  appFeatureCopy.textContent = option.dataset.appCopy;
+  const selectedIndex = appOptions.indexOf(option);
+  activeApplicationIndex = selectedIndex >= 0 ? selectedIndex : activeApplicationIndex;
+
+  appFeatureImage.src = option.dataset.appImage || appFeatureImage.src;
+  appFeatureImage.alt = option.dataset.appAlt || appFeatureImage.alt;
+  appFeatureLabel.textContent = option.dataset.appLabel || "";
+  appFeatureTitle.textContent = option.dataset.appTitle || "";
+  appFeatureCopy.textContent = option.dataset.appCopy || "";
+
+  if (appMaterialImage && option.dataset.appFocusImage) {
+    appMaterialImage.src = option.dataset.appFocusImage;
+    appMaterialImage.alt = `${option.dataset.appFocusName || "Ember Vein"} ${option.dataset.appFocusFinish || "material"} detail`;
+  }
+
+  if (appMaterialName) {
+    appMaterialName.textContent = option.dataset.appFocusName || "";
+  }
+
+  if (appMaterialFinish) {
+    appMaterialFinish.textContent = option.dataset.appFocusFinish || "";
+  }
 
   appFeatureDetails.forEach((detail) => {
     if (!detail.label || !detail.copy) return;
@@ -194,12 +237,20 @@ const setActiveApplication = (option, shouldScroll = false) => {
   }
 };
 
+const setApplicationByOffset = (offset) => {
+  if (appOptions.length === 0) return;
+  const nextIndex = (activeApplicationIndex + offset + appOptions.length) % appOptions.length;
+  setActiveApplication(appOptions[nextIndex], false);
+};
+
 appOptions.forEach((option) => {
   option.setAttribute("aria-pressed", "false");
   option.addEventListener("click", () => setActiveApplication(option, true));
 });
 
 setActiveApplication(appOptions[0], false);
+appPrev?.addEventListener("click", () => setApplicationByOffset(-1));
+appNext?.addEventListener("click", () => setApplicationByOffset(1));
 
 /* Material in View selector */
 
@@ -210,9 +261,10 @@ const materialViewType = document.querySelector("[data-material-view-type]");
 const materialViewTitle = document.querySelector("[data-material-view-title]");
 const materialViewCopy = document.querySelector("[data-material-view-copy]");
 const materialViewList = document.querySelector("[data-material-view-list]");
+const materialViewStrip = document.querySelector("[data-material-view-strip]");
 const materialViewTabs = Array.from(document.querySelectorAll("[data-material-tab]"));
-const materialViewPrev = document.querySelector("[data-material-prev]");
-const materialViewNext = document.querySelector("[data-material-next]");
+const materialViewPrevButtons = Array.from(document.querySelectorAll("[data-material-prev]"));
+const materialViewNextButtons = Array.from(document.querySelectorAll("[data-material-next]"));
 const materialViewZoomIn = document.querySelector("[data-material-zoom-in]");
 const materialViewZoomOut = document.querySelector("[data-material-zoom-out]");
 const materialViewReset = document.querySelector("[data-material-reset]");
@@ -223,76 +275,76 @@ const materialSpecFocusControls = Array.from(document.querySelectorAll("[data-sp
 const materialViewItems = {
   slabs: [
     {
-      image: "/assets/slabs/1.png",
+      image: "/assets/STONE1.png",
       type: "Slab View",
-      title: "Finished Ember Vein slab.",
+      title: "Stone slab view 1.",
       copy: "A broad slab view showing the material as a project-ready surface, useful for reading movement, tone, and scale.",
-      alt: "Finished Ember Vein slab view for architectural review",
+      alt: "Stone slab view 1 for architectural review",
     },
     {
-      image: "/assets/slabs/2.png",
+      image: "/assets/STONE2.png",
       type: "Slab View",
-      title: "Polished surface selection.",
+      title: "Stone slab view 2.",
       copy: "A cleaner slab presentation for comparing color field, mineral rhythm, and the potential of a refined finished surface.",
-      alt: "Polished Ember Vein slab surface",
+      alt: "Stone slab view 2 for material review",
     },
     {
-      image: "/assets/slabs/3.png",
+      image: "/assets/STONE3.png",
       type: "Slab View",
-      title: "Amber vein study.",
+      title: "Stone slab view 3.",
       copy: "A slab view for comparing warm movement, vein density, and architectural presence.",
-      alt: "Ember Vein slab image with amber and ivory movement",
+      alt: "Stone slab view 3 with natural movement",
     },
     {
-      image: "/assets/slabs/4.png",
+      image: "/assets/STONE4.png",
       type: "Slab View",
-      title: "Warm surface option.",
+      title: "Stone slab view 4.",
       copy: "A slab view for reviewing tone, movement, and surface character before final selection.",
-      alt: "Warm Ember Vein slab surface",
+      alt: "Stone slab view 4 for surface review",
+    },
+    {
+      image: "/assets/STONE5.png",
+      type: "Slab View",
+      title: "Stone slab view 5.",
+      copy: "An additional slab view for comparing color movement, surface scale, and selection character.",
+      alt: "Stone slab view 5 for material selection",
+    },
+    {
+      image: "/assets/STONE6.png",
+      type: "Slab View",
+      title: "Stone slab view 6.",
+      copy: "A final slab view for reviewing natural pattern, tone, and project suitability.",
+      alt: "Stone slab view 6 for project review",
     },
   ],
   blocks: [
     {
-      image: "/assets/blocks/14.png",
+      image: "/assets/BLOCK2.png",
       type: "Block View",
-      title: "Origin-selected block.",
+      title: "Block view 2.",
       copy: "A raw block view showing mass, geometry, and the material potential before custom cutting or slab production.",
-      alt: "Raw Ember Vein block selected for custom cutting",
+      alt: "Stone block view 2 selected for custom cutting",
     },
     {
-      image: "/assets/blocks/15.png",
+      image: "/assets/BLOCK4.png",
       type: "Block View",
-      title: "Cutting potential.",
+      title: "Block view 4.",
       copy: "A block study for understanding structure, volume, and how the stone may translate into larger architectural pieces.",
-      alt: "Ember Vein block showing cutting potential",
+      alt: "Stone block view 4 showing cutting potential",
     },
     {
-      image: "/assets/blocks/16.png",
+      image: "/assets/BLOCK5.png",
       type: "Block View",
-      title: "Raw material character.",
+      title: "Block view 5.",
       copy: "An isolated block view for comparing surface density, color depth, and geological expression.",
-      alt: "Ember Vein block material character",
+      alt: "Stone block view 5 showing material character",
     },
     {
-      image: "/assets/blocks/17.png",
+      image: "/assets/BLOCK6.png",
       type: "Block View",
-      title: "Selected block profile.",
+      title: "Block view 6.",
       copy: "A block view for assessing scale, outer surface character, and production suitability.",
-      alt: "Selected Ember Vein block profile",
-    },
-    {
-      image: "/assets/blocks/18.png",
-      type: "Block View",
-      title: "Quarry block reference.",
-      copy: "A raw material reference for reviewing geometry, density, and available cutting direction.",
-      alt: "Raw Ember Vein quarry block reference",
-    },
-    {
-      image: "/assets/blocks/19.png",
-      type: "Block View",
-      title: "Block availability view.",
-      copy: "A block view for comparing available material character before slab production or custom fabrication.",
-      alt: "Available Ember Vein block for custom fabrication",
+      alt: "Stone block view 6 profile",
     },
   ],
 };
@@ -370,6 +422,7 @@ const setMaterialIndex = (index) => {
   resetMaterialImageTransform();
   setActiveMaterialView();
   renderMaterialViewList();
+  renderMaterialViewStrip();
 };
 
 const setActiveMaterialView = () => {
@@ -377,7 +430,6 @@ const setActiveMaterialView = () => {
 
   const item = materialViewItems[activeMaterialTab]?.[activeMaterialIndex];
   if (!item) return;
-  const items = materialViewItems[activeMaterialTab] || [];
 
   materialViewImage.src = item.image;
   materialViewImage.alt = item.alt;
@@ -415,6 +467,28 @@ const renderMaterialViewList = () => {
   });
 };
 
+const renderMaterialViewStrip = () => {
+  if (!materialViewStrip) return;
+
+  const items = materialViewItems[activeMaterialTab] || [];
+  materialViewStrip.innerHTML = "";
+
+  items.forEach((item, index) => {
+    const button = document.createElement("button");
+    const isActive = index === activeMaterialIndex;
+    button.className = `m-view-strip-thumb${isActive ? " is-active" : ""}`;
+    button.type = "button";
+    button.setAttribute("aria-pressed", String(isActive));
+    button.setAttribute("aria-label", item.title);
+    button.innerHTML = `<img src="${item.image}" alt="" loading="lazy">`;
+    button.addEventListener("click", () => {
+      setMaterialIndex(index);
+    });
+    materialViewStrip.appendChild(button);
+
+  });
+};
+
 materialViewTabs.forEach((tab) => {
   tab.setAttribute("aria-pressed", String(tab.dataset.materialTab === activeMaterialTab));
   tab.addEventListener("click", () => {
@@ -431,9 +505,15 @@ materialViewTabs.forEach((tab) => {
 
 setActiveMaterialView();
 renderMaterialViewList();
+renderMaterialViewStrip();
 
-materialViewPrev?.addEventListener("click", () => setMaterialIndex(activeMaterialIndex - 1));
-materialViewNext?.addEventListener("click", () => setMaterialIndex(activeMaterialIndex + 1));
+materialViewPrevButtons.forEach((button) => {
+  button.addEventListener("click", () => setMaterialIndex(activeMaterialIndex - 1));
+});
+
+materialViewNextButtons.forEach((button) => {
+  button.addEventListener("click", () => setMaterialIndex(activeMaterialIndex + 1));
+});
 
 materialViewZoomIn?.addEventListener("click", () => {
   materialZoom = clamp(materialZoom + 0.25, 1, 2.5);
@@ -454,7 +534,7 @@ materialViewZoomOut?.addEventListener("click", () => {
 materialViewReset?.addEventListener("click", resetMaterialImageTransform);
 
 materialViewStage?.addEventListener("dblclick", (event) => {
-  if (event.target instanceof Element && event.target.closest(".m-view-controls, button, input")) return;
+  if (event.target instanceof Element && event.target.closest(".m-view-controls, .m-view-filmstrip, button, input")) return;
   event.preventDefault();
   toggleMaterialDoubleClickZoom();
 });
@@ -469,7 +549,7 @@ materialViewFullscreen?.addEventListener("click", async () => {
 });
 
 materialViewStage?.addEventListener("pointerdown", (event) => {
-  if (event.target instanceof Element && event.target.closest("button, input")) return;
+  if (event.target instanceof Element && event.target.closest(".m-view-filmstrip, button, input")) return;
   if (event.pointerType === "mouse" && event.button !== 0) return;
   clearMaterialSlideCue();
   const isZoomPanGesture = materialZoom > 1;
