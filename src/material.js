@@ -2,6 +2,7 @@ import "./material.css";
 import headerMarkup  from "./sections/header.html?raw";
 import footerMarkup  from "./sections/footer.html?raw";
 import heroMarkup         from "./sections/material-hero.html?raw";
+import introMarkup        from "./sections/material-intro.html?raw";
 import viewMarkup         from "./sections/material-view.html?raw";
 import applicationsMarkup from "./sections/material-applications.html?raw";
 import specsMarkup        from "./sections/material-specs.html?raw";
@@ -14,6 +15,7 @@ import { initMobileNavigation } from "./navigation.js";
 
 const sections = [
   heroMarkup,
+  introMarkup,
   viewMarkup,
   applicationsMarkup,
   specsMarkup,

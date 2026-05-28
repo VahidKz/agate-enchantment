@@ -1,8 +1,15 @@
 .about-page {
+  --about-section-bg:
+    radial-gradient(circle at 80% 12%, rgba(138, 90, 50, 0.07), transparent 30%),
+    linear-gradient(180deg, rgba(242, 236, 227, 0.95), rgba(247, 243, 237, 0.99));
   overflow: hidden;
   background:
     linear-gradient(180deg, rgba(251, 250, 247, 0.98), rgba(247, 243, 237, 0.98)),
     var(--warm-white);
+}
+
+.about-page > section:not(.about-hero) {
+  background: var(--about-section-bg);
 }
 
 .about-page p,
@@ -247,9 +254,7 @@
 }
 
 .about-values {
-  background:
-    linear-gradient(180deg, rgba(247, 243, 237, 0.74), rgba(251, 250, 247, 0.96)),
-    var(--ivory);
+  background: var(--about-section-bg);
 }
 
 .about-section-head {
@@ -322,7 +327,7 @@
 }
 
 .about-house {
-  background: var(--warm-white);
+  background: var(--about-section-bg);
 }
 
 .about-house-grid {
@@ -386,7 +391,7 @@
 }
 
 .about-locations {
-  background: var(--ivory);
+  background: var(--about-section-bg);
 }
 
 .about-locations-grid {
@@ -401,10 +406,7 @@
 
 .about-cta {
   position: relative;
-  color: var(--warm-white);
-  background:
-    linear-gradient(90deg, rgba(24, 22, 18, 0.88), rgba(24, 22, 18, 0.58)),
-    url("/assets/block-view.png") center / cover;
+  color: var(--charcoal);
 }
 
 .about-cta-inner {
@@ -414,7 +416,7 @@
 }
 
 .about-cta .eyebrow {
-  color: var(--sand);
+  color: var(--bronze);
   text-align: center;
 }
 
@@ -428,12 +430,12 @@
 
 .about-cta h2,
 .about-cta p {
-  color: var(--warm-white);
+  color: var(--charcoal);
 }
 
 .about-cta .button-light {
-  color: var(--warm-white);
-  border-color: rgba(251, 250, 247, 0.46);
+  color: var(--charcoal);
+  border-color: rgba(24, 22, 18, 0.22);
 }
 
 @media (max-width: 980px) {
@@ -705,5 +707,160 @@ main > section:not(.about-hero) :where(h3, .about-audience-list strong, .about-h
     margin-top: clamp(0.55rem, 1svh, 0.8rem);
     font-size: clamp(0.8rem, 0.84vw, 0.92rem);
     line-height: 1.55;
+  }
+}
+
+/* Our Philosophy: centered full-viewport statement */
+.about-page > section.about-philosophy {
+  position: relative;
+  display: grid;
+  align-items: center;
+  height: 100vh;
+  height: 100svh;
+  min-height: 100vh;
+  min-height: 100svh;
+  max-height: 100vh;
+  max-height: 100svh;
+  padding: clamp(72px, 10svh, 112px) var(--page-gutter);
+  overflow: hidden;
+  background: var(--about-section-bg);
+}
+
+.about-philosophy .about-philosophy-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: center;
+  align-content: center;
+  gap: clamp(4.2rem, 10svh, 7rem);
+  width: min(100%, 1120px);
+  max-width: 1120px;
+  min-height: calc(100svh - clamp(144px, 20svh, 224px));
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-philosophy-heading {
+  display: grid;
+  justify-items: center;
+}
+
+.about-philosophy .eyebrow {
+  display: grid;
+  justify-items: center;
+  margin: 0;
+  color: var(--bronze);
+  font-family: var(--type-eyebrow-family);
+  font-size: var(--type-eyebrow-size);
+  font-weight: var(--type-eyebrow-weight);
+  letter-spacing: var(--type-eyebrow-tracking);
+  line-height: var(--type-eyebrow-line);
+  text-align: center;
+}
+
+.about-philosophy .eyebrow::after {
+  width: var(--type-eyebrow-divider-width);
+  height: var(--type-eyebrow-divider-height);
+  margin: clamp(1.8rem, 3.8svh, 3rem) auto 0;
+  background: currentColor;
+}
+
+.about-page .about-philosophy h2 {
+  max-width: 980px;
+  margin: clamp(3rem, 6.6svh, 5.2rem) auto 0;
+  font-family: var(--type-section-title-family);
+  font-weight: var(--type-section-title-weight);
+  letter-spacing: var(--type-section-title-tracking);
+  font-size: clamp(3.4rem, min(7.3vw, 9.3svh), 6rem);
+  line-height: 0.96;
+  text-align: center;
+}
+
+.about-philosophy h2 span {
+  display: block;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+  line-height: inherit;
+}
+
+.about-philosophy-copy {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: clamp(1.6rem, 3.4vw, 3.1rem);
+  width: min(100%, 1080px);
+  margin: 0 auto;
+  text-align: left;
+}
+
+.about-philosophy-copy p {
+  max-width: none;
+  margin: 0;
+  color: rgba(24, 22, 18, 0.82);
+  font-family: var(--type-section-prose-family);
+  font-weight: var(--type-section-prose-weight);
+  font-size: clamp(0.92rem, min(1.08vw, 1.9svh), 1.04rem);
+  line-height: 1.72;
+  text-wrap: pretty;
+}
+
+.about-philosophy-copy p + p {
+  padding-left: clamp(1.45rem, 2.8vw, 2.4rem);
+  border-left: 1px solid rgba(155, 106, 58, 0.22);
+}
+
+@media (min-width: 981px) {
+  .about-page > section.about-philosophy {
+    height: 100vh;
+    height: 100svh;
+    max-height: 100svh;
+    min-height: 100svh;
+  }
+
+  .about-page > section.about-philosophy .about-philosophy-inner {
+    min-height: calc(100svh - clamp(144px, 20svh, 224px));
+  }
+}
+
+@media (max-width: 980px) {
+  .about-philosophy .about-philosophy-inner {
+    gap: clamp(2.8rem, 7svh, 4.6rem);
+    min-height: auto;
+  }
+
+  .about-philosophy .eyebrow::after {
+    margin-top: clamp(1.35rem, 2.6svh, 2rem);
+  }
+
+  .about-page .about-philosophy h2 {
+    margin-top: clamp(2rem, 4.5svh, 3.2rem);
+  }
+
+  .about-philosophy-copy {
+    grid-template-columns: 1fr;
+    gap: 1.35rem;
+    width: min(100%, 620px);
+    text-align: center;
+  }
+
+  .about-philosophy-copy p {
+    max-width: none;
+  }
+
+  .about-philosophy-copy p + p {
+    padding: 1.35rem 0 0;
+    border-left: 0;
+    border-top: 1px solid rgba(155, 106, 58, 0.18);
+  }
+}
+
+@media (max-width: 680px) {
+  .about-page > section.about-philosophy {
+    padding-block: clamp(64px, 12svh, 86px);
+  }
+
+  .about-page .about-philosophy h2 {
+    font-size: clamp(2.45rem, 12vw, 3.5rem);
   }
 }

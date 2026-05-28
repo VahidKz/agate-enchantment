@@ -33,7 +33,7 @@
   --font-body:    var(--sans);
 
   --max:       1440px;
-  --pad:       clamp(42px, 7.2vw, 124px);
+  --pad:       clamp(24px, 5vw, 96px);
   --section-v: clamp(4.5rem, 7vw, 8rem);
   --hero-mobile-zoom: 1.22;
   --hero-mobile-small-zoom: 1.3;
@@ -358,7 +358,7 @@ address { font-style: normal; }
   grid-template-columns: auto 1fr;
   align-items: center;
   gap: 28px;
-  padding: 20px clamp(24px, 3vw, 84px) 24px clamp(54px, 7vw, 84px);
+  padding: 20px var(--pad) 24px;
   color: var(--charcoal);
   background:
     linear-gradient(
@@ -437,7 +437,7 @@ address { font-style: normal; }
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  font-size: clamp(0.52rem, 0.7vw, 0.62rem);
+  font-size: calc(clamp(0.52rem, 0.7vw, 0.62rem) + 2px);
 }
 
 .nav-links a {
@@ -802,6 +802,40 @@ address { font-style: normal; }
 }
 
 /* ============================================================
+   MATERIAL INTRO — 3-column equal-width centered text
+   ============================================================ */
+
+.m-intro {
+  background: var(--ivory);
+}
+
+.m-intro-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  justify-items: center;
+  text-align: center;
+}
+
+.m-intro-col {
+  max-width: 30ch;
+  color: var(--ink-soft);
+  font-family: var(--type-section-copy-family);
+  font-size: var(--type-section-copy-size);
+  font-weight: var(--type-section-copy-weight);
+  line-height: var(--type-section-copy-line);
+}
+
+@media (max-width: 760px) {
+  .m-intro-grid {
+    grid-template-columns: 1fr;
+  }
+  .m-intro-col {
+    max-width: 44ch;
+  }
+}
+
+/* ============================================================
    AVAILABILITY — 4-card grid
    ============================================================ */
 
@@ -1149,6 +1183,7 @@ address { font-style: normal; }
   grid-template-columns: 1fr auto 1fr;
   align-items: center;
   gap: clamp(0.75rem, 1.4vw, 1.2rem);
+  margin-bottom: 10px;
   color: rgba(138, 90, 50, 0.68);
   font-family: var(--font-body);
   font-size: clamp(0.56rem, 0.68vw, 0.64rem);
@@ -1538,7 +1573,7 @@ address { font-style: normal; }
   min-height: 100svh;
   display: grid;
   align-items: center;
-  padding: clamp(24px, 3.5svh, 44px) clamp(30px, 3.8vw, 72px) clamp(20px, 2.8svh, 34px);
+  padding: clamp(24px, 3.5svh, 44px) var(--pad) clamp(20px, 2.8svh, 34px);
   overflow: hidden;
   background:
     radial-gradient(circle at 84% 8%, rgba(255, 255, 255, 0.66), transparent 30%),
@@ -1554,24 +1589,6 @@ address { font-style: normal; }
 .m-view-bg .m-section-head {
   display: block;
   margin-bottom: clamp(10px, 1.45svh, 16px);
-}
-
-#material-view .eyebrow {
-  color: #76513c;
-  font-family: var(--luxury-sans);
-  font-size: clamp(0.62rem, 0.66vw, 0.72rem);
-  font-weight: 800;
-  letter-spacing: 0.28em;
-  line-height: 1;
-}
-
-#material-view .eyebrow::after {
-  display: block;
-  width: clamp(42px, 2.7vw, 54px);
-  height: 1px;
-  margin-top: clamp(8px, 1svh, 12px);
-  background: rgba(118, 81, 60, 0.72);
-  content: "";
 }
 
 .m-view-layout {
@@ -2169,7 +2186,7 @@ address { font-style: normal; }
 @media (max-width: 1180px) {
   .m-view-bg {
     min-height: 0;
-    padding: clamp(64px, 8vw, 92px) clamp(24px, 5vw, 54px);
+    padding: clamp(64px, 8vw, 92px) var(--pad);
     overflow: visible;
   }
 
@@ -2193,7 +2210,7 @@ address { font-style: normal; }
 
 @media (max-width: 760px) {
   .m-view-bg {
-    padding: clamp(58px, 14vw, 78px) 18px;
+    padding: clamp(58px, 14vw, 78px) var(--pad);
   }
 
   .m-view-bg .m-section-head {
@@ -2343,10 +2360,6 @@ address { font-style: normal; }
     margin-bottom: clamp(14px, 2svh, 22px);
   }
 
-  #material-view .eyebrow::after {
-    margin-top: clamp(10px, 1.5svh, 16px);
-  }
-
   .m-view-showcase {
     grid-template-rows: auto minmax(72px, auto);
   }
@@ -2419,7 +2432,7 @@ address { font-style: normal; }
   display: grid;
   align-items: center;
   isolation: isolate;
-  padding: clamp(54px, 7svh, 82px) clamp(28px, 4.8vw, 76px);
+  padding: clamp(54px, 7svh, 82px) var(--pad);
   overflow: hidden;
   color: var(--charcoal);
   background:
@@ -2465,7 +2478,7 @@ address { font-style: normal; }
   font-size: clamp(3.35rem, min(5.05vw, 7.6svh), 5.9rem);
   font-weight: 400;
   letter-spacing: 0;
-  line-height: 0.92;
+  line-height: 1;
 }
 
 #applications .m-app-title em {
@@ -2897,7 +2910,7 @@ address { font-style: normal; }
 
 @media (max-width: 760px) {
   #applications {
-    padding: clamp(58px, 14vw, 82px) 18px;
+    padding: clamp(58px, 14vw, 82px) var(--pad);
   }
 
   #applications .m-inner {
@@ -2951,9 +2964,10 @@ address { font-style: normal; }
    SPECIFICATIONS
    ============================================================ */
 
-.m-specs-bg {
+.m-section.m-specs-bg {
   display: grid;
   align-items: center;
+  padding-block: calc(var(--section-v) + 20px);
   background:
     radial-gradient(circle at 74% 18%, rgba(186, 136, 88, 0.08), transparent 32%),
     linear-gradient(180deg, rgba(247, 243, 237, 0.98), rgba(251, 250, 247, 0.96));
@@ -3427,18 +3441,26 @@ address { font-style: normal; }
 
 .m-process-intro {
   justify-self: center;
+  display: flex;
+  flex-direction: column;
+  gap: clamp(24px, 3.2svh, 40px);
   width: min(100%, 560px);
   max-width: 560px;
 }
 
 .m-process-intro .eyebrow {
-  margin-bottom: clamp(26px, 4.4svh, 38px);
+  margin-bottom: 0;
   color: var(--bronze);
   letter-spacing: 0.52em;
 }
 
 .m-process-bg .m-process-intro .eyebrow::after {
-  display: none;
+  display: block;
+  width: var(--type-eyebrow-divider-width);
+  height: var(--type-eyebrow-divider-height);
+  margin-top: var(--type-eyebrow-divider-gap);
+  background: currentColor;
+  content: "";
 }
 
 .m-process-bg .m-process-intro h2 {
@@ -3454,7 +3476,7 @@ address { font-style: normal; }
   display: block;
   width: 54px;
   height: 2px;
-  margin: clamp(22px, 3.2svh, 30px) 0 clamp(18px, 2.8svh, 24px);
+  margin: clamp(22px, 3.2svh, 30px) 0 0;
   background: var(--bronze);
   content: "";
 }
@@ -3473,7 +3495,7 @@ address { font-style: normal; }
   grid-template-columns: 90px minmax(0, 1fr);
   align-items: center;
   width: min(100%, 560px);
-  margin-top: clamp(24px, 4.2svh, 36px);
+  margin-top: 0;
   padding: clamp(18px, 2.6svh, 24px) clamp(20px, 2.6vw, 28px);
   border: 1px solid rgba(138, 90, 50, 0.14);
   background: rgba(251, 250, 247, 0.36);
@@ -3532,7 +3554,7 @@ address { font-style: normal; }
   width: fit-content;
   max-width: 100%;
   min-height: 56px;
-  margin-top: clamp(26px, 4.2svh, 36px);
+  margin-top: 0;
   padding: 0 clamp(1.35rem, 2.2vw, 1.85rem);
   border: 1px solid var(--bronze);
   background: var(--bronze);
@@ -3853,12 +3875,12 @@ address { font-style: normal; }
 .footer-inner {
   display: grid;
   grid-template-columns:
-    minmax(280px, 1.08fr)
-    minmax(280px, 1.14fr)
-    minmax(132px, 0.56fr)
-    minmax(170px, 0.72fr);
+    minmax(260px, 1fr)
+    minmax(320px, 1.28fr)
+    minmax(120px, 0.52fr)
+    minmax(190px, 0.72fr);
   align-items: start;
-  gap: clamp(38px, 4.6vw, 76px);
+  gap: clamp(34px, 4.2vw, 68px);
   padding: clamp(90px, 9vw, 120px) var(--pad) clamp(62px, 5.8vw, 78px);
 }
 
@@ -4016,10 +4038,11 @@ address { font-style: normal; }
 .footer-connect { gap: 0; }
 
 .footer-connect-link {
-  display: flex;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
   align-items: center;
-  gap: 8px;
-  padding: 0 0 13px;
+  gap: 14px;
+  padding: 0 0 16px;
   color: rgba(24, 22, 18, 0.70);
   font-family: var(--font-body);
   font-size: clamp(0.84rem, 0.88vw, 0.94rem);
@@ -4029,12 +4052,30 @@ address { font-style: normal; }
 }
 
 .footer-connect-link:hover { color: var(--charcoal); }
-.footer-connect-link svg { display: none; }
+
+.footer-connect-icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  color: var(--bronze);
+}
+
+.footer-connect-link svg {
+  display: block;
+  width: 24px;
+  height: 24px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.55;
+}
 
 .footer-bottom {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 24px;
   padding: 18px var(--pad) 20px;
   border-top: 1px solid rgba(24, 22, 18, 0.06);
@@ -4074,17 +4115,21 @@ address { font-style: normal; }
 }
 
 @media (max-width: 960px) {
+  :root {
+    --pad: 22px;
+  }
+
   .site-header {
     grid-template-columns: 1fr auto;
     gap: 16px;
-    padding: 22px;
+    padding: 22px var(--pad);
   }
   .mobile-menu-toggle { display: inline-flex; }
   .nav-links {
     position: absolute;
     top: calc(100% + 8px);
-    right: 18px;
-    left: 18px;
+    right: var(--pad);
+    left: var(--pad);
     display: grid;
     align-items: stretch;
     justify-self: stretch;
@@ -4122,7 +4167,7 @@ address { font-style: normal; }
   .m-hero {
     grid-template-columns: 1fr;
     gap: 2.5rem;
-    padding: clamp(6rem, 10svh, 8rem) clamp(24px, 5vw, 54px) clamp(4rem, 6svh, 6rem);
+    padding: clamp(6rem, 10svh, 8rem) var(--pad) clamp(4rem, 6svh, 6rem);
   }
 
   .m-hero::before { display: none; }
@@ -4196,6 +4241,7 @@ address { font-style: normal; }
 
   .m-process-intro {
     max-width: 620px;
+    gap: clamp(24px, 5vw, 38px);
   }
 
   .m-process-steps {
@@ -4222,7 +4268,7 @@ address { font-style: normal; }
   }
 
   .m-process-intro .eyebrow {
-    margin-bottom: 22px;
+    margin-bottom: 0;
     letter-spacing: 0.32em;
   }
 
@@ -4232,7 +4278,7 @@ address { font-style: normal; }
   }
 
   .m-process-bg .m-process-intro h2::after {
-    margin: 20px 0 18px;
+    margin: 22px 0 0;
   }
 
   .m-process-receive {
@@ -4284,25 +4330,78 @@ address { font-style: normal; }
   }
 
   .m-hero {
-    padding: 5.5rem 1.1rem 3.5rem;
-    gap: 2rem;
+    grid-template-rows: auto minmax(0, 1fr);
+    align-items: start;
+    height: 100vh;
+    height: 100svh;
+    min-height: 0;
+    max-height: 100svh;
+    padding: clamp(78px, 12svh, 96px) var(--pad) clamp(14px, 2.4svh, 22px);
+    gap: clamp(12px, 2.1svh, 18px);
   }
 
   .m-hero-media {
-    min-height: 360px;
+    align-self: stretch;
+    min-height: 0;
+    display: grid;
+    place-items: center;
+  }
+
+  .m-hero-frame {
+    width: min(100%, calc(min(34svh, 280px) * 4 / 3));
+    height: min(34svh, 280px);
+    border-radius: clamp(1rem, 5vw, 1.45rem);
   }
 
   .m-hero-note {
     display: none;
   }
 
+  .m-hero-content .eyebrow {
+    margin-bottom: clamp(10px, 1.6svh, 14px);
+  }
+
+  .m-hero-title {
+    max-width: 10.8ch;
+    font-size: clamp(2.12rem, min(10.4vw, 5.8svh), 3rem);
+    line-height: 1;
+  }
+
+  .m-hero-title::after {
+    width: 42px;
+    margin-top: clamp(10px, 1.8svh, 16px);
+  }
+
+  .m-hero-copy {
+    max-width: 35ch;
+    margin-top: clamp(10px, 1.8svh, 14px);
+    font-size: clamp(0.74rem, min(3.2vw, 1.9svh), 0.88rem);
+    line-height: 1.45;
+  }
+
+  .m-hero-pills {
+    gap: 0.42rem;
+    margin-top: clamp(10px, 1.8svh, 14px);
+  }
+
+  .m-hero-pill {
+    padding: 0.38rem 0.56rem;
+    font-size: clamp(0.58rem, 2.7vw, 0.66rem);
+  }
+
   .m-hero-actions {
     align-items: flex-start;
-    flex-direction: column;
+    flex-direction: row;
+    gap: 0.55rem;
+    margin-top: clamp(12px, 2svh, 16px);
   }
 
   .m-hero .button {
     width: fit-content;
+    min-height: 40px;
+    padding: 0.72rem 1rem;
+    font-size: 0.56rem;
+    letter-spacing: 0.09em;
   }
 
   .m-avail-grid,
@@ -4344,7 +4443,7 @@ address { font-style: normal; }
 
   .m-cta {
     min-height: clamp(340px, 48svh, 420px);
-    padding: clamp(42px, 9vw, 56px) 24px clamp(38px, 8vw, 52px);
+    padding: clamp(42px, 9vw, 56px) var(--pad) clamp(38px, 8vw, 52px);
   }
 
   #applications .m-use-grid {
@@ -4352,6 +4451,30 @@ address { font-style: normal; }
   }
 
   .footer-bottom { flex-direction: column; align-items: flex-start; gap: 0.6rem; }
+}
+
+@media (max-width: 680px) and (max-height: 720px) {
+  .m-hero {
+    padding-top: clamp(70px, 11svh, 84px);
+    gap: 10px;
+  }
+
+  .m-hero-title {
+    font-size: clamp(1.95rem, min(9.4vw, 5.6svh), 2.65rem);
+  }
+
+  .m-hero-copy {
+    display: none;
+  }
+
+  .m-hero-pills {
+    margin-top: 10px;
+  }
+
+  .m-hero-frame {
+    width: min(100%, calc(min(32svh, 240px) * 4 / 3));
+    height: min(32svh, 240px);
+  }
 }
 
 @media (max-width: 960px) {
@@ -4749,7 +4872,7 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
     max-height: 100svh;
     min-height: 0;
     overflow: hidden;
-    padding: clamp(14px, 2.1svh, 24px) clamp(26px, 3.4vw, 64px) clamp(14px, 2svh, 24px);
+    padding: clamp(14px, 2.1svh, 24px) var(--pad) clamp(14px, 2svh, 24px);
   }
 
   #material-view .m-inner {
@@ -4766,10 +4889,6 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
 
   #material-view .m-section-head {
     display: none;
-  }
-
-  #material-view .eyebrow::after {
-    margin-top: clamp(5px, 0.75svh, 8px);
   }
 
   #material-view .m-view-layout {
@@ -4935,23 +5054,24 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
     line-height: 1.2;
   }
 
-  .m-specs-bg {
-    height: 100vh;
-    height: 100svh;
-    max-height: 100svh;
-    min-height: 0;
-    padding-block: clamp(24px, 4svh, 44px);
-    overflow: hidden;
+  main > section.m-section.m-specs-bg {
+    --specs-pad-y: calc(clamp(24px, 4svh, 44px) + 20px);
+    height: auto;
+    max-height: none;
+    min-height: calc(100svh + 40px);
+    padding-block: var(--specs-pad-y);
+    overflow: visible;
   }
 
   .m-spec-layout {
     align-items: center;
-    height: 100%;
+    height: auto;
     max-height: none;
-    min-height: 0;
+    min-height: calc(100svh - var(--specs-pad-y) - var(--specs-pad-y));
   }
 
   .m-spec-card {
+    align-self: center;
     height: 90%;
     min-height: 0;
     max-height: 90%;
@@ -5010,10 +5130,8 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
 
   .m-process-intro {
     align-self: center;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-    gap: clamp(14px, 2.2svh, 24px);
+    gap: clamp(26px, 3.6svh, 44px);
     padding-block: 0;
   }
 
@@ -5026,7 +5144,7 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
   }
 
   .m-process-bg .m-process-intro h2::after {
-    margin-block: clamp(12px, 1.8svh, 18px) 0;
+    margin-block: clamp(20px, 2.7svh, 30px) 0;
   }
 
   .m-process-bg .m-process-copy {
@@ -5035,9 +5153,9 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
   }
 
   .m-process-receive {
-    min-height: clamp(104px, 13svh, 132px);
+    min-height: clamp(118px, 15svh, 150px);
     margin-top: 0;
-    padding-block: clamp(14px, 1.9svh, 20px);
+    padding-block: clamp(18px, 2.4svh, 26px);
   }
 
   .m-process-cta {
@@ -5097,7 +5215,7 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
 
 @media (max-width: 960px) {
   #applications {
-    padding-inline: clamp(18px, 5vw, 42px);
+    padding-inline: var(--pad);
   }
 
   .m-app-atlas {
@@ -5365,7 +5483,7 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
     height: auto;
     max-height: none;
     min-height: 0;
-    padding: clamp(58px, 14vw, 82px) 22px clamp(54px, 12vw, 74px);
+    padding: clamp(58px, 14vw, 82px) var(--pad) clamp(54px, 12vw, 74px);
     background:
       linear-gradient(180deg, rgba(22, 9, 6, 0.20), rgba(22, 9, 6, 0.48)),
       url("/assets/material-cta.png") center / cover,
@@ -5484,7 +5602,7 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
   font-size: 4.4rem;
   font-weight: 400;
   letter-spacing: 0;
-  line-height: 0.94;
+  line-height: 1;
 }
 
 .m-app-title span {
@@ -6038,7 +6156,7 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
 
 @media (max-width: 960px) {
   #applications {
-    padding-inline: clamp(18px, 5vw, 42px);
+    padding-inline: var(--pad);
   }
 
   .m-app-atlas {
@@ -6239,7 +6357,7 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
   grid-template-columns: none;
   align-items: center;
   gap: 0;
-  padding: clamp(54px, 7svh, 82px) clamp(28px, 4.8vw, 76px);
+  padding: clamp(54px, 7svh, 82px) var(--pad);
 }
 
 #applications.m-app-atlas .m-inner {
@@ -6269,7 +6387,7 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
 
 @media (max-width: 760px) {
   #applications.m-app-atlas {
-    padding: clamp(58px, 14vw, 82px) 18px;
+    padding: clamp(58px, 14vw, 82px) var(--pad);
   }
 
   #applications.m-app-atlas .m-inner {
@@ -6290,7 +6408,7 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
   align-items: center;
   gap: 0;
   width: 100%;
-  padding: clamp(54px, 7svh, 82px) clamp(28px, 4.8vw, 76px);
+  padding: clamp(54px, 7svh, 82px) var(--pad);
 }
 
 #applications.m-app-atlas .m-app-atlas-grid {
@@ -6326,6 +6444,15 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
   line-height: 1.28;
 }
 
+#applications.m-app-atlas .m-app-kicker::after {
+  display: block;
+  width: var(--type-eyebrow-divider-width);
+  height: var(--type-eyebrow-divider-height);
+  margin-top: var(--type-eyebrow-divider-gap);
+  background: currentColor;
+  content: "";
+}
+
 #applications.m-app-atlas .m-app-focus-card a {
   display: inline-flex;
   align-items: center;
@@ -6355,7 +6482,7 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
     height: 100svh;
     max-height: 100svh;
     min-height: 0;
-    padding: clamp(46px, 6.6svh, 76px) clamp(32px, 4.8vw, 76px);
+    padding: clamp(46px, 6.6svh, 76px) var(--pad);
   }
 
   #applications.m-app-atlas .m-app-atlas-grid {
@@ -6428,7 +6555,7 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
 
 @media (max-width: 760px) {
   #applications.m-app-atlas {
-    padding: clamp(58px, 14vw, 82px) 18px;
+    padding: clamp(58px, 14vw, 82px) var(--pad);
   }
 
   #applications.m-app-atlas .m-app-atlas-grid {
@@ -6489,7 +6616,7 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
   #applications.m-app-atlas .m-app-title {
     margin-top: clamp(0.55rem, 1.2svh, 0.85rem);
     font-size: clamp(2.35rem, min(4vw, 6.2svh), 4.25rem);
-    line-height: 0.92;
+    line-height: 1;
   }
 
   #applications.m-app-atlas .m-app-mark {
@@ -6621,5 +6748,313 @@ main > section:not(.m-hero) .m-source-card.featured h3 {
 
   #applications.m-app-atlas .m-app-focus-card img {
     max-height: none;
+  }
+}
+
+/* Applications Atlas: viewport-fit lock. */
+#applications.m-app-atlas {
+  height: 100vh;
+  height: 100svh;
+  max-height: 100svh;
+  min-height: 0;
+  align-items: center;
+  padding-block: clamp(22px, 4.8svh, 56px);
+  overflow: hidden;
+}
+
+#applications.m-app-atlas .m-app-atlas-grid {
+  grid-template-columns: minmax(240px, 0.9fr) minmax(300px, 1.12fr) minmax(220px, 0.78fr);
+  align-items: center;
+  gap: clamp(18px, 3vw, 52px);
+  height: 100%;
+  min-height: 0;
+  max-height: 100%;
+  overflow: hidden;
+}
+
+#applications.m-app-atlas :where(.m-app-intro, .m-app-detail) {
+  max-height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+
+#applications.m-app-atlas .m-app-title {
+  font-size: clamp(2.6rem, min(4.6vw, 7svh), 5rem);
+}
+
+#applications.m-app-atlas .m-app-stage {
+  height: min(100%, 76svh, 760px);
+  min-height: 0;
+}
+
+#applications.m-app-atlas .m-app-menu {
+  margin-top: clamp(1rem, 2.6svh, 2.35rem);
+}
+
+#applications.m-app-atlas .m-app-option {
+  min-height: clamp(52px, 7.4svh, 82px);
+}
+
+#applications.m-app-atlas .m-app-detail h3 {
+  font-size: clamp(2.15rem, min(3.25vw, 5.7svh), 4rem);
+}
+
+#applications.m-app-atlas .m-app-focus {
+  margin-top: clamp(1rem, 2.4svh, 1.8rem);
+  padding-block: clamp(0.8rem, 1.8svh, 1.3rem);
+}
+
+#applications.m-app-atlas .m-app-detail-notes {
+  gap: clamp(0.62rem, 1.35svh, 1rem);
+  margin-top: clamp(0.9rem, 2.1svh, 1.55rem);
+}
+
+@media (max-width: 1220px) {
+  #applications.m-app-atlas .m-app-atlas-grid {
+    grid-template-columns: minmax(220px, 0.86fr) minmax(280px, 1.05fr) minmax(210px, 0.76fr);
+    gap: clamp(16px, 2.4vw, 34px);
+  }
+
+  #applications.m-app-atlas .m-app-detail {
+    grid-column: auto;
+    grid-template-columns: 1fr;
+  }
+
+  #applications.m-app-atlas .m-app-detail-notes {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  #applications.m-app-atlas {
+    padding-block: clamp(18px, 3.8svh, 34px);
+  }
+
+  #applications.m-app-atlas .m-app-atlas-grid {
+    grid-template-columns: minmax(190px, 0.78fr) minmax(240px, 1fr) minmax(170px, 0.72fr);
+    gap: clamp(12px, 2.2vw, 22px);
+  }
+
+  #applications.m-app-atlas .m-app-title {
+    font-size: clamp(2.1rem, min(4.6vw, 6svh), 3.7rem);
+  }
+
+  #applications.m-app-atlas .m-app-lede {
+    font-size: clamp(0.7rem, 1.6vw, 0.86rem);
+    line-height: 1.36;
+  }
+
+  #applications.m-app-atlas .m-app-detail h3 {
+    font-size: clamp(1.7rem, 4vw, 3rem);
+  }
+
+  #applications.m-app-atlas .m-app-summary {
+    font-size: clamp(0.68rem, 1.55vw, 0.84rem);
+    line-height: 1.36;
+  }
+}
+
+@media (min-width: 981px) and (max-width: 1120px) {
+  #applications.m-app-atlas {
+    --app-atlas-pad-y: clamp(16px, 3.1svh, 28px);
+    display: grid;
+    align-content: center;
+    align-items: center;
+    justify-items: center;
+    padding-block: var(--app-atlas-pad-y);
+  }
+
+  #applications.m-app-atlas .m-app-atlas-grid {
+    grid-template-columns: minmax(214px, 0.78fr) minmax(300px, 1.1fr) minmax(188px, 0.68fr);
+    gap: clamp(14px, 2vw, 22px);
+    align-content: center;
+    align-items: center;
+    height: auto;
+    max-height: calc(100svh - (var(--app-atlas-pad-y) * 2));
+    margin-block: auto;
+  }
+
+  #applications.m-app-atlas .m-app-kicker {
+    font-size: 0.62rem;
+    line-height: 1.28;
+  }
+
+  #applications.m-app-atlas .m-app-title {
+    margin-top: clamp(0.45rem, 1svh, 0.7rem);
+    font-size: clamp(2.15rem, min(4.15vw, 5.75svh), 3.35rem);
+    line-height: 0.98;
+  }
+
+  #applications.m-app-atlas .m-app-mark {
+    height: 12px;
+    margin-top: clamp(0.5rem, 1.2svh, 0.8rem);
+  }
+
+  #applications.m-app-atlas .m-app-lede {
+    max-width: 26ch;
+    margin-top: clamp(0.45rem, 1svh, 0.7rem);
+    font-size: clamp(0.68rem, 1vw, 0.78rem);
+    line-height: 1.32;
+  }
+
+  #applications.m-app-atlas .m-app-menu {
+    margin-top: clamp(0.65rem, 1.5svh, 1rem);
+  }
+
+  #applications.m-app-atlas .m-app-option {
+    grid-template-columns: 34px 74px minmax(0, 1fr);
+    gap: 0.55rem;
+    min-height: clamp(44px, 6.8svh, 54px);
+  }
+
+  #applications.m-app-atlas .m-app-option-num {
+    width: 34px;
+    height: 34px;
+    font-size: 0.78rem;
+  }
+
+  #applications.m-app-atlas .m-app-option-thumb {
+    width: 74px;
+    border-radius: 6px;
+  }
+
+  #applications.m-app-atlas .m-app-option-title {
+    font-size: 0.56rem;
+    letter-spacing: 0.08em;
+    line-height: 1.2;
+  }
+
+  #applications.m-app-atlas .m-app-stage {
+    height: min(68svh, 540px);
+    border-radius: 24px;
+  }
+
+  #applications.m-app-atlas .m-app-controls {
+    bottom: 14px;
+    width: 104px;
+    height: 46px;
+  }
+
+  #applications.m-app-atlas .m-app-count {
+    margin-bottom: 0.42rem;
+    font-size: 0.62rem;
+  }
+
+  #applications.m-app-atlas .m-app-detail h3 {
+    margin-top: 0.35rem;
+    font-size: clamp(1.72rem, min(3.1vw, 4.8svh), 2.55rem);
+    line-height: 0.98;
+  }
+
+  #applications.m-app-atlas .m-app-mark-small {
+    height: 12px;
+    margin-top: 0.48rem;
+  }
+
+  #applications.m-app-atlas .m-app-summary {
+    margin-top: 0.5rem;
+    font-size: 0.72rem;
+    line-height: 1.34;
+  }
+
+  #applications.m-app-atlas .m-app-focus {
+    margin-top: 0.7rem;
+    padding-block: 0.62rem;
+  }
+
+  #applications.m-app-atlas .m-app-focus-label {
+    margin-bottom: 0.45rem;
+    font-size: 0.56rem;
+  }
+
+  #applications.m-app-atlas .m-app-focus-card {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 0.62rem;
+  }
+
+  #applications.m-app-atlas .m-app-focus-card img {
+    width: 48px;
+    height: 48px;
+  }
+
+  #applications.m-app-atlas .m-app-focus-card strong,
+  #applications.m-app-atlas .m-app-focus-card span {
+    font-size: 0.76rem;
+    line-height: 1.22;
+  }
+
+  #applications.m-app-atlas .m-app-focus-card a {
+    margin-top: 0.38rem;
+    font-size: 0.56rem;
+  }
+
+  #applications.m-app-atlas .m-app-detail-notes {
+    display: none;
+  }
+}
+
+@media (max-width: 760px) {
+  #applications.m-app-atlas {
+    padding-block: clamp(14px, 3svh, 24px);
+  }
+
+  #applications.m-app-atlas .m-app-atlas-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: clamp(8px, 2svh, 14px);
+    width: min(100%, 520px);
+  }
+
+  #applications.m-app-atlas .m-app-intro {
+    display: grid;
+    gap: clamp(6px, 1.4svh, 10px);
+  }
+
+  #applications.m-app-atlas .m-app-title {
+    max-width: 12ch;
+    margin-top: 0;
+    font-size: clamp(1.72rem, min(8.6vw, 4.8svh), 2.8rem);
+  }
+
+  #applications.m-app-atlas :where(.m-app-mark, .m-app-lede, .m-app-menu, .m-app-detail-notes) {
+    display: none;
+  }
+
+  #applications.m-app-atlas .m-app-stage {
+    height: 100%;
+    min-height: 0;
+    max-height: 36svh;
+  }
+
+  #applications.m-app-atlas .m-app-detail {
+    align-self: end;
+  }
+
+  #applications.m-app-atlas .m-app-detail h3 {
+    max-width: none;
+    margin-top: clamp(4px, 1svh, 8px);
+    font-size: clamp(1.52rem, 7vw, 2.25rem);
+    line-height: 0.98;
+  }
+
+  #applications.m-app-atlas .m-app-summary {
+    max-width: none;
+    margin-top: clamp(6px, 1.2svh, 10px);
+    font-size: clamp(0.72rem, 3.3vw, 0.86rem);
+    line-height: 1.34;
+  }
+
+  #applications.m-app-atlas .m-app-focus {
+    margin-top: clamp(8px, 1.6svh, 12px);
+    padding-block: clamp(8px, 1.5svh, 12px);
+  }
+
+  #applications.m-app-atlas .m-app-focus-label {
+    margin-bottom: clamp(6px, 1.2svh, 8px);
+  }
+
+  #applications.m-app-atlas .m-app-focus-card {
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 0.75rem;
   }
 }
